@@ -7,7 +7,7 @@
 
 #include <SDL3/SDL.h>
 
-#include <engine/variables.h>
+#include "engine/variables.h"
 
 // Main method.
 int main(int argc, char* argv[]) 

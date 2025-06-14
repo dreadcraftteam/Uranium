@@ -4,6 +4,7 @@ project(Uranium)
 
 set(SOURCES 
     src/main.c
+    src/engine/variables.h
 )
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
