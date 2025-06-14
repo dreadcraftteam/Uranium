@@ -15,6 +15,8 @@ target_link_libraries(${PROJECT_NAME}
         ${CMAKE_SOURCE_DIR}/lib/SDL3.lib
 )
 
+target_link_options(Uranium PRIVATE "/ENTRY:mainCRTStartup")
+
 set(INSTALL_DIR ${CMAKE_SOURCE_DIR}/dist/)
 install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION ${INSTALL_DIR}
