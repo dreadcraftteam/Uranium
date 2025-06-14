@@ -7,10 +7,12 @@
 
 #include <SDL3/SDL.h>
 
+#include <engine/variables.h>
+
 // Main method.
 int main(int argc, char* argv[]) 
 {
-    SDL_Window* frame = SDL_CreateWindow("Uranium", 800, 600, SDL_WINDOW_OPENGL);
+    SDL_Window* frame = SDL_CreateWindow(title, width, height, SDL_WINDOW_OPENGL);
 
     if (!frame) 
     {
@@ -41,15 +43,14 @@ int main(int argc, char* argv[])
     }
 
     SDL_Event event;
-    int running = 1;
 
-    while (running) 
+    while (isRunning) 
     {
         while (SDL_PollEvent(&event)) 
         {
             if (event.type == SDL_EVENT_QUIT) 
             {
-                running = 0;
+                isRunning = false;
             }
         }
 
