@@ -13,6 +13,7 @@ link_directories(${CMAKE_SOURCE_DIR}/lib)
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         ${CMAKE_SOURCE_DIR}/lib/SDL3.lib
+        ${CMAKE_SOURCE_DIR}/lib/glfw3.lib
 )
 
 target_link_options(Uranium PRIVATE "/ENTRY:mainCRTStartup")

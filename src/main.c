@@ -10,12 +10,6 @@
 // Main method.
 int main(int argc, char* argv[]) 
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) 
-    {
-        printf("SDL initialization failed: %s\n", SDL_GetError());
-        return 1;
-    }
-
     SDL_Window* frame = SDL_CreateWindow("Uranium", 800, 600, SDL_WINDOW_OPENGL);
 
     if (!frame) 
@@ -33,6 +27,17 @@ int main(int argc, char* argv[])
         SDL_DestroyWindow(frame);
         SDL_Quit();
         return 1;
+    }
+
+    // If something goes wrong when loading SDL.
+    if (!SDL_Init) 
+    {
+        printf("SDL initialization failed: %s\n", SDL_GetError());
+        return 1;
+    }
+    else
+    {
+        printf("SDL initialized!");
     }
 
     SDL_Event event;
