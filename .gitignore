@@ -1,0 +1,3 @@
+# Ignore this Files
+build/
+dist/*.exe
