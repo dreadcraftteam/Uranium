@@ -5,6 +5,8 @@ project(Uranium)
 set(SOURCES 
     src/main.c
     src/engine/variables.h
+    src/video/video_main.c
+    src/video/video_main.h
 )
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
@@ -27,3 +29,10 @@ install(TARGETS ${PROJECT_NAME}
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --config $<CONFIG>
 )
+
+if(MSVC)
+    target_link_options(Uranium PRIVATE
+        $<$<CONFIG:Release>:/SAFESEH:NO>
+        $<$<CONFIG:Debug>:/SAFESEH:NO>
+    )
+endif()

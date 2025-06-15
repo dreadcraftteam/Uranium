@@ -1,4 +1,4 @@
-// The main file for the Uranium Engine project (Don't write trash here!)
+// The main file for the Uranium project (Don't write trash here!)
 // By DREADCRAFT, June 2025
 //
 
@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 
     if (!frame) 
     {
-        printf("Failed to create window: %s\n", SDL_GetError());
+        printf("Failed to create window!");
         SDL_Quit();
         return 1;
     }
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 
     if (!renderer) 
     {
-        printf("SDL Renderer inititalization Failed: %s\n", SDL_GetError());
+        printf("SDL Renderer inititalization Failed!");
         SDL_DestroyWindow(frame);
         SDL_Quit();
         return 1;
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
     // If something goes wrong when loading SDL.
     if (!SDL_Init) 
     {
-        printf("SDL initialization failed: %s\n", SDL_GetError());
+        printf("SDL initialization failed!");
         return 1;
     }
     else
