@@ -12,10 +12,10 @@ launcher/CMakeFiles/
 # Ignore Build Results
 dist/launcher
 dist/launcher.exe
-dist/engine.so
-dist/engine.dll
-dist/game.so
-dist/game.dll
+dist/bin/engine.so
+dist/bin/engine.dll
+dist/bin/game.so
+dist/bin/game.dll
 
 launcher/launcher
 launcher/launcher.exe
