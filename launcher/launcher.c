@@ -5,13 +5,24 @@
 #include <stdio.h>
 #include <dlfcn.h>
 
+/* Main method for launcher project */
 int main()
 { 
+    /* Call function for engine load */    
+    loadEngine();
+
+    return 0;
+}
+
+/* Load a file engine.so to launcher project */
+void loadEngine()
+{
     void *handle;
     char *error;
 
     void (*engine_main)();
 
+    /* Open engine file */
     handle = dlopen("./bin/engine.so", RTLD_LAZY);
 
     if (!handle) 
@@ -20,7 +31,12 @@ int main()
 
         return 1;
     }
+    else
+    {
+        printf("Engine.so Loaded!\n");
+    }
 
+    /* Load main function */
     engine_main = dlsym(handle, "engine_main");
 
     if ((error = dlerror()) != NULL)
@@ -29,10 +45,9 @@ int main()
   
         return 1;
     }
-
+    
+    /* Call main function */
     engine_main();
 
     dlclose(handle);
-   
-    return 0;
 }
