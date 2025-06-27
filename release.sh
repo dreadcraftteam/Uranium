@@ -26,4 +26,4 @@ fi
 echo -e "${YELLOW}Building Project...${NC}"
 cmake --build build --config Release
 
-echo "${YELLOW}Build Complete!${NC}"
+echo -e "${YELLOW}Build Complete!${NC}"
