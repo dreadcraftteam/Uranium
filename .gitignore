@@ -24,8 +24,9 @@ engine/engine.dll
 game/game.so
 game/game.dll
 
-# Other CMake Shit
+# Other Shit
 
 cmake_install.cmake
 Makefile
 CMakeCache.txt
+.first_compile

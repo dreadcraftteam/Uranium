@@ -10,18 +10,13 @@ Pull requests are welcome!
 ```
 git clone https://github.com/dreadcraftteam/Uranium.git
 ```
-2. Install this dependencies:
+4. Inside the cloned directory, start the compilation by clicking on this file:
 ```
-sudo apt install gcc-multilib g++-multilib cmake aptitude
-sudo aptitude install libsdl2-dev:i386
+release.sh
 ```
-4. Inside the cloned directory, enter this command in the terminal:
+Or this one if you need to compile to debug:
 ```
-cmake -B build -DCMAKE_C_FLAGS="-m32" -DCMAKE_CXX_FLAGS="-m32" -DCMAKE_EXE_LINKER_FLAGS="-m32"
+debug.sh
 ```
-5. And then enter this command:
-```
-cmake --build . --config Release
-```
-6. Navigate to `dist`, there will be a compiled build of the engine.
-7. Thats All!
+5. Navigate to `dist`, there will be a compiled build of the engine.
+6. Thats All!
