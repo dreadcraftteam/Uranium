@@ -10,11 +10,11 @@ Pull requests are welcome!
 ```
 git clone https://github.com/dreadcraftteam/Uranium.git
 ```
-4. Inside the cloned directory, start the compilation by clicking on this file:
+4. Inside the cloned directory, run the compilation by running this file:
 ```
 release.sh
 ```
-Or this one if you need to compile to debug:
+&nbsp;&nbsp; Or this one if you need to compile to debug:
 ```
 debug.sh
 ```
