@@ -10,7 +10,11 @@ Pull requests are welcome!
 ```
 git clone https://github.com/dreadcraftteam/Uranium.git
 ```
-3. Install [CMake](https://cmake.org/).
+2. Install this dependencies:
+```
+sudo apt install gcc-multilib g++-multilib cmake aptitude
+sudo aptitude install libsdl2-dev:i386
+```
 4. Inside the cloned directory, enter this command in the terminal:
 ```
 cmake -B build -DCMAKE_C_FLAGS="-m32" -DCMAKE_CXX_FLAGS="-m32" -DCMAKE_EXE_LINKER_FLAGS="-m32"
