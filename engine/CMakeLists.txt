@@ -22,7 +22,9 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})
 
 target_link_directories(${PROJECT_NAME} PRIVATE ${SDL2_LIB_DIR})
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2)
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+			              ${CMAKE_SOURCE_DIR}/lib/libSDL2.so
+)
 
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/dist/bin/)
 set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/dist/bin/)
