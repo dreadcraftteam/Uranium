@@ -16,7 +16,7 @@
 int engine_main()
 {
     /* Call function for game load */
-    loadGame();
+    load_game();
     
     /* Window on SDL (Simple DirectMedia Layer) */
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -105,7 +105,7 @@ int engine_main()
 }
 
 /* Load a file game.so to engine project */
-void loadGame()
+void load_game()
 {
     void *handle;
     char *error;

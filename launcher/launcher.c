@@ -9,13 +9,13 @@
 int main()
 { 
     /* Call function for engine load */    
-    loadEngine();
+    load_engine();
 
     return 0;
 }
 
 /* Load a file engine.so to launcher project */
-void loadEngine()
+void load_engine()
 {
     void *handle;
     char *error;
