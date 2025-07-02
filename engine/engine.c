@@ -10,7 +10,6 @@
 #include "engine_variables.h"
 
 #include <SDL2/SDL.h>
-#include <glad/glad.h>
 
 /* Main method for engine project */
 int engine_main()
@@ -31,37 +30,6 @@ int engine_main()
        
         return 1;
     }
-
-    /* OpenGL Attributes */
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    
-    /* OpenGL Context */
-    SDL_GLContext glContext = SDL_GL_CreateContext(frame);
-    if (!glContext)
-    {
-        SDL_DestroyWindow(frame);
-        SDL_Quit();
-     
-        return 1;
-    }
-
-    /* GLAD initialization */
-    if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
-    {
-        printf("Failed to initialize GLAD\n");
-        SDL_GL_DeleteContext(glContext);
-        SDL_DestroyWindow(frame);
-        SDL_Quit();
-
-        return 1;
-    }
-
-    /* OpenGL VSYNC */
-    SDL_GL_SetSwapInterval(1);
 
     SDL_Event event;
     
@@ -85,19 +53,8 @@ int engine_main()
             }
         }
 
-        /* Clear Color and Depth Buffer */
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-        /* OpenGL Code Here */
-
-        /* Swap Buffers */
-        SDL_GL_SwapWindow(frame);
     }
-
-    /* Destroy OpenGL Context */
-    SDL_GL_DeleteContext(glContext); 
-   
+    
     SDL_DestroyWindow(frame);
     SDL_Quit();
 

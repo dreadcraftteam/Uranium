@@ -17,7 +17,7 @@ fi
 
 if [ ! -d "build" ]; then
     echo -e "${YELLOW}Build folder Not Found! Creating Project...${NC}"
-    cmake -B build -DCMAKE_C_FLAGS="-m32" -DCMAKE_CXX_FLAGS="-m32" -DCMAKE_EXE_LINKER_FLAGS="-m32"
+    cmake -B build
 else
     echo -e "${YELLOW}Build folder Found! Building Project!${NC}"
 fi
