@@ -17,4 +17,10 @@ char* version = "v1.0.0";
 
 bool running = true;
 
+/* Default OpenGL clear Color */
+float gl_red = 32.0f / 255.0f;
+float gl_green = 32.0f / 255.0f;
+float gl_blue = 32.0f / 255.0f;
+float gl_alpha = 255.0f / 1.0f;
+
 #endif
