@@ -1,9 +1,9 @@
-// This is the main file in the Launcher project
+// This is the main file in the launcher project
 // By DREADCRAFT, June 2025
 //
 
-#include <stdio.h>
-#include <dlfcn.h>
+#include "stdio.h"
+#include "dlfcn.h"
 
 /* Main method for launcher project */
 int main()
@@ -14,7 +14,7 @@ int main()
     return 0;
 }
 
-/* Load a file engine.so to launcher project */
+/* Load a file engine.so to launcher */
 void load_engine()
 {
     void *handle;
@@ -50,4 +50,5 @@ void load_engine()
     engine_main();
 
     dlclose(handle);
+
 }

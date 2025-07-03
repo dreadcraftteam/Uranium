@@ -1,22 +1,22 @@
-// This is the main file in the Engine project
+// This is the main file in the engine project
 // By DREADCRAFT, June 2025
 //
 
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <dlfcn.h>
+#include "stdio.h"
+#include "stdbool.h"
+#include "stdlib.h"
+#include "dlfcn.h"
+#include "math.h"
+
+#include "SDL2/SDL.h"
+
+#include "GL/glew.h"
+#include "GL/gl.h"
 
 #include "engine_variables.h"
 
-#include <GL/glew.h>
-#include <GL/glu.h>
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
-
 /* Main method for engine project */
-int engine_main()
+int engine_main(int argc, char* argv[])
 {
     /* Call function for game load */
     load_game();
@@ -28,9 +28,8 @@ int engine_main()
     }
 
     /* Set OpenGL attributes before creating the window */
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
@@ -69,6 +68,9 @@ int engine_main()
     /* Enable VSYNC */
     SDL_GL_SetSwapInterval(1);
 
+    /* Enable DEPTH testing */
+    glEnable(GL_DEPTH_TEST);
+
     SDL_Event event;
     
     /* Cycle */
@@ -89,17 +91,37 @@ int engine_main()
                     running = false;
                 }
             }
+
+	    /* Handle mouse events */
+            handleMouse(&event);
         }
 
-        /* Clear the screen */
-        glClear(GL_COLOR_BUFFER_BIT);
+  	/* Rotation Cube Code */
+
+ 	/* Clear buffers */
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(gl_red, gl_green, gl_blue, gl_alpha);
+
+        /* Setup projection matrix */
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        float aspect = (float)width / (float)height;
+        glFrustum(-aspect * 0.1f, aspect * 0.1f, -0.1f, 0.1f, 0.1f, 100.0f);
+
+        /* Setup modelview matrix */
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glTranslatef(0.0f, 0.0f, -5.0f);
         
-	/* Here you would add your rendering code */
+        /* Apply rotations */
+        glRotatef(rotX, 1.0f, 0.0f, 0.0f);
+        glRotatef(rotY, 0.0f, 1.0f, 0.0f);
+
+        /* Draw cube */
+        drawCube();
 
         /* Swap buffers */
         SDL_GL_SwapWindow(frame);
-
     }
     
     SDL_GL_DeleteContext(glContext);
@@ -113,15 +135,15 @@ int engine_main()
 /* Load a file game.so to engine project */
 void load_game()
 {
-    void *handle;
-    char *error;
+    void *load_handle;
+    char *load_error;
 
     void (*game_main)();
 
     /* Open game file */
-    handle = dlopen("./bin/game.so", RTLD_LAZY);
+    load_handle = dlopen("./bin/game.so", RTLD_LAZY);
 
-    if (!handle) 
+    if (!load_handle) 
     {
         printf("Failed to load game.so!\n");
 
@@ -133,9 +155,9 @@ void load_game()
     }
 
     /* Load main function */
-    game_main = dlsym(handle, "game_main");
+    game_main = dlsym(load_handle, "game_main");
 
-    if ((error = dlerror()) != NULL)
+    if ((load_error = dlerror()) != NULL)
     {
         printf("Failed to load game function!\n");
   
@@ -145,5 +167,92 @@ void load_game()
     /* Call main function */
     game_main();
 
-    dlclose(handle);
+    dlclose(load_handle);
+}
+
+/* Do I even need to explain what this is? */
+void drawCube() 
+{
+    glBegin(GL_QUADS);
+
+        /* Front face (red) */
+        glColor3f(1.0f, 0.0f, 0.0f);
+        glVertex3f(-1.0f, -1.0f,  1.0f);
+        glVertex3f( 1.0f, -1.0f,  1.0f);
+        glVertex3f( 1.0f,  1.0f,  1.0f);
+        glVertex3f(-1.0f,  1.0f,  1.0f);
+        
+        /* Back face (green) */
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glVertex3f(-1.0f, -1.0f, -1.0f);
+        glVertex3f(-1.0f,  1.0f, -1.0f);
+        glVertex3f( 1.0f,  1.0f, -1.0f);
+        glVertex3f( 1.0f, -1.0f, -1.0f);
+        
+        /* Top face (blue) */
+        glColor3f(0.0f, 0.0f, 1.0f);
+        glVertex3f(-1.0f,  1.0f, -1.0f);
+        glVertex3f(-1.0f,  1.0f,  1.0f);
+        glVertex3f( 1.0f,  1.0f,  1.0f);
+        glVertex3f( 1.0f,  1.0f, -1.0f);
+        
+        /* Bottom face (yellow) */
+        glColor3f(1.0f, 1.0f, 0.0f);
+        glVertex3f(-1.0f, -1.0f, -1.0f);
+        glVertex3f( 1.0f, -1.0f, -1.0f);
+        glVertex3f( 1.0f, -1.0f,  1.0f);
+        glVertex3f(-1.0f, -1.0f,  1.0f);
+        
+        /* Right face (magenta) */
+        glColor3f(1.0f, 0.0f, 1.0f);
+        glVertex3f( 1.0f, -1.0f, -1.0f);
+        glVertex3f( 1.0f,  1.0f, -1.0f);
+        glVertex3f( 1.0f,  1.0f,  1.0f);
+        glVertex3f( 1.0f, -1.0f,  1.0f);
+        
+        /* Left face (cyan) */
+        glColor3f(0.0f, 1.0f, 1.0f);
+        glVertex3f(-1.0f, -1.0f, -1.0f);
+        glVertex3f(-1.0f, -1.0f,  1.0f);
+        glVertex3f(-1.0f,  1.0f,  1.0f);
+        glVertex3f(-1.0f,  1.0f, -1.0f);
+
+    glEnd();
+}
+
+/* Mouse control */
+void handleMouse(SDL_Event* event) 
+{
+    switch(event->type) 
+    {
+        case SDL_MOUSEBUTTONDOWN:
+            if(event->button.button == SDL_BUTTON_LEFT) 
+            {
+                mouseDown = true;
+                lastX = event->button.x;
+                lastY = event->button.y;
+            }
+            break;
+            
+        case SDL_MOUSEBUTTONUP:
+            if(event->button.button == SDL_BUTTON_LEFT) 
+            {
+                mouseDown = false;
+            }
+            break;
+            
+        case SDL_MOUSEMOTION:
+            if(mouseDown) 
+	    {
+                int dx = event->motion.x - lastX;
+                int dy = event->motion.y - lastY;
+                
+                rotY += dx * 0.5f;
+                rotX += dy * 0.5f;
+                
+                lastX = event->motion.x;
+                lastY = event->motion.y;
+            }
+            break;
+    }
 }

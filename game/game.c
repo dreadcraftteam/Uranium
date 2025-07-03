@@ -1,8 +1,8 @@
-// This is the main file in the Game project
+// This is the main file in the game project
 // By DREADCRAFT, June 2025
 // 
 
-#include <stdio.h>
+#include "stdio.h"
 
 /* Main method for engine project */
 int game_main()
