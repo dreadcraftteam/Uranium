@@ -9,7 +9,7 @@ if [ ! -f "$MARKER_FILE" ]; then
     echo -e  "${YELLOW}Installing Necessary Packages...${NC}"
     
     sudo apt update
-    sudo apt install -y gcc-multilib g++-multilib cmake libsdl2-dev
+    sudo apt install -y gcc-multilib g++-multilib cmake libsdl2-dev libglew-dev freeglut3-dev
     
     touch "$MARKER_FILE"
     echo -e "${YELLOW}Installation Complete!${NC}"
