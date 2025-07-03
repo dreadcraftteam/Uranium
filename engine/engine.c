@@ -111,7 +111,7 @@ int engine_main(int argc, char* argv[])
         /* Setup modelview matrix */
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glTranslatef(0.0f, 0.0f, -5.0f);
+        glTranslatef(0.0f, 0.0f, zoom);
         
         /* Apply rotations */
         glRotatef(rotX, 1.0f, 0.0f, 0.0f);
@@ -221,16 +221,23 @@ void drawCube()
 }
 
 /* Mouse control */
-void handleMouse(SDL_Event* event) 
+void handleMouse(SDL_Event* event, SDL_Window* frame)
 {
     switch(event->type) 
     {
         case SDL_MOUSEBUTTONDOWN:
             if(event->button.button == SDL_BUTTON_LEFT) 
-            {
+	    {
                 mouseDown = true;
                 lastX = event->button.x;
                 lastY = event->button.y;
+           	
+		/* Hide cursor when clicking on cube */
+                SDL_ShowCursor(SDL_DISABLE);
+                cursorHidden = true;
+                
+                /* Capture mouse for unlimited movement */
+                SDL_CaptureMouse(SDL_TRUE);
             }
             break;
             
@@ -238,9 +245,16 @@ void handleMouse(SDL_Event* event)
             if(event->button.button == SDL_BUTTON_LEFT) 
             {
                 mouseDown = false;
+
+		/* Show cursor when releasing button */
+                SDL_ShowCursor(SDL_ENABLE);
+                cursorHidden = false;
+                
+                /* Release mouse capture */
+                SDL_CaptureMouse(SDL_FALSE);
             }
             break;
-            
+
         case SDL_MOUSEMOTION:
             if(mouseDown) 
 	    {
@@ -252,7 +266,22 @@ void handleMouse(SDL_Event* event)
                 
                 lastX = event->motion.x;
                 lastY = event->motion.y;
+
+                /* Warp mouse to center for unlimited rotation */
+                if(cursorHidden) {
+                    SDL_WarpMouseInWindow(frame, width/2, height/2);
+                    lastX = width/2;
+                    lastY = height/2;
+                }
             }
+            break;
+            
+        case SDL_MOUSEWHEEL:
+            /* Zoom in/out with mouse wheel */
+            zoom += event->wheel.y * 0.5f;
+            /* Limit zoom range */
+            if(zoom > -1.0f) zoom = -1.0f;
+            if(zoom < -10.0f) zoom = -10.0f;
             break;
     }
 }

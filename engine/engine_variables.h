@@ -18,16 +18,18 @@ const char* version = "v1.0.0";
 bool running = true;
 
 /* Default OpenGL clear Color */
-float gl_red = 32.0f / 255.0f;
-float gl_green = 32.0f / 255.0f;
-float gl_blue = 32.0f / 255.0f;
-float gl_alpha = 255.0f / 1.0f;
+float gl_red = 0.0f / 255.0f;
+float gl_green = 0.0f / 255.0f;
+float gl_blue = 0.0f / 255.0f;
+float gl_alpha = 0.0f / 1.0f;
 
 /* Rotation cube Variables */
 float rotX = 0.0f;
 float rotY = 0.0f;
+float zoom = -3.5f;
 
 bool mouseDown = false;
+bool cursorHidden = false;
 
 int lastX = 0; 
 int lastY = 0;
