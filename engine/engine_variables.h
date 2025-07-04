@@ -27,6 +27,9 @@ float gl_alpha = 0.0f / 1.0f;
 float rotX = 0.0f;
 float rotY = 0.0f;
 float zoom = -3.5f;
+float cubeSizeX = 1.0f;
+float cubeSizeY = 1.0f; 
+float cubeSizeZ = 1.0f;
 
 bool mouseDown = false;
 bool cursorHidden = false;
