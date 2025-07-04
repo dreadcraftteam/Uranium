@@ -177,46 +177,46 @@ void drawCube()
 
         /* Front face (red) */
         glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(-1.0f, -1.0f,  1.0f);
-        glVertex3f( 1.0f, -1.0f,  1.0f);
-        glVertex3f( 1.0f,  1.0f,  1.0f);
-        glVertex3f(-1.0f,  1.0f,  1.0f);
+        glVertex3f(-cubeSizeX, -cubeSizeY,  cubeSizeZ);
+        glVertex3f( cubeSizeX, -cubeSizeY,  cubeSizeZ);
+        glVertex3f( cubeSizeX,  cubeSizeY,  cubeSizeZ);
+        glVertex3f(-cubeSizeX,  cubeSizeY,  cubeSizeZ);
         
         /* Back face (green) */
         glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex3f(-1.0f, -1.0f, -1.0f);
-        glVertex3f(-1.0f,  1.0f, -1.0f);
-        glVertex3f( 1.0f,  1.0f, -1.0f);
-        glVertex3f( 1.0f, -1.0f, -1.0f);
+        glVertex3f(-cubeSizeX, -cubeSizeY, -cubeSizeZ);
+        glVertex3f(-cubeSizeX,  cubeSizeY, -cubeSizeZ);
+        glVertex3f( cubeSizeX,  cubeSizeY, -cubeSizeZ);
+        glVertex3f( cubeSizeX, -cubeSizeY, -cubeSizeZ);
         
         /* Top face (blue) */
         glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(-1.0f,  1.0f, -1.0f);
-        glVertex3f(-1.0f,  1.0f,  1.0f);
-        glVertex3f( 1.0f,  1.0f,  1.0f);
-        glVertex3f( 1.0f,  1.0f, -1.0f);
+        glVertex3f(-cubeSizeX,  cubeSizeY, -cubeSizeZ);
+        glVertex3f(-cubeSizeX,  cubeSizeY,  cubeSizeZ);
+        glVertex3f( cubeSizeX,  cubeSizeY,  cubeSizeZ);
+        glVertex3f( cubeSizeX,  cubeSizeY, -cubeSizeZ);
         
         /* Bottom face (yellow) */
         glColor3f(1.0f, 1.0f, 0.0f);
-        glVertex3f(-1.0f, -1.0f, -1.0f);
-        glVertex3f( 1.0f, -1.0f, -1.0f);
-        glVertex3f( 1.0f, -1.0f,  1.0f);
-        glVertex3f(-1.0f, -1.0f,  1.0f);
+        glVertex3f(-cubeSizeX, -cubeSizeY, -cubeSizeZ);
+        glVertex3f( cubeSizeX, -cubeSizeY, -cubeSizeZ);
+        glVertex3f( cubeSizeX, -cubeSizeY,  cubeSizeZ);
+        glVertex3f(-cubeSizeX, -cubeSizeY,  cubeSizeZ);
         
         /* Right face (magenta) */
         glColor3f(1.0f, 0.0f, 1.0f);
-        glVertex3f( 1.0f, -1.0f, -1.0f);
-        glVertex3f( 1.0f,  1.0f, -1.0f);
-        glVertex3f( 1.0f,  1.0f,  1.0f);
-        glVertex3f( 1.0f, -1.0f,  1.0f);
-        
+        glVertex3f( cubeSizeX, -cubeSizeY, -cubeSizeZ);
+        glVertex3f( cubeSizeX,  cubeSizeY, -cubeSizeZ);
+        glVertex3f( cubeSizeX,  cubeSizeY,  cubeSizeZ);
+        glVertex3f( cubeSizeX, -cubeSizeY,  cubeSizeZ);
+
         /* Left face (cyan) */
         glColor3f(0.0f, 1.0f, 1.0f);
-        glVertex3f(-1.0f, -1.0f, -1.0f);
-        glVertex3f(-1.0f, -1.0f,  1.0f);
-        glVertex3f(-1.0f,  1.0f,  1.0f);
-        glVertex3f(-1.0f,  1.0f, -1.0f);
-
+        glVertex3f(-cubeSizeX, -cubeSizeY, -cubeSizeZ);
+        glVertex3f(-cubeSizeX, -cubeSizeY,  cubeSizeZ);
+        glVertex3f(-cubeSizeX,  cubeSizeY,  cubeSizeZ);
+        glVertex3f(-cubeSizeX,  cubeSizeY, -cubeSizeZ);
+   
     glEnd();
 }
 
