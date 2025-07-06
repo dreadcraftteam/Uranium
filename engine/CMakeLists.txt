@@ -3,8 +3,6 @@
 project(engine)
 
 set(SOURCES
-	text_renderer.c 
-	text_renderer.h
 	engine.c
 	engine_variables.h
 )

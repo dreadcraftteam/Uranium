@@ -14,7 +14,6 @@
 #include "GL/gl.h"
 
 #include "engine_variables.h"
-#include "text_renderer.h"
 
 /* Main method for engine project */
 int engine_main(int argc, char* argv[])
@@ -66,11 +65,6 @@ int engine_main(int argc, char* argv[])
         return 1;
     }
 
-    /* Initialize text rendering */
-    initTextRendering();
-
-    float textColor[] = {1.0f, 1.0f, 1.0f}; // White color
-
     /* Enable VSYNC */
     SDL_GL_SetSwapInterval(1);
 
@@ -121,8 +115,6 @@ int engine_main(int argc, char* argv[])
 
         /* Draw cube */
         drawCube();
-
-        renderText("Uranium Engine", 10, 10, 2.0f, textColor);
 
         /* Swap buffers */
         SDL_GL_SwapWindow(frame);
