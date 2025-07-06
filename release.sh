@@ -3,17 +3,12 @@
 YELLOW='\033[1;33m'
 NC='\033[0m' 
 
-MARKER_FILE=".first_compile"
-
-if [ ! -f "$MARKER_FILE" ]; then
-    echo -e  "${YELLOW}Installing Necessary Packages...${NC}"
+echo -e  "${YELLOW}Checking Necessary Packages...${NC}"
     
-    sudo apt update
-    sudo apt install -y gcc-multilib g++-multilib cmake libsdl2-dev libglew-dev freeglut3-dev
+sudo apt update
+sudo apt install -y gcc-multilib g++-multilib cmake libsdl2-dev libglew-dev freeglut3-dev
     
-    touch "$MARKER_FILE"
-    echo -e "${YELLOW}Installation Complete!${NC}"
-fi
+echo -e "${YELLOW}Installation Complete!${NC}"
 
 if [ ! -d "build" ]; then
     echo -e "${YELLOW}Build folder Not Found! Creating Project...${NC}"

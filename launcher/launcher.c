@@ -1,5 +1,5 @@
 // This is the main file in the launcher project
-// By DREADCRAFT, June 2025
+// By DREADCRAFT
 //
 
 #include "stdio.h"

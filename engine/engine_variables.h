@@ -1,5 +1,5 @@
 // Variables and Other low-level Stuff
-// By DREADCRAFT, June 2025
+// By DREADCRAFT
 // 
 
 #ifndef ENGINE_VARIABLES_H

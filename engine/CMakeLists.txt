@@ -3,8 +3,8 @@
 project(engine)
 
 set(SOURCES
-	engine.c
-	engine_variables.h
+		engine.c
+		engine_variables.h
 )
 
 set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
