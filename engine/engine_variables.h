@@ -9,32 +9,32 @@
 #include "stdbool.h"
 
 /* General variables for engine */
-const int width = 800;
-const int height = 600;
+const static int width = 800;
+const static int height = 600;
 
-const char* title = "Uranium";
-const char* version = "v1.0.0";
+const static char* title = "Uranium";
+const static char* version = "v1.0.0";
 
-bool running = true;
+static bool running = true;
 
-/* Default OpenGL clear Color */
-float gl_red = 0.0f / 255.0f;
-float gl_green = 0.0f / 255.0f;
-float gl_blue = 0.0f / 255.0f;
-float gl_alpha = 0.0f / 1.0f;
+/* Default clear color for OpenGL */
+static float gl_red = 0.0f / 255.0f;
+static float gl_green = 0.0f / 255.0f;
+static float gl_blue = 0.0f / 255.0f;
+static float gl_alpha = 0.0f / 1.0f;
 
 /* Rotation cube Variables */
-float rot_x = 0.0f;
-float rot_y = 0.0f;
-float zoom = -3.5f;
-float cube_sizeX = 1.0f;
-float cube_sizeY = 1.0f; 
-float cube_sizeZ = 1.0f;
+static float rot_x = 0.0f;
+static float rot_y = 0.0f;
+static float zoom = -3.5f;
+static float cube_sizeX = 1.0f;
+static float cube_sizeY = 1.0f; 
+static float cube_sizeZ = 1.0f;
 
-bool mouse_down = false;
-bool cursor_hidden = false;
+static bool mouse_down = false;
+static bool cursor_hidden = false;
 
-int last_x = 0; 
-int last_y = 0;
+static int last_x = 0; 
+static int last_y = 0;
 
 #endif
