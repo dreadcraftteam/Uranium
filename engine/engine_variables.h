@@ -24,17 +24,17 @@ float gl_blue = 0.0f / 255.0f;
 float gl_alpha = 0.0f / 1.0f;
 
 /* Rotation cube Variables */
-float rotX = 0.0f;
-float rotY = 0.0f;
+float rot_x = 0.0f;
+float rot_y = 0.0f;
 float zoom = -3.5f;
-float cubeSizeX = 1.0f;
-float cubeSizeY = 1.0f; 
-float cubeSizeZ = 1.0f;
+float cube_sizeX = 1.0f;
+float cube_sizeY = 1.0f; 
+float cube_sizeZ = 1.0f;
 
-bool mouseDown = false;
-bool cursorHidden = false;
+bool mouse_down = false;
+bool cursor_hidden = false;
 
-int lastX = 0; 
-int lastY = 0;
+int last_x = 0; 
+int last_y = 0;
 
 #endif

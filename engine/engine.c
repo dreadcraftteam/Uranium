@@ -83,7 +83,6 @@ int engine_main(int argc, char* argv[])
                 running = false;
             }
             
-            /* Close the window */
             else if (event.type == SDL_KEYDOWN)
             {
                 if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
@@ -92,13 +91,11 @@ int engine_main(int argc, char* argv[])
                 }
             }
 
-	    /* Handle mouse events */
+	        /* Handle mouse events */
             handleMouse(&event);
         }
 
-  	/* Rotation Cube Code */
-
- 	/* Clear buffers */
+ 	    /* Clear buffers */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(gl_red, gl_green, gl_blue, gl_alpha);
 
@@ -114,8 +111,8 @@ int engine_main(int argc, char* argv[])
         glTranslatef(0.0f, 0.0f, zoom);
         
         /* Apply rotations */
-        glRotatef(rotX, 1.0f, 0.0f, 0.0f);
-        glRotatef(rotY, 0.0f, 1.0f, 0.0f);
+        glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
+        glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
 
         /* Draw cube */
         drawCube();
@@ -177,45 +174,45 @@ void drawCube()
 
         /* Front face (red) */
         glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(-cubeSizeX, -cubeSizeY,  cubeSizeZ);
-        glVertex3f( cubeSizeX, -cubeSizeY,  cubeSizeZ);
-        glVertex3f( cubeSizeX,  cubeSizeY,  cubeSizeZ);
-        glVertex3f(-cubeSizeX,  cubeSizeY,  cubeSizeZ);
+        glVertex3f(-cube_sizeX, -cube_sizeY,  cube_sizeZ);
+        glVertex3f( cube_sizeX, -cube_sizeY,  cube_sizeZ);
+        glVertex3f( cube_sizeX,  cube_sizeY,  cube_sizeZ);
+        glVertex3f(-cube_sizeX,  cube_sizeY,  cube_sizeZ);
         
         /* Back face (green) */
         glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex3f(-cubeSizeX, -cubeSizeY, -cubeSizeZ);
-        glVertex3f(-cubeSizeX,  cubeSizeY, -cubeSizeZ);
-        glVertex3f( cubeSizeX,  cubeSizeY, -cubeSizeZ);
-        glVertex3f( cubeSizeX, -cubeSizeY, -cubeSizeZ);
+        glVertex3f(-cube_sizeX, -cube_sizeY, -cube_sizeZ);
+        glVertex3f(-cube_sizeX,  cube_sizeY, -cube_sizeZ);
+        glVertex3f( cube_sizeX,  cube_sizeY, -cube_sizeZ);
+        glVertex3f( cube_sizeX, -cube_sizeY, -cube_sizeZ);
         
         /* Top face (blue) */
         glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(-cubeSizeX,  cubeSizeY, -cubeSizeZ);
-        glVertex3f(-cubeSizeX,  cubeSizeY,  cubeSizeZ);
-        glVertex3f( cubeSizeX,  cubeSizeY,  cubeSizeZ);
-        glVertex3f( cubeSizeX,  cubeSizeY, -cubeSizeZ);
+        glVertex3f(-cube_sizeX,  cube_sizeY, -cube_sizeZ);
+        glVertex3f(-cube_sizeX,  cube_sizeY,  cube_sizeZ);
+        glVertex3f( cube_sizeX,  cube_sizeY,  cube_sizeZ);
+        glVertex3f( cube_sizeX,  cube_sizeY, -cube_sizeZ);
         
         /* Bottom face (yellow) */
         glColor3f(1.0f, 1.0f, 0.0f);
-        glVertex3f(-cubeSizeX, -cubeSizeY, -cubeSizeZ);
-        glVertex3f( cubeSizeX, -cubeSizeY, -cubeSizeZ);
-        glVertex3f( cubeSizeX, -cubeSizeY,  cubeSizeZ);
-        glVertex3f(-cubeSizeX, -cubeSizeY,  cubeSizeZ);
+        glVertex3f(-cube_sizeX, -cube_sizeY, -cube_sizeZ);
+        glVertex3f( cube_sizeX, -cube_sizeY, -cube_sizeZ);
+        glVertex3f( cube_sizeX, -cube_sizeY,  cube_sizeZ);
+        glVertex3f(-cube_sizeX, -cube_sizeY,  cube_sizeZ);
         
         /* Right face (magenta) */
         glColor3f(1.0f, 0.0f, 1.0f);
-        glVertex3f( cubeSizeX, -cubeSizeY, -cubeSizeZ);
-        glVertex3f( cubeSizeX,  cubeSizeY, -cubeSizeZ);
-        glVertex3f( cubeSizeX,  cubeSizeY,  cubeSizeZ);
-        glVertex3f( cubeSizeX, -cubeSizeY,  cubeSizeZ);
+        glVertex3f( cube_sizeX, -cube_sizeY, -cube_sizeZ);
+        glVertex3f( cube_sizeX,  cube_sizeY, -cube_sizeZ);
+        glVertex3f( cube_sizeX,  cube_sizeY,  cube_sizeZ);
+        glVertex3f( cube_sizeX, -cube_sizeY,  cube_sizeZ);
 
         /* Left face (cyan) */
         glColor3f(0.0f, 1.0f, 1.0f);
-        glVertex3f(-cubeSizeX, -cubeSizeY, -cubeSizeZ);
-        glVertex3f(-cubeSizeX, -cubeSizeY,  cubeSizeZ);
-        glVertex3f(-cubeSizeX,  cubeSizeY,  cubeSizeZ);
-        glVertex3f(-cubeSizeX,  cubeSizeY, -cubeSizeZ);
+        glVertex3f(-cube_sizeX, -cube_sizeY, -cube_sizeZ);
+        glVertex3f(-cube_sizeX, -cube_sizeY,  cube_sizeZ);
+        glVertex3f(-cube_sizeX,  cube_sizeY,  cube_sizeZ);
+        glVertex3f(-cube_sizeX,  cube_sizeY, -cube_sizeZ);
    
     glEnd();
 }
@@ -227,14 +224,14 @@ void handleMouse(SDL_Event* event, SDL_Window* frame)
     {
         case SDL_MOUSEBUTTONDOWN:
             if(event->button.button == SDL_BUTTON_LEFT) 
-	    {
-                mouseDown = true;
-                lastX = event->button.x;
-                lastY = event->button.y;
+	        {
+                mouse_down = true;
+                last_x = event->button.x;
+                last_y = event->button.y;
            	
-		/* Hide cursor when clicking on cube */
+		        /* Hide cursor when clicking on cube */
                 SDL_ShowCursor(SDL_DISABLE);
-                cursorHidden = true;
+                cursor_hidden = true;
                 
                 /* Capture mouse for unlimited movement */
                 SDL_CaptureMouse(SDL_TRUE);
@@ -244,11 +241,11 @@ void handleMouse(SDL_Event* event, SDL_Window* frame)
         case SDL_MOUSEBUTTONUP:
             if(event->button.button == SDL_BUTTON_LEFT) 
             {
-                mouseDown = false;
+                mouse_down = false;
 
-		/* Show cursor when releasing button */
+		        /* Show cursor when releasing button */
                 SDL_ShowCursor(SDL_ENABLE);
-                cursorHidden = false;
+                cursor_hidden = false;
                 
                 /* Release mouse capture */
                 SDL_CaptureMouse(SDL_FALSE);
@@ -256,22 +253,24 @@ void handleMouse(SDL_Event* event, SDL_Window* frame)
             break;
 
         case SDL_MOUSEMOTION:
-            if(mouseDown) 
-	    {
-                int dx = event->motion.x - lastX;
-                int dy = event->motion.y - lastY;
+            if(mouse_down) 
+	        {   
+                int dx = event->motion.x - last_x;
+                int dy = event->motion.y - last_y;
                 
-                rotY += dx * 0.5f;
-                rotX += dy * 0.5f;
+                rot_y += dx * 0.5f;
+                rot_x += dy * 0.5f;
                 
-                lastX = event->motion.x;
-                lastY = event->motion.y;
+                last_x = event->motion.x;
+                last_y = event->motion.y;
 
                 /* Warp mouse to center for unlimited rotation */
-                if(cursorHidden) {
+                if(cursor_hidden) 
+                {
                     SDL_WarpMouseInWindow(frame, width/2, height/2);
-                    lastX = width/2;
-                    lastY = height/2;
+
+                    last_x = width/2;
+                    last_y = height/2;
                 }
             }
             break;
