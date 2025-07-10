@@ -9,6 +9,7 @@
 #include "math.h"
 
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_messagebox.h"
 
 #include "GL/glew.h"
 #include "GL/gl.h"
@@ -17,10 +18,7 @@
 
 /* Main method for engine project */
 int engine_main(int argc, char* argv[])
-{
-    /* Call function for game load */
-    load_game();
-    
+{   
     /* Window on SDL (Simple DirectMedia Layer) */
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -50,7 +48,7 @@ int engine_main(int argc, char* argv[])
         SDL_Quit();
         return 1;
     }
-
+    
     /* Initialize GLEW */
     glewExperimental = GL_TRUE;
 
@@ -70,6 +68,16 @@ int engine_main(int argc, char* argv[])
 
     /* Enable DEPTH testing */
     glEnable(GL_DEPTH_TEST);
+
+    /* Check if game.so not loaded */
+    if (load_game() != 0)  
+    {
+        SDL_GL_DeleteContext(glContext);
+        SDL_DestroyWindow(frame);
+        SDL_Quit();
+        
+        return 1; 
+    }
 
     SDL_Event event;
     
@@ -113,8 +121,8 @@ int engine_main(int argc, char* argv[])
         glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
         glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
 
-        /* Draw cube */
-        drawCube();
+        /* Draw */
+        load_game();
 
         /* Swap buffers */
         SDL_GL_SwapWindow(frame);
@@ -129,7 +137,7 @@ int engine_main(int argc, char* argv[])
 }
 
 /* Load a file game.so to engine project */
-void load_game()
+int load_game()
 {
     void *load_handle;
     char *load_error;
@@ -141,13 +149,11 @@ void load_game()
 
     if (!load_handle) 
     {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", "Failed to load game.so!", NULL);
+
         printf("Failed to load game.so!\n");
 
         return 1;
-    }
-    else
-    {
-        printf("Game.so Loaded!\n");
     }
 
     /* Load main function */
@@ -155,7 +161,9 @@ void load_game()
 
     if ((load_error = dlerror()) != NULL)
     {
-        printf("Failed to load game function!\n");
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", "Failed to load game.so main function!", NULL);
+
+        printf("Failed to load game.so main function!\n");
   
         return 1;
     }
@@ -164,56 +172,6 @@ void load_game()
     game_main();
 
     dlclose(load_handle);
-}
-
-/* Do I even need to explain what this is? */
-void drawCube() 
-{
-    glBegin(GL_QUADS);
-
-        /* Front face (red) */
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(-cube_sizeX, -cube_sizeY,  cube_sizeZ);
-        glVertex3f( cube_sizeX, -cube_sizeY,  cube_sizeZ);
-        glVertex3f( cube_sizeX,  cube_sizeY,  cube_sizeZ);
-        glVertex3f(-cube_sizeX,  cube_sizeY,  cube_sizeZ);
-        
-        /* Back face (green) */
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex3f(-cube_sizeX, -cube_sizeY, -cube_sizeZ);
-        glVertex3f(-cube_sizeX,  cube_sizeY, -cube_sizeZ);
-        glVertex3f( cube_sizeX,  cube_sizeY, -cube_sizeZ);
-        glVertex3f( cube_sizeX, -cube_sizeY, -cube_sizeZ);
-        
-        /* Top face (blue) */
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(-cube_sizeX,  cube_sizeY, -cube_sizeZ);
-        glVertex3f(-cube_sizeX,  cube_sizeY,  cube_sizeZ);
-        glVertex3f( cube_sizeX,  cube_sizeY,  cube_sizeZ);
-        glVertex3f( cube_sizeX,  cube_sizeY, -cube_sizeZ);
-        
-        /* Bottom face (yellow) */
-        glColor3f(1.0f, 1.0f, 0.0f);
-        glVertex3f(-cube_sizeX, -cube_sizeY, -cube_sizeZ);
-        glVertex3f( cube_sizeX, -cube_sizeY, -cube_sizeZ);
-        glVertex3f( cube_sizeX, -cube_sizeY,  cube_sizeZ);
-        glVertex3f(-cube_sizeX, -cube_sizeY,  cube_sizeZ);
-        
-        /* Right face (magenta) */
-        glColor3f(1.0f, 0.0f, 1.0f);
-        glVertex3f( cube_sizeX, -cube_sizeY, -cube_sizeZ);
-        glVertex3f( cube_sizeX,  cube_sizeY, -cube_sizeZ);
-        glVertex3f( cube_sizeX,  cube_sizeY,  cube_sizeZ);
-        glVertex3f( cube_sizeX, -cube_sizeY,  cube_sizeZ);
-
-        /* Left face (cyan) */
-        glColor3f(0.0f, 1.0f, 1.0f);
-        glVertex3f(-cube_sizeX, -cube_sizeY, -cube_sizeZ);
-        glVertex3f(-cube_sizeX, -cube_sizeY,  cube_sizeZ);
-        glVertex3f(-cube_sizeX,  cube_sizeY,  cube_sizeZ);
-        glVertex3f(-cube_sizeX,  cube_sizeY, -cube_sizeZ);
-   
-    glEnd();
 }
 
 /* Mouse control */

@@ -1,4 +1,4 @@
-# CMakeLists.txt for Engine Project
+# CMakeLists.txt for engine Project
 
 project(engine)
 

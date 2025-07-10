@@ -31,10 +31,6 @@ void load_engine()
 
         return 1;
     }
-    else
-    {
-        printf("Engine.so Loaded!\n");
-    }
 
     /* Load main function */
     engine_main = dlsym(handle, "engine_main");
