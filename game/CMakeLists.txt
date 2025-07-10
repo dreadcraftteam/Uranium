@@ -3,6 +3,8 @@
 project(game)
 
 set(SOURCES
+		model/cube.c
+		model/cube.h
 		game.c
 )
 
