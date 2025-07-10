@@ -7,13 +7,13 @@
 
 #include "stdio.h"
 #include "stdbool.h"
+#include "string.h"
 
 /* General variables for engine */
 const static int width = 800;
 const static int height = 600;
 
-const static char* title = "Uranium";
-const static char* version = "v1.0.0";
+const static char* title;
 
 static bool running = true;
 

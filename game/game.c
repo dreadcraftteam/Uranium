@@ -1,16 +1,26 @@
 // This is the main file in the game project
 // By DREADCRAFT
-// 
+//
 
 #include "stdio.h"
 #include "stdbool.h"
 
-#include "model/cube.h"
+#include "game_cube.h"
 
-/* Main method for engine project */
-int game_main()
+/* Write here everything that needs to be initialized once */
+void game_init()
+{
+    
+}
+
+/* Rendering */
+void game_render()
 {
     drawCube();
+}
 
-    return 0;
+/* Shutdown everything*/
+void game_shutdown()
+{
+
 }

@@ -8,7 +8,7 @@
 #include "GL/glew.h"
 #include "GL/gl.h"
 
-#include "cube.h"
+#include "game_cube.h"
 
 /* yeah... */
 void drawCube()

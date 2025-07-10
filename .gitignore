@@ -25,8 +25,7 @@ game/game.so
 game/game.dll
 
 # Other Shit
-
 cmake_install.cmake
 Makefile
 CMakeCache.txt
-.first_compile
+.vscode/
