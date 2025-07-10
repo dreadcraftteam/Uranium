@@ -137,7 +137,7 @@ int engine_main(int argc, char* argv[])
                 }
             }
 
-            handleMouse(&event);
+            handleMouse(&event, frame);
         }
 
         /* Configuring OpenGL */

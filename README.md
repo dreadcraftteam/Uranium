@@ -18,5 +18,5 @@ release.sh
 ```
 debug.sh
 ```
-5. Navigate to `dist`, there will be a compiled build of the engine.
+5. Navigate to `build`, there will be a compiled build of the engine.
 6. Thats All!
