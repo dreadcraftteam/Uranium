@@ -1,7 +1,7 @@
 # GitIgnore File!
 
 # Ignore Build Folders
-build/
+cmake/
 
 CMakeFiles/
 
@@ -10,12 +10,12 @@ game/CMakeFiles/
 launcher/CMakeFiles/
 
 # Ignore Build Results
-dist/launcher
-dist/launcher.exe
-dist/bin/engine.so
-dist/bin/engine.dll
-dist/bin/game.so
-dist/bin/game.dll
+build/launcher
+build/launcher.exe
+build/bin/engine.so
+build/bin/engine.dll
+build/bin/game.so
+build/bin/game.dll
 
 launcher/launcher
 launcher/launcher.exe

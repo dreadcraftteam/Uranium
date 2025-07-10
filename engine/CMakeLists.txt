@@ -21,8 +21,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 							${CMAKE_SOURCE_DIR}/lib/libglut.so
 )
 
-file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/dist/bin/)
-set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/dist/bin/)
+file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin/)
+set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin/)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 
