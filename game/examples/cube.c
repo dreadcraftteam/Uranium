@@ -1,4 +1,4 @@
-// Cube Model
+// An example of a cube model
 // By DREADCRAFT
 //
 
@@ -8,11 +8,14 @@
 #include "GL/glew.h"
 #include "GL/gl.h"
 
-#include "game_cube.h"
+#include "cube.h"
 
-/* yeah... */
+/* Drawing cube */
 void drawCube()
 {
+    /* Cube Position */
+    glTranslatef(0.0f, 0.0f, 1.0f);
+
     glBegin(GL_QUADS);
 
         /* Front face (red) */

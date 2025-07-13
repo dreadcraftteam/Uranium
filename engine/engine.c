@@ -6,24 +6,26 @@
 #include "stdbool.h"
 #include "stdlib.h"
 #include "dlfcn.h"
-#include "math.h"
 #include "string.h"
-
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_messagebox.h"
+#include "math.h"
 
 #include "GL/glew.h"
 #include "GL/gl.h"
 
+#include "GLFW/glfw3.h"
+#include "GLFW/glfw3native.h"
+
+#include "engine_camera.h"
+#include "engine_ground.h"
 #include "engine_variables.h"
 
 /* Main method for engine project */
 int engine_main(int argc, char* argv[])
 {
-    /* Read title from info.txt file */
-    read_title();
+    /* Load game title */
+    loadGameTitle();
 
-    /* Some stuff */
+    /* Declaring functions from game.so */
     void *load_handle;
     char *load_error;
 
@@ -31,227 +33,203 @@ int engine_main(int argc, char* argv[])
     void (*game_render)();
     void (*game_shutdown)();
 
-    /* Initialize SDL */
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    /* GLFW initialization */
+    glfwInit();
+
+    if (!glfwInit()) 
     {
-        return 1;
+        printf("GLFW initialization failed!\n");
+        
+        return -1;
     }
 
-    /* Set OpenGL attributes before creating the window */
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     /* Creating window */
-    SDL_Window* frame = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
-    if (!frame)
+    GLFWwindow* frame = glfwCreateWindow(width, height, title, NULL, NULL);
+    if (!frame) 
     {
-        SDL_Quit();
+        printf("Window creation failed!\n");
+        glfwTerminate();
 
-        return 1;
+        return -1;
     }
 
-    /* Create OpenGL context */
-    SDL_GLContext glContext = SDL_GL_CreateContext(frame);
-    if (!glContext)
-    {
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", "OpenGL context creation failed!", NULL);
+    glfwMakeContextCurrent(frame);
 
-        printf("OpenGL context creation failed!\n");
-        SDL_DestroyWindow(frame);
-        SDL_Quit();
-
-        return 1;
-    }
-
-    /* Initialize GLEW */
+    /* OpenGL initialization */
     glewExperimental = GL_TRUE;
-    GLenum glewError = glewInit();
-
-    if (glewError != GLEW_OK)
+    glewInit();
+    
+    if (glewInit() != GLEW_OK) 
     {
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", "GLEW initialization failed!", NULL);
-
-        printf("GLEW initialization failed!\n");
-        SDL_GL_DeleteContext(glContext);
-        SDL_DestroyWindow(frame);
-        SDL_Quit();
-
-        return 1;
+        printf("OpenGL initialization failed!\n");
+        
+        return -1;
     }
+    
+    glEnable(GL_DEPTH_TEST);
 
-    /* Open game.so file */
+    /* Open game.so file and read information... */
     load_handle = dlopen("./bin/game.so", RTLD_LAZY);
     
     game_init = dlsym(load_handle, "game_init");
     game_render = dlsym(load_handle, "game_render");
     game_shutdown = dlsym(load_handle, "game_shutdown");
 
+    /* Checking load_handle */
     if (!load_handle)
     {
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", "Failed to load game.so!", NULL);
-
         printf("Failed to load game.so!\n");
 
-        SDL_GL_DeleteContext(glContext);
-        SDL_DestroyWindow(frame);
-        SDL_Quit();
-
-
-        return 1;
+        return -1;
     }
 
+    /* Checking functions */
     if ((load_error = dlerror()) != NULL)
     {
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", "Failed to load game.so functions!", NULL);
-
         printf("Failed to load game.so functions!\n");
 
-        SDL_GL_DeleteContext(glContext);
-        SDL_DestroyWindow(frame);
-        SDL_Quit();
-
-        return 1;
+        return -1;
     }
 
     /* Game initialization */
     game_init();
 
-    SDL_Event event;
-
-    while (running)
+    while (!glfwWindowShouldClose(frame))
     {
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_QUIT)
-            {
-                running = false;
-            }
-
-            else if (event.type == SDL_KEYDOWN)
-            {
-                if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-                {
-                    running = false;
-                }
-            }
-
-            handleMouse(&event, frame);
-        }
-
         /* Configuring OpenGL */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(gl_red, gl_green, gl_blue, gl_alpha);
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-
-        float aspect = (float)width / (float)height;
-        glFrustum(-aspect * 0.1f, aspect * 0.1f, -0.1f, 0.1f, 0.1f, 100.0f);
-
+        float ratio = width / (float) height;
+        glFrustum(-ratio * 1.0f, -ratio * -1.0f, -1.0f, 1.0f, 2.0f, 100.0f);
+        
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glEnable(GL_DEPTH_TEST);
-        glTranslatef(0.0f, 0.0f, zoom);
-
-        glRotatef(rot_x, 1.0f, 0.0f, 0.0f);
-        glRotatef(rot_y, 0.0f, 1.0f, 0.0f);
-
-        /* Game rendering */
-        game_render();
         
-        SDL_GL_SwapWindow(frame);
-    }
+        glPushMatrix();
 
+            /* The camera should always be created first! */
+            camera();
+
+            drawGround();
+
+            /* Render the game */
+            game_render();
+
+        glPopMatrix();
+
+        /* Keyboard and mouse input */
+        handleInput(frame);
+
+        updatePlayerPosition(x, y, z);
+    
+        glfwSwapBuffers(frame);
+
+        glfwPollEvents();
+    }
+    
     /* Game shutdown */
     game_shutdown();
 
-    /* Remove from game.so from RAM */
-    dlclose(load_handle);
-
-    SDL_GL_DeleteContext(glContext);
-    SDL_DestroyWindow(frame);
-    SDL_Quit();
-
+    glfwDestroyWindow(frame);
+    glfwTerminate();
+    
     return 0;
 }
 
-/* Mouse control */
-void handleMouse(SDL_Event* event, SDL_Window* frame)
+/* Keyboard and mouse input */
+void handleInput(GLFWwindow* frame)
 {
-    switch(event->type)
+    float angle = -camera_z / 180 * M_PI;
+    float speed = 0;
+
+    int centerX = width / 2;
+    int centerY = height / 2;   
+
+    glfwSetInputMode(frame, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    cursor_hidden = true;
+
+    if (glfwGetKey(frame, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
-        case SDL_MOUSEBUTTONDOWN:
-            if(event->button.button == SDL_BUTTON_LEFT)
-	        {
-                mouse_down = true;
-                last_x = event->button.x;
-                last_y = event->button.y;
+        glfwSetWindowShouldClose(frame, GLFW_TRUE);
+        
+        return;
+    }
+    if (glfwGetKey(frame, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        camera_x = (camera_x + 1) > 180 ? 180 : camera_x + 1;
+    }
+    if (glfwGetKey(frame, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        camera_x = (camera_x - 1) < 0 ? 0 : camera_x - 1;
+    }
+    if (glfwGetKey(frame, GLFW_KEY_LEFT) == GLFW_PRESS)
+    {
+        camera_z++;
+    }
+    if (glfwGetKey(frame, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    {
+        camera_z--;
+    }
+    if (glfwGetKey(frame, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        speed = 0.1;
+    }
+    if (glfwGetKey(frame, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        speed = 0.1;
+        angle -= M_PI * 0.5;
+    }
+    if (glfwGetKey(frame, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        speed = -0.1;
+    }
+    if (glfwGetKey(frame, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        speed = 0.1;
+        angle += M_PI * 0.5;
+    }
 
-		        /* Hide cursor when clicking on cube */
-                SDL_ShowCursor(SDL_DISABLE);
-                cursor_hidden = true;
+    double mouseX, mouseY;
+    glfwGetCursorPos(frame, &mouseX, &mouseY);
 
-                /* Capture mouse for unlimited movement */
-                SDL_CaptureMouse(SDL_TRUE);
-            }
-            break;
+    int deltaX = (int)mouseX - centerX;
+    int deltaY = (int)mouseY - centerY;
+        
+    if (deltaX != 0 || deltaY != 0)
+    {
+        camera_z -= deltaX * mouseSensitivity;
+        camera_x -= deltaY * mouseSensitivity;
+            
+        if (camera_x > 180.0f) camera_x = 180.0f;
+        if (camera_x < 0.0f) camera_x = 0.0f;
+            
+        glfwSetCursorPos(frame, centerX, centerY);
+    }
 
-        case SDL_MOUSEBUTTONUP:
-            if(event->button.button == SDL_BUTTON_LEFT)
-            {
-                mouse_down = false;
-
-		        /* Show cursor when releasing button */
-                SDL_ShowCursor(SDL_ENABLE);
-                cursor_hidden = false;
-
-                /* Release mouse capture */
-                SDL_CaptureMouse(SDL_FALSE);
-            }
-            break;
-
-        case SDL_MOUSEMOTION:
-            if(mouse_down)
-	        {
-                int dx = event->motion.x - last_x;
-                int dy = event->motion.y - last_y;
-
-                rot_y += dx * 0.5f;
-                rot_x += dy * 0.5f;
-
-                last_x = event->motion.x;
-                last_y = event->motion.y;
-
-                /* Warp mouse to center for unlimited rotation */
-                if(cursor_hidden)
-                {
-                    SDL_WarpMouseInWindow(frame, width/2, height/2);
-
-                    last_x = width/2;
-                    last_y = height/2;
-                }
-            }
-            break;
-
-        case SDL_MOUSEWHEEL:
-            /* Zoom in/out with mouse wheel */
-            zoom += event->wheel.y * 0.5f;
-            /* Limit zoom range */
-            if(zoom > -1.0f) zoom = -1.0f;
-            if(zoom < -10.0f) zoom = -10.0f;
-            break;
+    if (speed != 0)
+    {
+        x += sinf(angle) * speed;
+        y += cosf(angle) * speed;
     }
 }
 
-/* Read title from info.txt file */
-void read_title() 
+/* Load title from info.txt file */
+void loadGameTitle() 
 {
+    /* If you change this, you will be fired */
+
     FILE* file = fopen("./info.txt", "r");
     if (!file) 
     {
         printf("Could not open info.txt!\n");
+        
         return;
     }
 

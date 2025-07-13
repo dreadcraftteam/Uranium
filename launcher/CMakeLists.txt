@@ -1,4 +1,4 @@
-# CMakeLists.txt for launcher project
+# For launcher project
 project(launcher)
 
 set(LAUNCHER_NAME "launcher")

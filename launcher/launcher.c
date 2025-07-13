@@ -9,13 +9,13 @@
 int main()
 { 
     /* Call function for engine load */    
-    load_engine();
+    loadEngineFile();
 
     return 0;
 }
 
 /* Load a file engine.so to launcher */
-void load_engine()
+void loadEngineFile()
 {
     void *handle;
     char *error;
@@ -46,5 +46,4 @@ void load_engine()
     engine_main();
 
     dlclose(handle);
-
 }

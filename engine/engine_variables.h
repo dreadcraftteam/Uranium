@@ -9,11 +9,14 @@
 #include "stdbool.h"
 #include "string.h"
 
-/* General variables for engine */
-const static int width = 800;
-const static int height = 600;
+/* Some defines */
+#define M_PI 3.14159265358979323846
 
-const static char* title;
+/* General variables for engine */
+static int width = 800;
+static int height = 600;
+
+static char* title;
 
 static bool running = true;
 
@@ -21,20 +24,17 @@ static bool running = true;
 static float gl_red = 0.0f / 255.0f;
 static float gl_green = 0.0f / 255.0f;
 static float gl_blue = 0.0f / 255.0f;
-static float gl_alpha = 0.0f / 1.0f;
+static float gl_alpha = 0.0f / 255.0f;
 
-/* Rotation cube Variables */
-float rot_x = 0.0f;
-float rot_y = 0.0f;
-float zoom = -3.5f;
-float cube_sizeX = 1.0f;
-float cube_sizeY = 1.0f; 
-float cube_sizeZ = 1.0f;
+/* Controls and Movement */
+static int lastX = 0;
+static int lastY = 0;
+static int mouseX;
+static int mouseY;
 
-bool mouse_down = false;
-bool cursor_hidden = false;
+static bool mouse_down = false;
+static bool cursor_hidden = false;
 
-int last_x = 0; 
-int last_y = 0;
+static float mouseSensitivity = 0.1f;
 
-#endif
+#endif // ENGINE_VARIABLES_H
