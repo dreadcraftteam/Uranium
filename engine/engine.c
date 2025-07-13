@@ -127,8 +127,6 @@ int engine_main(int argc, char* argv[])
         /* Keyboard and mouse input */
         handleInput(frame);
 
-        updatePlayerPosition(x, y, z);
-    
         glfwSwapBuffers(frame);
 
         glfwPollEvents();
