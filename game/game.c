@@ -29,7 +29,7 @@ void game_init()
 /* Rendering */
 void game_render()
 {
-    drawCube();
+    
 }
 
 /* Shutdown everything*/
