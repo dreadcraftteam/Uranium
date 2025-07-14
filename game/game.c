@@ -10,8 +10,9 @@
 
 #include "GLFW/glfw3.h"
 
-#include "examples/pyramid.h"
-#include "examples/cube.h"
+#include "examples/func_pyramid.h"
+#include "examples/func_cube.h"
+#include "func_ground.h"
 
 /* Write here everything that needs to be initialized once */
 void game_init()
@@ -29,7 +30,7 @@ void game_init()
 /* Rendering */
 void game_render()
 {
-    
+    drawGround();
 }
 
 /* Shutdown everything*/

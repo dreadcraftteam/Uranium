@@ -6,8 +6,6 @@ set(SOURCES
 		engine.c
 		engine_camera.c
 		engine_camera.h
-		engine_ground.c
-		engine_ground.h
 		engine_variables.h
 )
 

@@ -16,7 +16,6 @@
 #include "GLFW/glfw3native.h"
 
 #include "engine_camera.h"
-#include "engine_ground.h"
 #include "engine_variables.h"
 
 /* Main method for engine project */
@@ -102,12 +101,12 @@ int engine_main(int argc, char* argv[])
     {
         /* Configuring OpenGL */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(gl_red, gl_green, gl_blue, gl_alpha);
+        glClearColor(glRed, glGreen, glBlue, glAlpha);
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         float ratio = width / (float) height;
-        glFrustum(-ratio * 1.0f, -ratio * -1.0f, -1.0f, 1.0f, 2.0f, 100.0f);
+        glFrustum(-ratio * 1.0f, -ratio * -1.0f, -1.0f, 1.0f, 2.0f, 500.0f);
         
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
@@ -116,8 +115,6 @@ int engine_main(int argc, char* argv[])
 
             /* The camera should always be created first! */
             camera();
-
-            drawGround();
 
             /* Render the game */
             game_render();
@@ -144,56 +141,91 @@ int engine_main(int argc, char* argv[])
 /* Keyboard and mouse input */
 void handleInput(GLFWwindow* frame)
 {
-    float angle = -camera_z / 180 * M_PI;
-    float speed = 0;
+    float angle = -cameraZ / 180 * M_PI;
+    float speedX = 0;
+    float speedY = 0;
+    float movementSpeed = 0.1f; 
+    float slowDownFactor = 0.4f;
+    float currentSpeed = movementSpeed;
+
+    bool isSlowMode = glfwGetKey(frame, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(frame, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
+
+    if (isSlowMode) 
+    {
+        currentSpeed *= slowDownFactor;
+    }
 
     int centerX = width / 2;
-    int centerY = height / 2;   
+    int centerY = height / 2;
 
     glfwSetInputMode(frame, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    cursor_hidden = true;
+    cursorHidden = true;
 
+    /* Main controls */
     if (glfwGetKey(frame, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(frame, GLFW_TRUE);
-        
         return;
     }
+
+    /* Check key states */
+    bool w_pressed = glfwGetKey(frame, GLFW_KEY_W) == GLFW_PRESS;
+    bool s_pressed = glfwGetKey(frame, GLFW_KEY_S) == GLFW_PRESS;
+    bool a_pressed = glfwGetKey(frame, GLFW_KEY_A) == GLFW_PRESS;
+    bool d_pressed = glfwGetKey(frame, GLFW_KEY_D) == GLFW_PRESS;
+
+    /* Handle camera rotation */
     if (glfwGetKey(frame, GLFW_KEY_UP) == GLFW_PRESS)
     {
-        camera_x = (camera_x + 1) > 180 ? 180 : camera_x + 1;
+        cameraX = (cameraX + 1) > 180 ? 180 : cameraX + 1;
     }
     if (glfwGetKey(frame, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
-        camera_x = (camera_x - 1) < 0 ? 0 : camera_x - 1;
+        cameraZ = (cameraX - 1) < 0 ? 0 : cameraX - 1;
     }
     if (glfwGetKey(frame, GLFW_KEY_LEFT) == GLFW_PRESS)
     {
-        camera_z++;
+        cameraZ++;
     }
     if (glfwGetKey(frame, GLFW_KEY_RIGHT) == GLFW_PRESS)
     {
-        camera_z--;
-    }
-    if (glfwGetKey(frame, GLFW_KEY_W) == GLFW_PRESS)
-    {
-        speed = 0.1;
-    }
-    if (glfwGetKey(frame, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        speed = 0.1;
-        angle -= M_PI * 0.5;
-    }
-    if (glfwGetKey(frame, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        speed = -0.1;
-    }
-    if (glfwGetKey(frame, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        speed = 0.1;
-        angle += M_PI * 0.5;
+        cameraZ--;
     }
 
+    /* Handle movement */
+    if (w_pressed && !s_pressed)  
+    {
+        speedY += currentSpeed;
+    }
+    if (s_pressed && !w_pressed)  
+    {
+        speedY -= currentSpeed;
+    }
+    if (a_pressed && !d_pressed)  
+    {
+        speedX -= currentSpeed;
+    }
+    if (d_pressed && !a_pressed)  
+    {
+        speedX += currentSpeed;
+    }
+
+    /* Normalize diagonal movement */
+    if (speedX != 0 && speedY != 0)
+    {
+        float len = sqrtf(speedX * speedX + speedY * speedY);
+        speedX = speedX / len * currentSpeed;
+        speedY = speedY / len * currentSpeed;
+    }
+
+    /* Apply movement */
+    if (speedX != 0 || speedY != 0)
+    {
+        x += sinf(angle) * speedY + cosf(angle) * speedX;
+        y += cosf(angle) * speedY - sinf(angle) * speedX;
+    }
+
+    /* Mouse movement */
     double mouseX, mouseY;
     glfwGetCursorPos(frame, &mouseX, &mouseY);
 
@@ -202,20 +234,16 @@ void handleInput(GLFWwindow* frame)
         
     if (deltaX != 0 || deltaY != 0)
     {
-        camera_z -= deltaX * mouseSensitivity;
-        camera_x -= deltaY * mouseSensitivity;
+        cameraZ -= deltaX * mouseSensitivity;
+        cameraX -= deltaY * mouseSensitivity;
             
-        if (camera_x > 180.0f) camera_x = 180.0f;
-        if (camera_x < 0.0f) camera_x = 0.0f;
+        if (cameraX > 180.0f) cameraX = 180.0f;
+        if (cameraX < 0.0f) cameraX = 0.0f;
             
         glfwSetCursorPos(frame, centerX, centerY);
     }
 
-    if (speed != 0)
-    {
-        x += sinf(angle) * speed;
-        y += cosf(angle) * speed;
-    }
+    handleJumpInput(frame);
 }
 
 /* Load title from info.txt file */

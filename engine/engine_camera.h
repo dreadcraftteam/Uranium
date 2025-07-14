@@ -1,4 +1,4 @@
-// Technically it's a PlayerController (Why this in Engine??)
+// Technically it's a "PlayerController"
 // By DREADCRAFT
 //
 
@@ -10,15 +10,31 @@
 #include "GL/glew.h"
 #include "GL/gl.h"
 
+#include "GLFW/glfw3.h"
+
 #include "engine_variables.h"
 
-extern float camera_x;
-extern float camera_z;
+/* General variables */
+extern float cameraX;
+extern float cameraZ;
 
 extern float x;
 extern float y;
 extern float z;
 
+/* Jump variables */
+extern float verticalVelocity;
+
+extern const float gravity;
+extern float jumpForce;
+extern const float groundLevel;
+
+extern bool isGrounded;
+extern bool jumpKeyPressed;
+
+extern float mouseSensitivity;
+
 void camera();
+void handleJumpInput();
 
 #endif // ENGINE_CAMERA_H

@@ -1,4 +1,4 @@
-// Draws a platform on which you can walk
+// Entity, which draws a platform on which you can walk
 // By DREADCRAFT
 //
 

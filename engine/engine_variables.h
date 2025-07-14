@@ -18,23 +18,19 @@ static int height = 600;
 
 static char* title;
 
-static bool running = true;
-
 /* Default clear color for OpenGL */
-static float gl_red = 0.0f / 255.0f;
-static float gl_green = 0.0f / 255.0f;
-static float gl_blue = 0.0f / 255.0f;
-static float gl_alpha = 0.0f / 255.0f;
+static float glRed = 0.0f / 255.0f;
+static float glGreen = 0.0f / 255.0f;
+static float glBlue = 0.0f / 255.0f;
+static float glAlpha = 0.0f / 255.0f;
 
-/* Controls and Movement */
+/* Mouse control variables */
 static int lastX = 0;
 static int lastY = 0;
 static int mouseX;
 static int mouseY;
 
-static bool mouse_down = false;
-static bool cursor_hidden = false;
-
-static float mouseSensitivity = 0.1f;
+static bool mouseDown = false;
+static bool cursorHidden = false;
 
 #endif // ENGINE_VARIABLES_H

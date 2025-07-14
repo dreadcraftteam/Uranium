@@ -3,10 +3,12 @@
 project(game)
 
 set(SOURCES
-		examples/cube.c
-		examples/cube.h
-		examples/pyramid.c
-		examples/pyramid.h
+		examples/func_cube.c
+		examples/func_cube.h
+		examples/func_pyramid.c
+		examples/func_pyramid.h
+		func_ground.c
+		func_ground.h
 		game.c
 )
 

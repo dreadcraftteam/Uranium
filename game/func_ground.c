@@ -1,4 +1,4 @@
-// Draws a platform on which you can walk
+// Entity, which draws a platform on which you can walk
 // By DREADCRAFT
 //
 
@@ -8,7 +8,7 @@
 #include "GL/glew.h"
 #include "GL/gl.h"
 
-#include "engine_ground.h"
+#include "func_ground.h"
 
 float vertices[] = {1,1,0, 1,-1,0, -1,-1,0, -1,1,0};
 

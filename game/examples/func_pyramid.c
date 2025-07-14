@@ -8,7 +8,7 @@
 #include "GL/glew.h"
 #include "GL/gl.h"
 
-#include "pyramid.h"
+#include "func_pyramid.h"
 
 /* Drawing pyramid */
 void drawPyramid()
