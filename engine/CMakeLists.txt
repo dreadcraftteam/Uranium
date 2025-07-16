@@ -10,11 +10,13 @@ set(SOURCES
 )
 
 set(PROJECT_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
+set(COMMON_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/common")
+
 set(PROJECT_LIB_DIR "${CMAKE_SOURCE_DIR}/lib")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE_DIR} ${COMMON_INCLUDE_DIR})
 
 target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_LIB_DIR})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/libglfw.so ${CMAKE_SOURCE_DIR}/lib/libGLEW.so ${CMAKE_SOURCE_DIR}/lib/libglut.so)

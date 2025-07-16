@@ -5,11 +5,7 @@
 #ifndef ENGINE_GROUND_H
 #define ENGINE_GROUND_H
 
-#include "stdio.h"
-#include "math.h"
-
-#include "GL/glew.h"
-#include "GL/gl.h"
+#include "base.h"
 
 void drawGround();
 

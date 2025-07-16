@@ -5,10 +5,7 @@
 #ifndef ENGINE_CAMERA_H
 #define ENGINE_CAMERA_H
 
-#include "stdio.h"
-
-#include "GL/glew.h"
-#include "GL/gl.h"
+#include "base.h"
 
 #include "GLFW/glfw3.h"
 

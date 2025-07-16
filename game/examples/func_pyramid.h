@@ -5,11 +5,7 @@
 #ifndef PYRAMID_H
 #define PYRAMID_H
 
-#include "stdio.h"
-#include "stdbool.h"
-
-#include "GL/glew.h"
-#include "GL/gl.h"
+#include "base.h"
 
 /* Pyramid variables */
 static float pyramid_sizeX = 1.0f;

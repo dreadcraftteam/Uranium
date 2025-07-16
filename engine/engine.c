@@ -2,15 +2,9 @@
 // By DREADCRAFT
 //
 
-#include "stdio.h"
-#include "stdbool.h"
-#include "stdlib.h"
-#include "dlfcn.h"
-#include "string.h"
-#include "math.h"
+#include "base.h"
 
-#include "GL/glew.h"
-#include "GL/gl.h"
+#include "dlfcn.h"
 
 #include "GLFW/glfw3.h"
 #include "GLFW/glfw3native.h"

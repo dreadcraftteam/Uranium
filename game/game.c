@@ -2,16 +2,10 @@
 // By DREADCRAFT
 //
 
-#include "stdio.h"
-#include "stdbool.h"
-
-#include "GL/glew.h"
-#include "GL/gl.h"
+#include "base.h"
 
 #include "GLFW/glfw3.h"
 
-#include "examples/func_pyramid.h"
-#include "examples/func_cube.h"
 #include "func_ground.h"
 
 /* Write here everything that needs to be initialized once */

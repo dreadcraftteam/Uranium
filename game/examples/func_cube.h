@@ -5,11 +5,7 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include "stdio.h"
-#include "stdbool.h"
-
-#include "GL/glew.h"
-#include "GL/gl.h"
+#include "base.h"
 
 /* Cube variables */
 static float cube_sizeX = 1.0f;

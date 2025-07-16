@@ -5,9 +5,7 @@
 #ifndef ENGINE_VARIABLES_H
 #define ENGINE_VARIABLES_H
 
-#include "stdio.h"
-#include "stdbool.h"
-#include "string.h"
+#include "base.h"
 
 /* Some defines */
 #define M_PI 3.14159265358979323846
