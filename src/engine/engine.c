@@ -450,7 +450,7 @@ void funnyDates(void)
     {
         Msg("Happy new year!\n");
     }
-    else if (currentTime->tm_mon == 6 && currentTime->tm_mday == 24)
+    else if (currentTime->tm_mon == 5 && currentTime->tm_mday == 24)
     {
         Msg("Happy birthday Uranium (engine)!\n");
     }
