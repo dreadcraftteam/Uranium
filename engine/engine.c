@@ -122,7 +122,7 @@ int engine_main(int argc, char* argv[])
     gameInit();
 
     /* Map system initialization */
-    mapLoad = loadMap("maps/test.umap");
+    mapLoad = loadMap("maps/main.umap");
 	if (!mapLoad)
 	{
 		Error("Failed to load map!\n");
