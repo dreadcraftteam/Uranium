@@ -1,25 +1,39 @@
-# For engine project
+#
+# CMAKELISTS.TXT FOR ENGINE PROJECT
+#
 
 project(engine)
 
 set(SOURCES
-		engine.c
-		engine_camera.c
-		engine_camera.h
-		engine_variables.h
+	audio/audio.c 
+	audio/audio.h
+	audio/miniaudio.h
+	defines.h
+	dynlib.c 
+	dynlib.h 
+	engine.c 
+	engine.h 
+	umap.c 
+	umap.h 
+	stb_image.h
+	variables.h 
+	msg.c 
+	msg.h 
 )
-
-set(PROJECT_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
-set(COMMON_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/common")
-
-set(PROJECT_LIB_DIR "${CMAKE_SOURCE_DIR}/lib")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE_DIR} ${COMMON_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE 
+		${CMAKE_SOURCE_DIR}/include/
+		${CMAKE_SOURCE_DIR}/common/
+		${CMAKE_SOURCE_DIR}/game/
+		${CMAKE_CURRENT_SOURCE_DIR}/inputsystem/
+		${CMAKE_CURRENT_SOURCE_DIR}/audio/
+)
 
 target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_LIB_DIR})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/libglfw.so ${CMAKE_SOURCE_DIR}/lib/libGLEW.so ${CMAKE_SOURCE_DIR}/lib/libglut.so)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL GLEW::GLEW GLUT::GLUT glfw inputsystem)
 
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin/)
 set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin/)

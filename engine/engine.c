@@ -1,16 +1,20 @@
-// This is the main file in the engine project
+// This is the main file in the engine project 
 // By DREADCRAFT
 //
 
 #include "base.h"
 
-#include "dlfcn.h"
-
 #include "GLFW/glfw3.h"
 #include "GLFW/glfw3native.h"
 
-#include "engine_camera.h"
-#include "engine_variables.h"
+#include "audio/audio.h"
+#include "defines.h"
+#include "dynlib.h"
+#include "engine.h"
+#include "umap.h"
+#include "variables.h"
+
+int renderMode = 2;
 
 /* Main method for engine project */
 int engine_main(int argc, char* argv[])
@@ -18,24 +22,16 @@ int engine_main(int argc, char* argv[])
     /* Load game title */
     loadGameTitle();
 
-    /* Declaring functions from game.so */
-    void *load_handle;
-    char *load_error;
-
-    void (*game_init)();
-    void (*game_render)();
-    void (*game_shutdown)();
-
     /* GLFW initialization */
     glfwInit();
-
     if (!glfwInit()) 
     {
-        printf("GLFW initialization failed!\n");
+        Error("Failed to initialize GLFW\n");
         
         return -1;
     }
 
+    /* Configuring GLFW */
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
@@ -44,54 +40,109 @@ int engine_main(int argc, char* argv[])
     GLFWwindow* frame = glfwCreateWindow(width, height, title, NULL, NULL);
     if (!frame) 
     {
-        printf("Window creation failed!\n");
+        Error("Failed to create window\n");
         glfwTerminate();
 
         return -1;
     }
 
+    /* Centerize window on the screen */
+    GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+    if (primaryMonitor)
+    {
+        const GLFWvidmode* videoMode = glfwGetVideoMode(primaryMonitor);
+        if (videoMode)
+        {
+            int monitorX, monitorY;
+            glfwGetMonitorPos(primaryMonitor, &monitorX, &monitorY);
+            
+            int windowPosX = monitorX + (videoMode->width - width) / 2;
+            int windowPosY = monitorY + (videoMode->height - height) / 2;
+            
+            glfwSetWindowPos(frame, windowPosX, windowPosY);
+        }
+    }
+
     glfwMakeContextCurrent(frame);
 
     /* OpenGL initialization */
-    glewExperimental = GL_TRUE;
     glewInit();
-    
-    if (glewInit() != GLEW_OK) 
-    {
-        printf("OpenGL initialization failed!\n");
-        
-        return -1;
-    }
-    
+
+    /* Enabling Depth testing, Lighting and etc... */
     glEnable(GL_DEPTH_TEST);
 
-    /* Open game.so file and read information... */
-    load_handle = dlopen("./bin/game.so", RTLD_LAZY);
+    /* Lighting */
+    glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_NORMALIZE);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     
-    game_init = dlsym(load_handle, "game_init");
-    game_render = dlsym(load_handle, "game_render");
-    game_shutdown = dlsym(load_handle, "game_shutdown");
+    /* Load game file */
+	DynLib* gameLib;
 
-    /* Checking load_handle */
-    if (!load_handle)
-    {
-        printf("Failed to load game.so!\n");
+    #ifdef _WIN32
+        gameLib = dynlib_open(".\\bin\\game.dll");
+    #elif __linux__
+        gameLib = dynlib_open("./bin/game.so");
+    #else
+        #error "Unsupported platform"
+    #endif
 
+	if (!gameLib)
+	{
+		Error("Failed to load game library\n");
+
+		return -1;
+	}
+
+    /* Load the necessary funcs */
+	LOAD_FN(gameLib, gameInit);
+    LOAD_FN(gameLib, gameUpdate);
+	LOAD_FN(gameLib, gameShutdown);
+
+    if (!gameInit || !gameUpdate || !gameShutdown)
+	{
+		Error("Failed to load one or more symbols from game file!\n");
+		
+        dynlib_close(gameLib);
+		
         return -1;
-    }
+	}
 
-    /* Checking functions */
-    if ((load_error = dlerror()) != NULL)
-    {
-        printf("Failed to load game.so functions!\n");
+    /* Audio system initialization */
+    audio = audioSystemCreate();
+    if (!audio)
+	{
+        Error("Audio system initialization failed!\n");
 
         return -1;
     }
 
     /* Game initialization */
-    game_init();
+    gameInit();
 
-    while (!glfwWindowShouldClose(frame))
+    /* Map system initialization */
+    mapLoad = loadMap("maps/test.umap");
+	if (!mapLoad)
+	{
+		Error("Failed to load map!\n");
+
+		return -1;
+	}
+
+    /* Configuring Map System */
+    int brushCount = countBrushes(mapLoad);
+    Entity** brushes = getBrushArray(mapLoad);
+	BSPNode* bspRoot = buildBSP(brushes, brushCount, 0);
+    free(brushes);
+
+    /* Input sytem initialization */
+    inputSystemInit(frame);
+
+    /* Cycle of engine */
+    running = true;
+
+    while (running)
     {
         /* Configuring OpenGL */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -104,140 +155,56 @@ int engine_main(int argc, char* argv[])
         
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+
+        /* Updating input system */
+        inputSystemUpdate();
+
+        /* Basic input commands */
+        basicInputHandle(frame);
+
+        /* Game and map rendering */
+        gameUpdate(frame);
         
-        glPushMatrix();
-
-            /* The camera should always be created first! */
-            camera();
-
-            /* Render the game */
-            game_render();
-
-        glPopMatrix();
-
-        /* Keyboard and mouse input */
-        handleInput(frame);
+        float cameraPos[3] = { cameraPos[0], cameraPos[1], cameraPos[2] };
+        setupLights(mapLoad);
+		renderMap(bspRoot, cameraPos);
 
         glfwSwapBuffers(frame);
 
         glfwPollEvents();
     }
-    
-    /* Game shutdown */
-    game_shutdown();
 
+    /* Audio system shutdown */
+    audioSystemDestroy(audio);
+
+    /* Game shutdown */
+    gameShutdown();
+
+    /* GLFW shutdown */
     glfwDestroyWindow(frame);
     glfwTerminate();
-    
+
     return 0;
 }
 
-/* Keyboard and mouse input */
-void handleInput(GLFWwindow* frame)
+/* This is very basic and low-level input */
+void basicInputHandle(GLFWwindow* frame)
 {
-    float angle = -cameraZ / 180 * M_PI;
-    float speedX = 0;
-    float speedY = 0;
-    float movementSpeed = 0.1f; 
-    float slowDownFactor = 0.4f;
-    float currentSpeed = movementSpeed;
-
-    bool isSlowMode = glfwGetKey(frame, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(frame, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
-
-    if (isSlowMode) 
+    /* Close the window */
+    if(KEY_PRESSED(INPUT_KEY_ESCAPE))
     {
-        currentSpeed *= slowDownFactor;
-    }
-
-    int centerX = width / 2;
-    int centerY = height / 2;
-
-    glfwSetInputMode(frame, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    cursorHidden = true;
-
-    /* Main controls */
-    if (glfwGetKey(frame, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    {
-        glfwSetWindowShouldClose(frame, GLFW_TRUE);
+        running = false;
+        
         return;
     }
 
-    /* Check key states */
-    bool w_pressed = glfwGetKey(frame, GLFW_KEY_W) == GLFW_PRESS;
-    bool s_pressed = glfwGetKey(frame, GLFW_KEY_S) == GLFW_PRESS;
-    bool a_pressed = glfwGetKey(frame, GLFW_KEY_A) == GLFW_PRESS;
-    bool d_pressed = glfwGetKey(frame, GLFW_KEY_D) == GLFW_PRESS;
+    /* Changes render mode */
+    if(KEY_PRESSED(INPUT_KEY_F1))
+    {
+        renderMode = (renderMode + 1) % 3;
 
-    /* Handle camera rotation */
-    if (glfwGetKey(frame, GLFW_KEY_UP) == GLFW_PRESS)
-    {
-        cameraX = (cameraX + 1) > 180 ? 180 : cameraX + 1;
+        Msg("Render Mode Value: %d\n", renderMode);
     }
-    if (glfwGetKey(frame, GLFW_KEY_DOWN) == GLFW_PRESS)
-    {
-        cameraZ = (cameraX - 1) < 0 ? 0 : cameraX - 1;
-    }
-    if (glfwGetKey(frame, GLFW_KEY_LEFT) == GLFW_PRESS)
-    {
-        cameraZ++;
-    }
-    if (glfwGetKey(frame, GLFW_KEY_RIGHT) == GLFW_PRESS)
-    {
-        cameraZ--;
-    }
-
-    /* Handle movement */
-    if (w_pressed && !s_pressed)  
-    {
-        speedY += currentSpeed;
-    }
-    if (s_pressed && !w_pressed)  
-    {
-        speedY -= currentSpeed;
-    }
-    if (a_pressed && !d_pressed)  
-    {
-        speedX -= currentSpeed;
-    }
-    if (d_pressed && !a_pressed)  
-    {
-        speedX += currentSpeed;
-    }
-
-    /* Normalize diagonal movement */
-    if (speedX != 0 && speedY != 0)
-    {
-        float len = sqrtf(speedX * speedX + speedY * speedY);
-        speedX = speedX / len * currentSpeed;
-        speedY = speedY / len * currentSpeed;
-    }
-
-    /* Apply movement */
-    if (speedX != 0 || speedY != 0)
-    {
-        x += sinf(angle) * speedY + cosf(angle) * speedX;
-        y += cosf(angle) * speedY - sinf(angle) * speedX;
-    }
-
-    /* Mouse movement */
-    double mouseX, mouseY;
-    glfwGetCursorPos(frame, &mouseX, &mouseY);
-
-    int deltaX = (int)mouseX - centerX;
-    int deltaY = (int)mouseY - centerY;
-        
-    if (deltaX != 0 || deltaY != 0)
-    {
-        cameraZ -= deltaX * mouseSensitivity;
-        cameraX -= deltaY * mouseSensitivity;
-            
-        if (cameraX > 180.0f) cameraX = 180.0f;
-        if (cameraX < 0.0f) cameraX = 0.0f;
-            
-        glfwSetCursorPos(frame, centerX, centerY);
-    }
-
-    handleJumpInput(frame);
 }
 
 /* Load title from info.txt file */
@@ -248,7 +215,7 @@ void loadGameTitle()
     FILE* file = fopen("./info.txt", "r");
     if (!file) 
     {
-        printf("Could not open info.txt!\n");
+        Error("Could not open info.txt!\n");
         
         return;
     }

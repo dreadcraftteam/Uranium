@@ -1,0 +1,11 @@
+[entity]
+type=brush
+position=0,-0.5,0
+size=25,1,25
+color=1,1,1
+texture=
+
+[entity]
+type=light
+position=0.1,1,-0.1
+radius=8

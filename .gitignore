@@ -1,6 +1,7 @@
 # GitIgnore File!
 
 # Ignore Build Folders
+cmake/
 .cmake/
 
 CMakeFiles/
@@ -16,6 +17,10 @@ build/bin/engine.so
 build/bin/engine.dll
 build/bin/game.so
 build/bin/game.dll
+build/bin/inputsystem.so
+build/bin/inputsystem.dll
+build/bin/particles.so
+build/bin/particles.dll
 
 launcher/launcher
 launcher/launcher.exe
@@ -23,6 +28,10 @@ engine/engine.so
 engine/engine.dll
 game/game.so
 game/game.dll
+inputsystem/inputsystem.so
+inputsystem/inputsystem.dll
+particles/particles.so
+particles/particles.dll
 
 # Other Shit
 cmake_install.cmake

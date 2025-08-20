@@ -3,7 +3,9 @@
 //
 
 #include "stdio.h"
-#include "dlfcn.h"
+
+#include "dynlib.h"
+#include "launcher.h"
 
 /* Main method for launcher project */
 int main()
@@ -17,33 +19,27 @@ int main()
 /* Load a file engine.so to launcher */
 void loadEngineFile()
 {
-    void *handle;
-    char *error;
-
-    void (*engine_main)();
-
     /* Open engine file */
-    handle = dlopen("./bin/engine.so", RTLD_LAZY);
-
-    if (!handle) 
-    {
-        printf("Failed to load engine.so!\n");
-
-        return 1;
-    }
+	DynLib* engineLib;
+#ifdef _WIN32
+	engineLib = dynlib_open(".\\bin\\engine.dll");
+#elif __linux__
+	engineLib = dynlib_open("./bin/engine.so");
+#else
+    #error "Unsupported platform"
+#endif
 
     /* Load main function */
-    engine_main = dlsym(handle, "engine_main");
-
-    if ((error = dlerror()) != NULL)
+	LOAD_FN(engineLib, engine_main);
+    if (!engine_main)
     {
-        printf("Failed to load engine function!\n");
-  
-        return 1;
+        printf("Failed to load engine_main function\n");
+        dynlib_close(engineLib);
+        return -1;
     }
-    
+
     /* Call main function */
     engine_main();
-
-    dlclose(handle);
+	
+    return 0;
 }

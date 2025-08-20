@@ -6,29 +6,28 @@
 
 #include "GLFW/glfw3.h"
 
-#include "func_ground.h"
+#include "player.h"
+#include "game.h"
 
 /* Write here everything that needs to be initialized once */
-void game_init()
+void gameInit()
 {
-    glewInit();
-    
-    if (glewInit() != GLEW_OK) 
-    {
-        printf("OpenGL initialization failed!\n");
-        
-        return -1;
-    }
+
 }
 
-/* Rendering */
-void game_render()
+/* Updating */
+void gameUpdate(GLFWwindow* frame)
 {
-    drawGround();
+    /* The player should always be created first! */
+    player();
+    
+    /* Camera input */
+    handleMovementInput(frame);
+    handleMouseInput(frame);
 }
 
 /* Shutdown everything*/
-void game_shutdown()
+void gameShutdown()
 {
-
+    
 }

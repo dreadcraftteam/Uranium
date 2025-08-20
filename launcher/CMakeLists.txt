@@ -1,17 +1,23 @@
-# For launcher project
+#
+# CMAKELISTS.TXT FOR LAUNCHER PROJECT
+#
+
 project(launcher)
 
 set(LAUNCHER_NAME "launcher")
 
 set(SOURCES
-	launcher.c
+	dynlib.c 
+	dynlib.h 
+	launcher.c 
+	launcher.h 
 )
 
 add_executable(${LAUNCHER_NAME} ${SOURCES})
 
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
-set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
+set_target_properties(${LAUNCHER_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
+set_target_properties(${LAUNCHER_NAME} PROPERTIES PREFIX "")
 
 add_definitions(-w)

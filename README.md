@@ -10,13 +10,13 @@ Pull requests are welcome!
 ```
 git clone https://github.com/dreadcraftteam/Uranium.git
 ```
+3. Install this dependencies:
+```
+libglfw3-dev libglew-dev freeglut3-dev
+```
 4. Inside the cloned directory, run the compilation by running this file:
 ```
-release.sh
-```
-&nbsp;&nbsp; Or this one if you need to compile to debug:
-```
-debug.sh
+build.sh
 ```
 5. Navigate to `build`, there will be a compiled build of the engine.
 6. Thats All!
