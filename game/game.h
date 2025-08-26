@@ -12,12 +12,12 @@
 #include "player.h"
 
 /* Write here everything that needs to be initialized once */
-void game_init();
+void gameInit();
 
 /* Updating */
-void game_update(GLFWwindow* frame);
+void gameUpdate(GLFWwindow* frame);
 
 /* Shutdown everything*/
-void game_shutdown();
+void gameShutdown();
 
 #endif // GAME_H

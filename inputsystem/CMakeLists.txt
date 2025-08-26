@@ -19,9 +19,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_LIB_DIR})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE 
-		glfw
-)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin/)
 set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin/)

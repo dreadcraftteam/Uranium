@@ -13,6 +13,8 @@ set(SOURCES
 	dynlib.h 
 	engine.c 
 	engine.h 
+	gameui/pause.c 
+	gameui/pause.h 
 	umap.c 
 	umap.h 
 	stb_image.h
@@ -26,7 +28,6 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE 
 		${CMAKE_SOURCE_DIR}/include/
 		${CMAKE_SOURCE_DIR}/common/
-		${CMAKE_SOURCE_DIR}/game/
 		${CMAKE_CURRENT_SOURCE_DIR}/inputsystem/
 		${CMAKE_CURRENT_SOURCE_DIR}/audio/
 )

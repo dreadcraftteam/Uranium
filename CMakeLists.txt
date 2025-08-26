@@ -15,5 +15,6 @@ add_subdirectory(engine)
 add_subdirectory(game)
 add_subdirectory(launcher)
 add_subdirectory(inputsystem)
+#add_subdirectory(md3system)
 
 add_definitions(-w)

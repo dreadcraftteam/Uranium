@@ -13,7 +13,7 @@ static int height = 600;
 
 static char* title;
 
-static bool running = false;
+extern bool running;
 
 /* Default clear color for OpenGL */
 static float glRed = 0.0f / 255.0f;

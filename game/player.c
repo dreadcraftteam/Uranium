@@ -32,14 +32,48 @@ bool cursorHidden = false;
 
 float mouseSensitivity = 0.1f;
 
+/* Camera bob variables */
+float cameraBobOffset = 0.0f;
+float cameraBobTime = 0.0f;
+const float cameraBobSpeed = 0.1f;
+const float cameraBobAmount = 0.4f;
+bool wasMoving = false;
+
 /* AABB collision */
 float playerWidth = 2.5f;
 float playerHeight = 7.0f;
 float playerDepth = 2.5f;
 
-/* TODO: Fix player collision detection */
+/* Mouse input handling */
+bool firstMouseInput = true;
+double lastMouseX = 0.0;
+double lastMouseY = 0.0;
 
 static int physicsEnabled = 1;
+
+/* Initialize player with default values */
+void playerInit()
+{
+    cameraX = 85.0f;
+    cameraZ = 0.0f;
+    x = 0.0f;
+    y = 0.0f;
+    z = 5.0f;
+    verticalVelocity = 0.0f;
+    isGrounded = false;
+    jumpKeyPressed = false;
+    cameraBobOffset = 0.0f;
+    cameraBobTime = 0.0f;
+    wasMoving = false;
+    firstMouseInput = true;
+
+    if (glfwGetCurrentContext())
+    {
+        int centerX = width / 2;
+        int centerY = height / 2;
+        glfwSetCursorPos(glfwGetCurrentContext(), centerX, centerY);
+    }
+}
 
 /* Technically it's a PlayerController */
 void player()
@@ -58,7 +92,23 @@ void player()
     checkPlayerCollisions(mapLoad);
     checkGrounded(mapLoad);
 
-    glRotatef(-cameraX, 1, 0, 0);
+    // Apply camera bob effect
+    float bobOffset = 0.0f;
+    if (wasMoving && isGrounded) {
+        cameraBobTime += cameraBobSpeed;
+        bobOffset = sinf(cameraBobTime) * cameraBobAmount;
+    } else {
+        // Smoothly return to normal position when not moving
+        if (cameraBobOffset != 0.0f) {
+            cameraBobOffset *= 0.9f;
+            if (fabsf(cameraBobOffset) < 0.01f) {
+                cameraBobOffset = 0.0f;
+            }
+        }
+        bobOffset = cameraBobOffset;
+    }
+
+    glRotatef(-cameraX + bobOffset, 1, 0, 0); // Apply vertical bob to camera rotation
     glRotatef(-cameraZ, 0, 0, 1);
     glTranslatef(-x, -y, -z);
 }
@@ -138,6 +188,10 @@ void handleMovementInput(GLFWwindow* frame)
         speedX += currentSpeed;
     }
 
+    /* Check if player is moving */
+    bool isMoving = (speedX != 0 || speedY != 0);
+    wasMoving = isMoving;
+
     /* Normalize diagonal movement */
     if (speedX != 0 && speedY != 0) 
     {
@@ -147,7 +201,7 @@ void handleMovementInput(GLFWwindow* frame)
     }
 
     /* Apply movement */
-    if (speedX != 0 || speedY != 0) 
+    if (isMoving) 
     {
         x += sinf(angle) * speedY + cosf(angle) * speedX;
         y += cosf(angle) * speedY - sinf(angle) * speedX;
@@ -179,9 +233,20 @@ void handleMouseInput(GLFWwindow* frame)
     int centerX = width / 2;
     int centerY = height / 2;
 
-    int deltaX = (int)mouseX - centerX;
-    int deltaY = (int)mouseY - centerY;
-        
+    // Ignore first mouse input to avoid random cursor position affecting camera
+    if (firstMouseInput)
+    {
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+        firstMouseInput = false;
+        glfwSetCursorPos(frame, centerX, centerY);
+        return;
+    }
+
+    int deltaX = (int)(mouseX - lastMouseX);
+    int deltaY = (int)(mouseY - lastMouseY);
+    
+    // Only process if there was actual movement
     if (deltaX != 0 || deltaY != 0) 
     {
         cameraZ -= deltaX * mouseSensitivity;
@@ -192,4 +257,7 @@ void handleMouseInput(GLFWwindow* frame)
             
         glfwSetCursorPos(frame, centerX, centerY);
     }
+
+    lastMouseX = centerX; // Store center position for next frame
+    lastMouseY = centerY;
 }

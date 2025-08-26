@@ -36,6 +36,9 @@ extern float playerWidth;
 extern float playerHeight;
 extern float playerDepth;
 
+/* Initialize player with default values */
+void playerInit();
+
 /* Camera and player initialization */
 void player();
 

@@ -21,6 +21,8 @@ build/bin/inputsystem.so
 build/bin/inputsystem.dll
 build/bin/particles.so
 build/bin/particles.dll
+build/bin/gameui.so
+build/bin/gameui.dll
 
 launcher/launcher
 launcher/launcher.exe
@@ -32,6 +34,8 @@ inputsystem/inputsystem.so
 inputsystem/inputsystem.dll
 particles/particles.so
 particles/particles.dll
+gameui/gameui.so 
+gameui/gameui.dll 
 
 # Other Shit
 cmake_install.cmake

@@ -11,10 +11,18 @@
 #include "defines.h"
 #include "dynlib.h"
 #include "engine.h"
+
+#ifdef USE_GAMEUI
+#include "gameui/pause.h"
+#endif
+
+#include "player.h"
 #include "umap.h"
 #include "variables.h"
 
 int renderMode = 2;
+
+bool running = true;
 
 /* Main method for engine project */
 int engine_main(int argc, char* argv[])
@@ -38,13 +46,6 @@ int engine_main(int argc, char* argv[])
 
     /* Creating window */
     GLFWwindow* frame = glfwCreateWindow(width, height, title, NULL, NULL);
-    if (!frame) 
-    {
-        Error("Failed to create window\n");
-        glfwTerminate();
-
-        return -1;
-    }
 
     /* Centerize window on the screen */
     GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
@@ -88,60 +89,32 @@ int engine_main(int argc, char* argv[])
         #error "Unsupported platform"
     #endif
 
-	if (!gameLib)
-	{
-		Error("Failed to load game library\n");
-
-		return -1;
-	}
-
-    /* Load the necessary funcs */
+    /* Load the game necessary funcs */
 	LOAD_FN(gameLib, gameInit);
     LOAD_FN(gameLib, gameUpdate);
 	LOAD_FN(gameLib, gameShutdown);
 
-    if (!gameInit || !gameUpdate || !gameShutdown)
-	{
-		Error("Failed to load one or more symbols from game file!\n");
-		
-        dynlib_close(gameLib);
-		
-        return -1;
-	}
-
     /* Audio system initialization */
     audio = audioSystemCreate();
-    if (!audio)
-	{
-        Error("Audio system initialization failed!\n");
-
-        return -1;
-    }
 
     /* Game initialization */
     gameInit();
 
-    /* Map system initialization */
+    /* Map loading */
     mapLoad = loadMap("maps/main.umap");
-	if (!mapLoad)
-	{
-		Error("Failed to load map!\n");
-
-		return -1;
-	}
 
     /* Configuring Map System */
     int brushCount = countBrushes(mapLoad);
+
     Entity** brushes = getBrushArray(mapLoad);
 	BSPNode* bspRoot = buildBSP(brushes, brushCount, 0);
+    
     free(brushes);
 
     /* Input sytem initialization */
     inputSystemInit(frame);
 
-    /* Cycle of engine */
-    running = true;
-
+    /* Main cycle */
     while (running)
     {
         /* Configuring OpenGL */
@@ -159,26 +132,50 @@ int engine_main(int argc, char* argv[])
         /* Updating input system */
         inputSystemUpdate();
 
+#ifdef USE_GAMEUI
+        updatePauseMenu(frame);
+#endif 
+
+#ifdef USE_GAMEUI
+        if (!isGamePaused()) {
+            /* Basic input commands */
+            basicInputHandle(frame);
+
+            /* Game updating */
+            gameUpdate(frame);
+            
+            /* Map system stuff */
+            float cameraPos[3] = { cameraPos[0], cameraPos[1], cameraPos[2] };
+            setupLights(mapLoad);
+            renderMap(bspRoot, cameraPos);
+        }
+#else 
         /* Basic input commands */
         basicInputHandle(frame);
 
-        /* Game and map rendering */
+        /* Game updating */
         gameUpdate(frame);
-        
+            
+        /* Map system stuff */
         float cameraPos[3] = { cameraPos[0], cameraPos[1], cameraPos[2] };
         setupLights(mapLoad);
-		renderMap(bspRoot, cameraPos);
+        renderMap(bspRoot, cameraPos);
+#endif 
+
+#ifdef USE_GAMEUI
+        renderPauseMenu(frame);
+#endif
 
         glfwSwapBuffers(frame);
 
         glfwPollEvents();
     }
 
-    /* Audio system shutdown */
-    audioSystemDestroy(audio);
-
     /* Game shutdown */
     gameShutdown();
+
+    /* Audio system shutdown */
+    audioSystemDestroy(audio);
 
     /* GLFW shutdown */
     glfwDestroyWindow(frame);
@@ -190,6 +187,9 @@ int engine_main(int argc, char* argv[])
 /* This is very basic and low-level input */
 void basicInputHandle(GLFWwindow* frame)
 {
+#ifdef USE_GAMEUI
+    /* There's nothing here, as there's already a pause on escape */
+#else 
     /* Close the window */
     if(KEY_PRESSED(INPUT_KEY_ESCAPE))
     {
@@ -197,6 +197,7 @@ void basicInputHandle(GLFWwindow* frame)
         
         return;
     }
+#endif
 
     /* Changes render mode */
     if(KEY_PRESSED(INPUT_KEY_F1))
