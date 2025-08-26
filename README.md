@@ -22,5 +22,5 @@ build.sh
 6. Thats All!
 
 ## Screenshots
-[![Screenshot 1](image1.png)](https://i.ibb.co/LhSWGDBH/image1.png)
-[![Screenshot 2](image2.png)](https://i.ibb.co/fVBygCBC/image2.png)
+![Screenshot 1](https://i.ibb.co/LhSWGDBH/image1.png)
+![Screenshot 2](https://i.ibb.co/fVBygCBC/image2.png)
