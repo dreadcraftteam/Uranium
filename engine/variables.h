@@ -21,7 +21,7 @@ static float glGreen = 0.0f / 255.0f;
 static float glBlue = 0.0f / 255.0f;
 static float glAlpha = 0.0f / 255.0f;
 
-/* Map and textures stuff */
+/* Render mode Stuff */
 extern int renderMode;
 
 static float wireframeRed = 255.0f;

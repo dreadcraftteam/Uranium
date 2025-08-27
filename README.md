@@ -21,6 +21,12 @@ build.sh
 5. Navigate to `build`, there will be a compiled build of the engine.
 6. Thats All!
 
+## Current Tasks
+- Material system
+- Entity system (in game.so)
+- Particle system
+- GUI system
+
 ## Screenshots
 ![Screenshot 1](https://i.ibb.co/LhSWGDBH/image1.png)
 ![Screenshot 2](https://i.ibb.co/fVBygCBC/image2.png)

@@ -16,7 +16,6 @@
 #include "gameui/pause.h"
 #endif
 
-#include "player.h"
 #include "umap.h"
 #include "variables.h"
 

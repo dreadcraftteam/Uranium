@@ -125,10 +125,10 @@ void renderPauseMenu(GLFWwindow* window)
     if (texture2D) glEnable(GL_TEXTURE_2D);
     glDisable(GL_BLEND);
 
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
+    //glMatrixMode(GL_PROJECTION);
+    //glPopMatrix();
+    //glMatrixMode(GL_MODELVIEW);
+    //glPopMatrix();
 }
 
 void handlePauseMenuInput(GLFWwindow* window) 
