@@ -5,21 +5,22 @@
 #ifndef BASE_H
 #define BASE_H
 
-/* Basic includes */
+/* Basic Includes */
 #include "stdio.h"
 #include "stdbool.h"
 #include "stdlib.h"
 #include "math.h"
 #include "string.h"
 
-/* OpenGL includes */
+/* OpenGL Includes */
 #include "GL/glew.h"
 #include "GL/gl.h"
 
-/* Engine includes */
+/* Other Includes */
 #include "../engine/audio/audio.h"
 #include "../inputsystem/inputsystem.h"
 #include "../engine/msg.h"
 #include "../engine/umap.h"
+#include "../md3system/model.h"
 
 #endif // BASE_H

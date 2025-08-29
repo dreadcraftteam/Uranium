@@ -12,8 +12,6 @@
 /* Write here everything that needs to be initialized once */
 void gameInit()
 {
-    Msg("Game initialized\n");
-
     playerInit();
 }
 

@@ -1,17 +1,13 @@
 #
-# CMAKELISTS.TXT FOR GAME PROJECT
+# CMAKELISTS.TXT FOR MD3SYSTEM PROJECT
 #
 
-project(game)
+project(md3system)
 
 set(SOURCES
-	defines.h 
-	collision.c 
-	collision.h 
-	game.c 
-	game.h 
-	player.c 
-	player.h 
+    model.c
+    model.h 
+    stb_image.h
 )
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
@@ -19,12 +15,12 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE 
 		${CMAKE_SOURCE_DIR}/include/
 		${CMAKE_SOURCE_DIR}/common/
-		${CMAKE_SOURCE_DIR}/inputsystem/
-		${CMAKE_SOURCE_DIR}/engine/audio/
-		${CMAKE_SOURCE_DIR}/md3system/
+		${CMAKE_SOURCE_DIR}/engine/
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL GLEW::GLEW GLUT::GLUT glfw engine inputsystem assimp md3system)
+target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_LIB_DIR})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL GLEW::GLEW GLUT::GLUT glfw assimp)
 
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin/)
 set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin/)

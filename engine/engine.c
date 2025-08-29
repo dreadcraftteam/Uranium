@@ -11,11 +11,6 @@
 #include "defines.h"
 #include "dynlib.h"
 #include "engine.h"
-
-#ifdef USE_GAMEUI
-#include "gameui/pause.h"
-#endif
-
 #include "umap.h"
 #include "variables.h"
 
@@ -73,9 +68,9 @@ int engine_main(int argc, char* argv[])
 
     /* Lighting */
     glEnable(GL_LIGHTING);
+    glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_NORMALIZE);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     
     /* Load game file */
 	DynLib* gameLib;
@@ -95,6 +90,9 @@ int engine_main(int argc, char* argv[])
 
     /* Audio system initialization */
     audio = audioSystemCreate();
+
+    /* Initialize Assimp */
+    aiEnableVerboseLogging(1);
 
     /* Game initialization */
     gameInit();
@@ -131,24 +129,6 @@ int engine_main(int argc, char* argv[])
         /* Updating input system */
         inputSystemUpdate();
 
-#ifdef USE_GAMEUI
-        updatePauseMenu(frame);
-#endif 
-
-#ifdef USE_GAMEUI
-        if (!isGamePaused()) {
-            /* Basic input commands */
-            basicInputHandle(frame);
-
-            /* Game updating */
-            gameUpdate(frame);
-            
-            /* Map system stuff */
-            float cameraPos[3] = { cameraPos[0], cameraPos[1], cameraPos[2] };
-            setupLights(mapLoad);
-            renderMap(bspRoot, cameraPos);
-        }
-#else 
         /* Basic input commands */
         basicInputHandle(frame);
 
@@ -159,11 +139,6 @@ int engine_main(int argc, char* argv[])
         float cameraPos[3] = { cameraPos[0], cameraPos[1], cameraPos[2] };
         setupLights(mapLoad);
         renderMap(bspRoot, cameraPos);
-#endif 
-
-#ifdef USE_GAMEUI
-        renderPauseMenu(frame);
-#endif
 
         glfwSwapBuffers(frame);
 
@@ -186,9 +161,6 @@ int engine_main(int argc, char* argv[])
 /* This is very basic and low-level input */
 void basicInputHandle(GLFWwindow* frame)
 {
-#ifdef USE_GAMEUI
-    /* There's nothing here, as there's already a pause on escape */
-#else 
     /* Close the window */
     if(KEY_PRESSED(INPUT_KEY_ESCAPE))
     {
@@ -196,7 +168,6 @@ void basicInputHandle(GLFWwindow* frame)
         
         return;
     }
-#endif
 
     /* Changes render mode */
     if(KEY_PRESSED(INPUT_KEY_F1))
@@ -212,7 +183,7 @@ void loadGameTitle()
 {
     /* If you change this, you will be fired */
 
-    FILE* file = fopen("./info.txt", "r");
+    FILE* file = fopen("./config/info.txt", "r");
     if (!file) 
     {
         Error("Could not open info.txt!\n");
@@ -224,15 +195,19 @@ void loadGameTitle()
 
     while (fgets(line, sizeof(line), file)) 
     {
-        if (strstr(line, "title")) 
+        char* trimmed_line = line;
+        while (*trimmed_line == ' ' || *trimmed_line == '\t') trimmed_line++;
+        
+        if (strstr(trimmed_line, "title")) 
         {
-            char* start = strchr(line, '"');
+            char* start = strchr(trimmed_line, '"');
             if (start) {
                 char* end = strchr(start + 1, '"');
                 if (end) 
                 {
                     *end = '\0';
                     title = strdup(start + 1);
+                    break;
                 }
             }
         }

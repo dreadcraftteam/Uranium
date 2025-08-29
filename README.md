@@ -12,7 +12,7 @@ git clone https://github.com/dreadcraftteam/Uranium.git
 ```
 3. Install this dependencies:
 ```
-libglfw3-dev libglew-dev freeglut3-dev
+libglfw3-dev libglew-dev freeglut3-dev libassimp-dev
 ```
 4. Inside the cloned directory, run the compilation by running this file:
 ```

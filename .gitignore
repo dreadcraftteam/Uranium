@@ -23,6 +23,8 @@ build/bin/particles.so
 build/bin/particles.dll
 build/bin/gameui.so
 build/bin/gameui.dll
+build/bin/md3system.so
+build/bin/md3system.dll
 
 launcher/launcher
 launcher/launcher.exe
@@ -36,6 +38,8 @@ particles/particles.so
 particles/particles.dll
 gameui/gameui.so 
 gameui/gameui.dll 
+md3system/md3system.so
+md3system/md3system.dll
 
 # Other Shit
 cmake_install.cmake
