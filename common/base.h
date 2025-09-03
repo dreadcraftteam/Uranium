@@ -21,6 +21,5 @@
 #include "../inputsystem/inputsystem.h"
 #include "../engine/msg.h"
 #include "../engine/umap.h"
-#include "../md3system/model.h"
 
 #endif // BASE_H

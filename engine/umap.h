@@ -10,14 +10,12 @@
 #include "GLFW/glfw3.h"
 
 #include "variables.h"
-#include "../md3system/model.h"
 
 /* Some structs*/
 typedef enum 
 {
     ENTITY_BRUSH,
     ENTITY_LIGHT,
-    ENTITY_MODEL,
     ENTITY_UNKNOWN
 } EntityType;
 
@@ -48,7 +46,7 @@ typedef struct Entity
     {
         Brush      brush;
         Light      light;
-        ModelEntity model;
+        SpawnPoint spawn;
     };
     struct Entity* next;
 } Entity;

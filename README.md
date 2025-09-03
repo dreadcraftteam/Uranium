@@ -12,7 +12,7 @@ git clone https://github.com/dreadcraftteam/Uranium.git
 ```
 3. Install this dependencies:
 ```
-libglfw3-dev libglew-dev freeglut3-dev libassimp-dev
+libglfw3-dev libglew-dev freeglut3-dev
 ```
 4. Inside the cloned directory, run the compilation by running this file:
 ```
@@ -20,12 +20,6 @@ build.sh
 ```
 5. Navigate to `build`, there will be a compiled build of the engine.
 6. Thats All!
-
-## Current Tasks
-- Material system
-- Entity system (in game.so)
-- Particle system
-- GUI system
 
 ## Screenshots
 ![Screenshot 1](https://i.ibb.co/LhSWGDBH/image1.png)

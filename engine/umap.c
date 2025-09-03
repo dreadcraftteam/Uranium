@@ -1,4 +1,4 @@
-// Map system, thanks to ThePixelMoon for providing the base code
+// Map system for this engine
 // By DREADCRAFT
 //
 
@@ -11,7 +11,6 @@
 
 #include "umap.h"
 #include "variables.h"
-#include "../md3system/model.h"
 
 Entity* mapLoad = NULL;
 
@@ -146,6 +145,7 @@ static void drawBrushFaces(float sizeX, float sizeY, float sizeZ, GLuint texture
         glDisable(GL_LIGHTING);
         glDisable(GL_TEXTURE_2D);
         glDisable(GL_COLOR_MATERIAL);
+        glDisable(GL_LIGHT0);
         
         glColor3f(wireframeRed, wireframeGreen, wireframeBlue);
     }
@@ -295,7 +295,6 @@ static EntityType parseEntityType(const char* str)
 {
     if (strcmp(str, "ent_brush") == 0) return ENTITY_BRUSH;
     if (strcmp(str, "ent_light") == 0) return ENTITY_LIGHT;
-    if (strcmp(str, "ent_model") == 0) return ENTITY_MODEL;
     return ENTITY_UNKNOWN;
 }
 
@@ -324,42 +323,18 @@ void renderMap(BSPNode* node, float camPos[3])
             drawBrushFaces(e->brush.size[0], e->brush.size[1], e->brush.size[2], e->brush.textureId, e->brush.color);
             glPopMatrix();
         }
+        return;
+    }
+
+    if (camPos[node->axis] > node->splitPos)
+    {
+        renderMap(node->front, camPos);
+        renderMap(node->back, camPos);
     }
     else
     {
-        if (camPos[node->axis] > node->splitPos)
-        {
-            renderMap(node->front, camPos);
-            renderMap(node->back, camPos);
-        }
-        else
-        {
-            renderMap(node->back, camPos);
-            renderMap(node->front, camPos);
-        }
-    }
-
-    static int modelsRendered = 0;
-    for (Entity* e = mapLoad; e != NULL; e = e->next)
-    {
-        if (e->type == ENTITY_MODEL && e->model.model)
-        {
-            glPushMatrix();
-            glTranslatef(e->model.position[0], e->model.position[1], e->model.position[2]);
-            glScalef(e->model.scale[0], e->model.scale[1], e->model.scale[2]);
-            glRotatef(e->model.rotation[0], 1, 0, 0);
-            glRotatef(e->model.rotation[1], 0, 1, 0);
-            glRotatef(e->model.rotation[2], 0, 0, 1);
-            
-            glEnable(GL_TEXTURE_2D);
-            glEnable(GL_LIGHTING);
-            glEnable(GL_COLOR_MATERIAL);
-            
-            renderModel(e->model.model);
-            modelsRendered++;
-            
-            glPopMatrix();
-        }
+        renderMap(node->back, camPos);
+        renderMap(node->front, camPos);
     }
 }
 
@@ -426,19 +401,6 @@ Entity* loadMap(const char* filename)
 				{
 					current->brush.textureId = loadTexture(val);
 				}
-                else if (strcmp(key, "model") == 0 && current->type == ENTITY_MODEL)
-                {
-                    current->model.modelPath = strdup(val);
-                    current->model.model = loadModel(val);
-                }
-                else if (strcmp(key, "scale") == 0 && current->type == ENTITY_MODEL)
-                {
-                    parseFloats(val, current->model.scale, 3);
-                }
-                else if (strcmp(key, "rotation") == 0 && current->type == ENTITY_MODEL)
-                {
-                    parseFloats(val, current->model.rotation, 3);
-                }
             }
         }
     }
@@ -456,11 +418,5 @@ void freeMap(Entity* head)
         Entity* next = e->next;
         free(e);
         e = next;
-    }
-
-    if (e->type == ENTITY_MODEL)
-    {
-        if (e->model.modelPath) free(e->model.modelPath);
-        if (e->model.model) freeModel(e->model.model);
     }
 }

@@ -91,9 +91,6 @@ int engine_main(int argc, char* argv[])
     /* Audio system initialization */
     audio = audioSystemCreate();
 
-    /* Initialize Assimp */
-    aiEnableVerboseLogging(1);
-
     /* Game initialization */
     gameInit();
 
