@@ -30,3 +30,7 @@ position=5,1.9,-4.3
 size=2.8,5.6,2.8
 color=1,0.97,1
 texture=
+
+[entity]
+type=spawnpoint
+position=0,0,0

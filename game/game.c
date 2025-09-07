@@ -15,15 +15,21 @@ void gameInit()
     playerInit();
 }
 
-/* Updating */
-void gameUpdate(GLFWwindow* frame)
+/* Rendering the game */
+void gameRender(GLFWwindow* frame)
 {
     /* The player should always be created first! */
     player();
-    
+
     /* Camera input */
     handleMovementInput(frame);
     handleMouseInput(frame);
+}
+
+/* Updating */
+void gameUpdate()
+{
+    
 }
 
 /* Shutdown everything*/
@@ -31,3 +37,4 @@ void gameShutdown()
 {
     
 }
+

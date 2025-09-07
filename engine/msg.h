@@ -17,3 +17,4 @@ void Warning(const char* message, ...);
 /* Yes, I took the idea from the Source Engine, so what? */
 
 #endif // MSG_H
+

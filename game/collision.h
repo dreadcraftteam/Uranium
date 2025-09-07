@@ -23,3 +23,4 @@ void checkGrounded(Entity* map);
 void validateSpawnPosition(Entity* map);
 
 #endif // COLLISION_H
+

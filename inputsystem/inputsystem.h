@@ -183,3 +183,4 @@ int MOUSE_DOWN(int button);
 void inputSystemGetMousePosition(double* xpos, double* ypos);
 
 #endif // INPUTSYSTEM_H
+

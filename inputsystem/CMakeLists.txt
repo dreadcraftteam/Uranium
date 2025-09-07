@@ -27,3 +27,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAK
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 
 add_definitions(-w)
+

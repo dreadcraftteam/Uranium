@@ -15,3 +15,4 @@ void  dynlib_close(DynLib* lib);
 	void (*name)() = (void (*)())dynlib_symbol(lib, #name)
 
 #endif // DYNLIB_H
+

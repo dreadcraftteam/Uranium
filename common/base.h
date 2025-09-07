@@ -21,5 +21,7 @@
 #include "../inputsystem/inputsystem.h"
 #include "../engine/msg.h"
 #include "../engine/umap.h"
+#include "../engine/textrenderer.h"
 
 #endif // BASE_H
+

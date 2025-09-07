@@ -262,3 +262,4 @@ void validateSpawnPosition(Entity* map)
     
     z = groundLevel + playerHeight;
 }
+

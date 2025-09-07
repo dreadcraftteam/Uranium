@@ -24,7 +24,7 @@ typedef struct
     float position[3];
     float size[3];
     float color[3];
-	GLuint textureId;
+    GLuint textureId;
 } Brush;
 
 typedef struct 
@@ -51,22 +51,11 @@ typedef struct Entity
     struct Entity* next;
 } Entity;
 
-typedef struct BSPNode 
-{
-    struct BSPNode* front;
-    struct BSPNode* back;
-    float splitPos; 
-    int axis;
-    Entity** brushes;
-    int brushCount;
-} BSPNode;
-
 /* Getting the brush array */
 Entity** getBrushArray(Entity* head);
 
-/* Counting and building BSP node */
+/* Counting brushes */
 int countBrushes(Entity* head);
-BSPNode* buildBSP(Entity** brushes, int count, int depth);
 
 /* Load the map*/
 Entity* loadMap(const char* filename);
@@ -75,7 +64,7 @@ Entity* loadMap(const char* filename);
 void freeMap(Entity* head);
 
 /* Rendering */
-void renderMap(BSPNode* node, float camPos[3]);
+void renderMap(Entity* head, float camPos[3]);
 
 /* Initializing lights */
 void setupLights(Entity* head);
@@ -83,3 +72,4 @@ void setupLights(Entity* head);
 extern Entity* mapLoad;
 
 #endif // UMAP_H
+

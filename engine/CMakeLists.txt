@@ -8,14 +8,17 @@ set(SOURCES
 	audio/audio.c 
 	audio/audio.h
 	audio/miniaudio.h
+    stb/stb_image.h
+    stb/stb_easy_font.h
 	defines.h
 	dynlib.c 
 	dynlib.h 
 	engine.c 
-	engine.h 
+	engine.h
+    textrenderer.c 
+    textrenderer.h  
 	umap.c 
 	umap.h 
-	stb_image.h
 	variables.h 
 	msg.c 
 	msg.h 
@@ -39,3 +42,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAK
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 
 add_definitions(-w)
+

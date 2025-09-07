@@ -13,6 +13,7 @@
 #include "engine.h"
 #include "umap.h"
 #include "variables.h"
+#include "textrenderer.h"
 
 int renderMode = 2;
 
@@ -26,17 +27,12 @@ int engine_main(int argc, char* argv[])
 
     /* GLFW initialization */
     glfwInit();
-    if (!glfwInit()) 
-    {
-        Error("Failed to initialize GLFW\n");
-        
-        return -1;
-    }
 
     /* Configuring GLFW */
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
 
     /* Creating window */
     GLFWwindow* frame = glfwCreateWindow(width, height, title, NULL, NULL);
@@ -63,6 +59,21 @@ int engine_main(int argc, char* argv[])
     /* OpenGL initialization */
     glewInit();
 
+    /* Load game file */
+	DynLib* gameLib;
+
+    #ifdef _WIN32
+        gameLib = dynlib_open(".\\bin\\game.dll");
+    #elif __linux__
+        gameLib = dynlib_open("./bin/game.so");
+    #endif
+
+    /* Load the game necessary funcs */
+	LOAD_FN(gameLib, gameInit);
+    LOAD_FN(gameLib, gameRender);
+    LOAD_FN(gameLib, gameUpdate);
+	LOAD_FN(gameLib, gameShutdown);
+
     /* Enabling Depth testing, Lighting and etc... */
     glEnable(GL_DEPTH_TEST);
 
@@ -71,39 +82,21 @@ int engine_main(int argc, char* argv[])
     glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_NORMALIZE);
-    
-    /* Load game file */
-	DynLib* gameLib;
 
-    #ifdef _WIN32
-        gameLib = dynlib_open(".\\bin\\game.dll");
-    #elif __linux__
-        gameLib = dynlib_open("./bin/game.so");
-    #else
-        #error "Unsupported platform"
-    #endif
-
-    /* Load the game necessary funcs */
-	LOAD_FN(gameLib, gameInit);
-    LOAD_FN(gameLib, gameUpdate);
-	LOAD_FN(gameLib, gameShutdown);
+    /* Set screen dimensions for text rendering */
+    setScreenDimensions(width, height);
 
     /* Audio system initialization */
     audio = audioSystemCreate();
+
+    /* Initialize Text Rendering */
+    textRendererInit();
 
     /* Game initialization */
     gameInit();
 
     /* Map loading */
     mapLoad = loadMap("maps/main.umap");
-
-    /* Configuring Map System */
-    int brushCount = countBrushes(mapLoad);
-
-    Entity** brushes = getBrushArray(mapLoad);
-	BSPNode* bspRoot = buildBSP(brushes, brushCount, 0);
-    
-    free(brushes);
 
     /* Input sytem initialization */
     inputSystemInit(frame);
@@ -129,13 +122,22 @@ int engine_main(int argc, char* argv[])
         /* Basic input commands */
         basicInputHandle(frame);
 
-        /* Game updating */
-        gameUpdate(frame);
-            
+        /* Game rendering */
+        gameRender(frame);             
+
         /* Map system stuff */
         float cameraPos[3] = { cameraPos[0], cameraPos[1], cameraPos[2] };
         setupLights(mapLoad);
-        renderMap(bspRoot, cameraPos);
+        renderMap(mapLoad, cameraPos);
+
+        /* Begining text rendering */
+        beginTextRendering();
+
+        /* Game updating */
+        gameUpdate();
+
+        /* End text rendering */
+        endTextRendering();
 
         glfwSwapBuffers(frame);
 
@@ -212,3 +214,4 @@ void loadGameTitle()
 
     fclose(file);
 }
+

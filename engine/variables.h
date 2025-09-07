@@ -29,3 +29,4 @@ static float wireframeGreen = 255.0f;
 static float wireframeBlue = 255.0f;
 
 #endif // VARIABLES_H
+

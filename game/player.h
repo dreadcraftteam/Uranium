@@ -57,3 +57,4 @@ void validateSpawnPosition(Entity* map);
 void setPlayerPosition(float newX, float newY, float newZ);
 
 #endif // PLAYER_H
+

@@ -14,10 +14,14 @@
 /* Write here everything that needs to be initialized once */
 void gameInit();
 
+/* Rendering the game */
+void gameRender(GLFWwindow* frame);
+
 /* Updating */
-void gameUpdate(GLFWwindow* frame);
+void gameUpdate();
 
 /* Shutdown everything*/
 void gameShutdown();
 
 #endif // GAME_H
+

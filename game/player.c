@@ -261,3 +261,4 @@ void handleMouseInput(GLFWwindow* frame)
     lastMouseX = centerX; // Store center position for next frame
     lastMouseY = centerY;
 }
+

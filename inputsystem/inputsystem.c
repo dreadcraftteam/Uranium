@@ -72,3 +72,4 @@ void inputSystemGetMousePosition(double* xpos, double* ypos)
 {
     glfwGetCursorPos(current_window, xpos, ypos);
 }
+
