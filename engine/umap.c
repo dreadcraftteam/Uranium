@@ -268,12 +268,14 @@ void renderMap(Entity* head, float camPos[3])
             
             glTranslatef(e->brush.position[0], e->brush.position[1], e->brush.position[2]);
             
+#ifdef MUTATION
             if (e->brush.rotate[0] != 0.0f)
                 glRotatef(e->brush.rotate[0], 1.0f, 0.0f, 0.0f);
             if (e->brush.rotate[1] != 0.0f)
                 glRotatef(e->brush.rotate[1], 0.0f, 1.0f, 0.0f);
             if (e->brush.rotate[2] != 0.0f)
                 glRotatef(e->brush.rotate[2], 0.0f, 0.0f, 1.0f);
+#endif
             
             drawBrushFaces(e->brush.size[0], e->brush.size[1], e->brush.size[2], e->brush.textureId, e->brush.color, e->brush.textureFit, e->brush.ignoreLighting);
            
@@ -309,9 +311,11 @@ Entity* loadMap(const char* filename)
             current->brush.textureFit = 1;
             current->brush.ignoreLighting = false;
             
+#ifdef MUTATION
             current->brush.rotate[0] = 0.0f;
             current->brush.rotate[1] = 0.0f;
             current->brush.rotate[2] = 0.0f;
+#endif
             
             current->light.color[0] = 1.0f;
             current->light.color[1] = 1.0f;
@@ -383,10 +387,12 @@ Entity* loadMap(const char* filename)
                         parseColor(val, current->brush.color);
                     }
                 }
+#ifdef MUTATION
                 else if (strcmp(key, "rotate") == 0 && current->type == ENTITY_BRUSH)
                 {
                     parseFloats(val, current->brush.rotate, 3);
                 }
+#endif
             }
         }
     }

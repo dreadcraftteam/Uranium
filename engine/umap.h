@@ -27,7 +27,9 @@ typedef struct
     GLuint textureId;
     int textureFit;
     bool ignoreLighting;
+#ifdef MUTATION
     float rotate[3];
+#endif
 } Brush;
 
 typedef struct 
