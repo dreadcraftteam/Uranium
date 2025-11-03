@@ -268,7 +268,6 @@ void renderMap(Entity* head, float camPos[3])
             
             glTranslatef(e->brush.position[0], e->brush.position[1], e->brush.position[2]);
             
-            // Добавлено: применение поворота
             if (e->brush.rotate[0] != 0.0f)
                 glRotatef(e->brush.rotate[0], 1.0f, 0.0f, 0.0f);
             if (e->brush.rotate[1] != 0.0f)
@@ -310,7 +309,6 @@ Entity* loadMap(const char* filename)
             current->brush.textureFit = 1;
             current->brush.ignoreLighting = false;
             
-            // Добавлено: инициализация поворота
             current->brush.rotate[0] = 0.0f;
             current->brush.rotate[1] = 0.0f;
             current->brush.rotate[2] = 0.0f;
@@ -385,7 +383,6 @@ Entity* loadMap(const char* filename)
                         parseColor(val, current->brush.color);
                     }
                 }
-                // Добавлено: парсинг параметра rotate
                 else if (strcmp(key, "rotate") == 0 && current->type == ENTITY_BRUSH)
                 {
                     parseFloats(val, current->brush.rotate, 3);
