@@ -23,4 +23,4 @@ build.sh
 
 ## Screenshots
 ![Screenshot 1](https://i.ibb.co/SwrXf79h/Screenshot-from-2025-10-12-23-16-29.png)
-![Screenshot 2](https://i.ibb.co/G30pZQQm/image.png)
+![Screenshot 2](https://i.ibb.co/PvDT7Sf3/image1.png)
