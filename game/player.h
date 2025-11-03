@@ -1,4 +1,4 @@
-// Player controller for games
+// Player controller for games on Uranium (engine)
 // By DREADCRAFT
 //
 
@@ -10,51 +10,54 @@
 #include "GLFW/glfw3.h"
 
 #include "defines.h"
+#include "../engine/umap.h"
 
-/* General variables */
-extern float cameraX;
-extern float cameraZ;
-
-extern float x;
-extern float y;
-extern float z;
-
-/* Jump variables */
+/* Physics */
 extern float verticalVelocity;
-
 extern const float gravity;
 extern float jumpForce;
-extern const float groundLevel;
-
 extern bool isGrounded;
-extern bool jumpKeyPressed;
 
-extern float mouseSensitivity;
+extern bool isCrouching; 
+extern const float crouchHeight;
+extern const float normalHeight;
 
-/* AABB collision */
-extern float playerWidth;
-extern float playerHeight;
+/* Player properties */
+extern float playerWidth; 
+extern float playerHeight; 
 extern float playerDepth;
+extern float mouseSensitivity;
+extern int health;
+extern int armor;
 
-/* Initialize player with default values */
-void playerInit();
+/* Player state */
+extern bool isPlayerDead;
+extern float deathCameraOffset;
+extern const float maxDeathCameraOffset;
 
-/* Camera and player initialization */
-void player();
+/* Initialization */
+void playerInit(void);
 
-/* Movement input */
-void handleMovementInput(GLFWwindow* frame);
+/* Main player update */
+void playerUpdate(void);
 
-/* Mouse input */
-void handleMouseInput(GLFWwindow* frame);
+/* Input handling */
+void handleMovementInput(GLFWwindow* window);
+void handleMouseInput(GLFWwindow* window);
+void handleCrouchInput(void);
+void handleJumpInput(void);
 
-/* Collision functions */
+/* Death handling */
+void handlePlayerDeath(void);
+void handleDeathInput(GLFWwindow* window);
+void respawnPlayer(void);
+
+/* Collision detection */
 void checkPlayerCollisions(Entity* map);
 void checkGrounded(Entity* map);
 void validateSpawnPosition(Entity* map);
 
-/* Position setting */
-void setPlayerPosition(float newX, float newY, float newZ);
+/* Utilities */
+void setPlayerPosition(float x, float y, float z);
 
 #endif // PLAYER_H
-

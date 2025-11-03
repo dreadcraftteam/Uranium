@@ -1,0 +1,5 @@
+[texture]
+{
+    "texture"          "engine/error.png"
+    "ignoreLighting"   "true"
+}

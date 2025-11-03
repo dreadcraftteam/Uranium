@@ -10,10 +10,9 @@
 #include "dynlib.h"
 
 /* Main method for launcher project */
-int main();
+int main(void);
 
 /* Load a file engine.so to launcher */
-void loadEngineFile();
+void loadEngineFile(void);
 
 #endif // LAUNCHER_H
-

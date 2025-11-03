@@ -4,7 +4,7 @@
 
 project(launcher)
 
-set(LAUNCHER_NAME "launcher")
+set(LAUNCHER_NAME "uranium")
 
 set(SOURCES
 	dynlib.c 

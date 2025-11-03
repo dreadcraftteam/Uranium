@@ -1,14 +1,13 @@
-// Map system for this engine
+// Map system for Uranium (engine)
 // By DREADCRAFT
 //
 
 #include "base.h"
 
 #include "GLFW/glfw3.h"
-
-#define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
+#include "../materialsystem/materialsystem.h"
 #include "umap.h"
 #include "variables.h"
 
@@ -17,38 +16,14 @@ Entity* mapLoad = NULL;
 /* Load the texture */
 static GLuint loadTexture(const char* filename)
 {
-    const char* textures_pos = strstr(filename, "textures/");
-    char fullpath[256];
+    Material* mat = loadMaterial(filename);
 
-    if (textures_pos) 
+    if(mat && mat->texture)
     {
-        snprintf(fullpath, sizeof(fullpath), "%s", filename);
-    } 
-    else 
-    {
-        snprintf(fullpath, sizeof(fullpath), "textures/%s", filename);
+        return mat->texture->textureId;
     }
 
-    int width, height, channels;
-    unsigned char* data = stbi_load(fullpath, &width, &height, &channels, 4);
-    
-    if (!data) 
-    {
-        printf("Failed to load texture: %s\n", fullpath);
-        return 0;
-    }
-
-    GLuint tex;
-    glGenTextures(1, &tex);
-    glBindTexture(GL_TEXTURE_2D, tex);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    stbi_image_free(data);
-
-    return tex;
+    return 0;
 }
 
 /* Counting */
@@ -72,27 +47,33 @@ Entity** getBrushArray(Entity* head)
 }
 
 /* Drawing brush faces */
-static void drawBrushFaces(float sizeX, float sizeY, float sizeZ, GLuint textureId, float color[3])
+static void drawBrushFaces(float sizeX, float sizeY, float sizeZ, GLuint textureId, float color[3], int textureFit, bool ignoreLighting)
 {
     float hx = sizeX / 2.0f;
     float hy = sizeY / 2.0f;
     float hz = sizeZ / 2.0f;
 
-    if(renderMode == 0)
+    if (ignoreLighting)
     {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glDisable(GL_LIGHTING);
-        glDisable(GL_TEXTURE_2D);
-        glDisable(GL_COLOR_MATERIAL);
-        
-        glColor3f(wireframeRed, wireframeGreen, wireframeBlue);
     }
-    else if(renderMode == 1)
-    {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        
-        glDisable(GL_TEXTURE_2D);
 
+    if (textureId)
+    {
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, textureId);
+
+        if (textureFit) 
+        {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        } 
+        else 
+        {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        }
+        
         GLfloat mat_diffuse[]  = {1.0f, 1.0f, 1.0f, 1.0f};
         GLfloat mat_ambient[]  = {0.5f, 0.5f, 0.5f, 1.0f};
         GLfloat mat_specular[] = {0.1f, 0.1f, 0.1f, 1.0f};
@@ -103,126 +84,148 @@ static void drawBrushFaces(float sizeX, float sizeY, float sizeZ, GLuint texture
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mat_specular);
         glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
     }
-    else if(renderMode == 2)
+    else
     {
-        if (textureId)
-        {
-            glEnable(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, textureId);
-
-            GLfloat mat_diffuse[]  = {1.0f, 1.0f, 1.0f, 1.0f};
-            GLfloat mat_ambient[]  = {0.5f, 0.5f, 0.5f, 1.0f};
-            GLfloat mat_specular[] = {0.1f, 0.1f, 0.1f, 1.0f};
-            GLfloat mat_shininess  = 8.0f;
-
-            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mat_ambient);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mat_diffuse);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mat_specular);
-            glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
-        }
-        else
-        {
-            glDisable(GL_TEXTURE_2D);
+        glDisable(GL_TEXTURE_2D);
             
-            GLfloat mat_diffuse[]  = {1.0f, 1.0f, 1.0f, 1.0f};
-            GLfloat mat_ambient[]  = {0.5f, 0.5f, 0.5f, 1.0f};
-            GLfloat mat_specular[] = {0.1f, 0.1f, 0.1f, 1.0f};
-            GLfloat mat_shininess  = 8.0f;
+        GLfloat mat_diffuse[]  = {1.0f, 1.0f, 1.0f, 1.0f};
+        GLfloat mat_ambient[]  = {0.5f, 0.5f, 0.5f, 1.0f};
+        GLfloat mat_specular[] = {0.1f, 0.1f, 0.1f, 1.0f};
+        GLfloat mat_shininess  = 8.0f;
 
-            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mat_ambient);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mat_diffuse);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mat_specular);
-            glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
-        }
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mat_ambient);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mat_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mat_specular);
+        glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
+    }
+
+    float texScaleX = 1.0f, texScaleY = 1.0f;
+
+    if (!textureFit) 
+    {
+        texScaleX = sizeX / 2.0f; 
+        texScaleY = sizeY / 2.0f;
     }
 
     glBegin(GL_QUADS);
-        // Front
-        glNormal3f(0, 0, 1);
-        glTexCoord2f(0, 0); glVertex3f(-hx, -hy, hz);
-        glTexCoord2f(1, 0); glVertex3f(hx, -hy, hz);
-        glTexCoord2f(1, 1); glVertex3f(hx, hy, hz);
-        glTexCoord2f(0, 1); glVertex3f(-hx, hy, hz);
 
-        // Back
-        glNormal3f(0, 0, -1);
-        glTexCoord2f(0, 0); glVertex3f(hx, -hy, -hz);
-        glTexCoord2f(1, 0); glVertex3f(-hx, -hy, -hz);
-        glTexCoord2f(1, 1); glVertex3f(-hx, hy, -hz);
-        glTexCoord2f(0, 1); glVertex3f(hx, hy, -hz);
+    glNormal3f(0, 0, 1);
+    glTexCoord2f(0, 0); glVertex3f(-hx, -hy, hz);
+    glTexCoord2f(texScaleX, 0); glVertex3f(hx, -hy, hz);
+    glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, hy, hz);
+    glTexCoord2f(0, texScaleY); glVertex3f(-hx, hy, hz);
 
-        // Left
-        glNormal3f(-1, 0, 0);
-        glTexCoord2f(0, 0); glVertex3f(-hx, -hy, -hz);
-        glTexCoord2f(1, 0); glVertex3f(-hx, -hy, hz);
-        glTexCoord2f(1, 1); glVertex3f(-hx, hy, hz);
-        glTexCoord2f(0, 1); glVertex3f(-hx, hy, -hz);
+    glNormal3f(0, 0, -1);
+    glTexCoord2f(0, 0); glVertex3f(hx, -hy, -hz);
+    glTexCoord2f(texScaleX, 0); glVertex3f(-hx, -hy, -hz);
+    glTexCoord2f(texScaleX, texScaleY); glVertex3f(-hx, hy, -hz);
+    glTexCoord2f(0, texScaleY); glVertex3f(hx, hy, -hz);
 
-        // Right
-        glNormal3f(1, 0, 0);
-        glTexCoord2f(0, 0); glVertex3f(hx, -hy, hz);
-        glTexCoord2f(1, 0); glVertex3f(hx, -hy, -hz);
-        glTexCoord2f(1, 1); glVertex3f(hx, hy, -hz);
-        glTexCoord2f(0, 1); glVertex3f(hx, hy, hz);
+    glNormal3f(-1, 0, 0);
+    glTexCoord2f(0, 0); glVertex3f(-hx, -hy, -hz);
+    glTexCoord2f(texScaleX, 0); glVertex3f(-hx, -hy, hz);
+    glTexCoord2f(texScaleX, texScaleY); glVertex3f(-hx, hy, hz);
+    glTexCoord2f(0, texScaleY); glVertex3f(-hx, hy, -hz);
 
-        // Top
-        glNormal3f(0, 1, 0);
-        glTexCoord2f(0, 0); glVertex3f(-hx, hy, hz);
-        glTexCoord2f(1, 0); glVertex3f(hx, hy, hz);
-        glTexCoord2f(1, 1); glVertex3f(hx, hy, -hz);
-        glTexCoord2f(0, 1); glVertex3f(-hx, hy, -hz);
+    glNormal3f(1, 0, 0);
+    glTexCoord2f(0, 0); glVertex3f(hx, -hy, hz);
+    glTexCoord2f(texScaleX, 0); glVertex3f(hx, -hy, -hz);
+    glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, hy, -hz);
+    glTexCoord2f(0, texScaleY); glVertex3f(hx, hy, hz);
 
-        // Bottom
-        glNormal3f(0, -1, 0);
-        glTexCoord2f(0, 0); glVertex3f(-hx, -hy, -hz);
-        glTexCoord2f(1, 0); glVertex3f(hx, -hy, -hz);
-        glTexCoord2f(1, 1); glVertex3f(hx, -hy, hz);
-        glTexCoord2f(0, 1); glVertex3f(-hx, -hy, hz);
+    glNormal3f(0, 1, 0);
+    glTexCoord2f(0, 0); glVertex3f(-hx, hy, hz);
+    glTexCoord2f(texScaleX, 0); glVertex3f(hx, hy, hz);
+    glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, hy, -hz);
+    glTexCoord2f(0, texScaleY); glVertex3f(-hx, hy, -hz);
+
+    glNormal3f(0, -1, 0);
+    glTexCoord2f(0, 0); glVertex3f(-hx, -hy, -hz);
+    glTexCoord2f(texScaleX, 0); glVertex3f(hx, -hy, -hz);
+    glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, -hy, hz);
+    glTexCoord2f(0, texScaleY); glVertex3f(-hx, -hy, hz);
+    
     glEnd();
 
     if (textureId)
         glDisable(GL_TEXTURE_2D);
+
+    if (ignoreLighting)
+    {
+        glEnable(GL_LIGHTING);
+    }
 }
 
 /* Lights */
 void setupLights(Entity* head)
 {
     int light_id = 0;
+
     for (Entity* e = head; e != NULL; e = e->next)
 	{
         if (e->type == ENTITY_LIGHT && light_id < 8)
 		{
             GLenum gl_light = GL_LIGHT0 + light_id;
+            
             glEnable(GL_LIGHTING);
             glEnable(gl_light);
 
             GLfloat pos[4] = { e->light.position[0], e->light.position[1], e->light.position[2], 1.0f };
-            GLfloat diffuse[]  = {1.0f, 1.0f, 1.0f, 1.0f};
-            GLfloat ambient[]  = {0.3f, 0.3f, 0.3f, 1.0f};
-            GLfloat specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+            
+            GLfloat diffuse[]  = { 
+                e->light.color[0], 
+                e->light.color[1], 
+                e->light.color[2], 
+                1.0f 
+            };
+            GLfloat ambient[]  = { 
+                e->light.color[0] * 0.3f, 
+                e->light.color[1] * 0.3f, 
+                e->light.color[2] * 0.3f, 
+                1.0f 
+            };
+            GLfloat specular[] = { 
+                e->light.color[0], 
+                e->light.color[1], 
+                e->light.color[2], 
+                1.0f 
+            };
+            
             float radius = e->light.radius;
             float quadratic = 1.0f / (radius * radius);
 
-            glLightfv(gl_light, GL_POSITION,  pos);
-            glLightfv(gl_light, GL_AMBIENT,   ambient);
+            glLightfv(gl_light, GL_POSITION, pos);
+            glLightfv(gl_light, GL_DIFFUSE, diffuse);
+            glLightfv(gl_light, GL_AMBIENT, ambient);
+            glLightfv(gl_light, GL_SPECULAR, specular);
             glLightf (gl_light, GL_CONSTANT_ATTENUATION,  1.0f);
             glLightf (gl_light, GL_LINEAR_ATTENUATION,    0.0f);
             glLightf (gl_light, GL_QUADRATIC_ATTENUATION, quadratic);
 
             light_id++;
         }
+    }
 
-		if (light_id < 8)
-		{
-			GLenum gl_light = GL_LIGHT0 + light_id;
-			glEnable(gl_light);
-			
-			GLfloat dir_pos[4] = {0.0f, -1.0f, 0.0f, 0.0f};
-			GLfloat dir_diffuse[] = {0.3f, 0.3f, 0.3f, 1.0f};
-			
-			glLightfv(gl_light, GL_POSITION, dir_pos);
-			glLightfv(gl_light, GL_DIFFUSE, dir_diffuse);
-		}
+    if (light_id < 8)
+    {
+        GLenum gl_light = GL_LIGHT0 + light_id;
+        
+        glEnable(gl_light);
+        
+        GLfloat dir_pos[4] = {0.0f, -1.0f, 0.0f, 0.0f};
+        GLfloat dir_diffuse[] = {0.3f, 0.3f, 0.3f, 1.0f};
+        GLfloat dir_ambient[] = {0.1f, 0.1f, 0.1f, 1.0f};
+        
+        glLightfv(gl_light, GL_POSITION, dir_pos);
+        glLightfv(gl_light, GL_DIFFUSE, dir_diffuse);
+        glLightfv(gl_light, GL_AMBIENT, dir_ambient);
+        
+        light_id++;
+    }
+
+    for (int i = light_id; i < 8; i++)
+    {
+        glDisable(GL_LIGHT0 + i);
     }
 
     if (light_id == 0)
@@ -240,9 +243,18 @@ void parseFloats(const char* str, float* out, int count)
 {
     float temp[3];
     sscanf(str, "%f,%f,%f", &temp[0], &temp[1], &temp[2]);
-    out[0] = temp[0]; /* x stays x */
-    out[1] = temp[2]; /* y becomes z (height) */
-    out[2] = temp[1]; /* z becomes -y */
+    out[0] = temp[0];
+    out[1] = temp[2];
+    out[2] = temp[1];
+}
+
+void parseColor(const char* str, float* out)
+{
+    float temp[3];
+    sscanf(str, "%f,%f,%f", &temp[0], &temp[1], &temp[2]);
+    out[0] = temp[0];
+    out[1] = temp[1];
+    out[2] = temp[2];
 }
 
 /* Rendering the map */
@@ -253,8 +265,19 @@ void renderMap(Entity* head, float camPos[3])
         if (e->type == ENTITY_BRUSH)
         {
             glPushMatrix();
+            
             glTranslatef(e->brush.position[0], e->brush.position[1], e->brush.position[2]);
-            drawBrushFaces(e->brush.size[0], e->brush.size[1], e->brush.size[2], e->brush.textureId, e->brush.color);
+            
+            // Добавлено: применение поворота
+            if (e->brush.rotate[0] != 0.0f)
+                glRotatef(e->brush.rotate[0], 1.0f, 0.0f, 0.0f);
+            if (e->brush.rotate[1] != 0.0f)
+                glRotatef(e->brush.rotate[1], 0.0f, 1.0f, 0.0f);
+            if (e->brush.rotate[2] != 0.0f)
+                glRotatef(e->brush.rotate[2], 0.0f, 0.0f, 1.0f);
+            
+            drawBrushFaces(e->brush.size[0], e->brush.size[1], e->brush.size[2], e->brush.textureId, e->brush.color, e->brush.textureFit, e->brush.ignoreLighting);
+           
             glPopMatrix();
         }
     }
@@ -273,17 +296,28 @@ Entity* loadMap(const char* filename)
     Entity* head = NULL;
     Entity* tail = NULL;
     Entity* current = NULL;
+
     char line[256];
 
     while (fgets(line, sizeof(line), f))
 	{
-        /* remove newlines */
         line[strcspn(line, "\r\n")] = 0;
 
         if (strcmp(line, "[entity]") == 0)
 		{
             current = calloc(1, sizeof(Entity));
             current->type = ENTITY_UNKNOWN;
+            current->brush.textureFit = 1;
+            current->brush.ignoreLighting = false;
+            
+            // Добавлено: инициализация поворота
+            current->brush.rotate[0] = 0.0f;
+            current->brush.rotate[1] = 0.0f;
+            current->brush.rotate[2] = 0.0f;
+            
+            current->light.color[0] = 1.0f;
+            current->light.color[1] = 1.0f;
+            current->light.color[2] = 1.0f;
 
             if (!head) head = current;
             else tail->next = current;
@@ -322,12 +356,49 @@ Entity* loadMap(const char* filename)
 				else if (strcmp(key, "texture") == 0 && current->type == ENTITY_BRUSH)
 				{
 					current->brush.textureId = loadTexture(val);
+
+                    Material* mat = getMaterial(val);
+                    if (mat)
+                    {
+                        current->brush.ignoreLighting = mat->ignoreLighting;
+                    }
 				}
+                else if (strcmp(key, "textureFit") == 0 && current->type == ENTITY_BRUSH)
+				{
+					if (strcmp(val, "yes") == 0) 
+                    {
+                        current->brush.textureFit = 1;
+                    }
+                    else if (strcmp(val, "no") == 0) 
+                    {
+                        current->brush.textureFit = 0; 
+                    }
+				}
+                else if (strcmp(key, "color") == 0)
+                {
+                    if (current->type == ENTITY_LIGHT)
+                    {
+                        parseColor(val, current->light.color);
+                    }
+                    else if (current->type == ENTITY_BRUSH)
+                    {
+                        parseColor(val, current->brush.color);
+                    }
+                }
+                // Добавлено: парсинг параметра rotate
+                else if (strcmp(key, "rotate") == 0 && current->type == ENTITY_BRUSH)
+                {
+                    parseFloats(val, current->brush.rotate, 3);
+                }
             }
         }
     }
 
     fclose(f);
+
+    cameraX = 85.0f;
+    cameraY = 0.0f;
+    cameraZ = 0.0f;
 
     return head;
 }
@@ -342,4 +413,3 @@ void freeMap(Entity* head)
         e = next;
     }
 }
-

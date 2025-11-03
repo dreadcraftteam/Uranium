@@ -1,5 +1,5 @@
 ## Uranium
-This is an engine written in C using GLFW and OpenGL. The engine is divided into several parts (launcher, game, engine) for ease of working with it. Also, if you find an error or bug, please report it to the [issues](https://github.com/dreadcraftteam/Uranium/issues) section. Currently, compilation is supported only on Linux and only on x64.
+This is an engine written in C using GLFW and OpenGL. The engine is divided into several parts (launcher, game, engine, and etc...) for ease of working with it. Also, if you find an error or bug, please report it to the [issues](https://github.com/dreadcraftteam/Uranium/issues) section. Currently, compilation is supported only on Linux and only on x64.
 
 
 Pull requests are welcome!
@@ -21,6 +21,3 @@ build.sh
 5. Navigate to `build`, there will be a compiled build of the engine.
 6. Thats All!
 
-## Screenshots
-![Screenshot 1](https://i.ibb.co/LhSWGDBH/image1.png)
-![Screenshot 2](https://i.ibb.co/fVBygCBC/image2.png)

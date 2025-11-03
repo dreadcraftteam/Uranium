@@ -19,6 +19,7 @@ struct AudioSystem
 struct Sound
 {
     ma_sound sound;
+    
     char filename[256];
 };
 
@@ -28,8 +29,10 @@ AudioSystem* audioSystemCreate(void)
     AudioSystem* sys = (AudioSystem*)malloc(sizeof(AudioSystem));
     if (!sys) return NULL;
 
-    if (ma_engine_init(NULL, &sys->engine) != MA_SUCCESS) {
+    if (ma_engine_init(NULL, &sys->engine) != MA_SUCCESS) 
+    {
         free(sys);
+    
         return NULL;
     }
 
@@ -102,4 +105,3 @@ void audioSystemDestroySound(AudioSystem* sys, Sound* sound)
 
     free(sound);
 }
-

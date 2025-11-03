@@ -1,33 +1,31 @@
 # GitIgnore File!
 
 # Ignore Build Folders
-cmake/
-.cmake/
+cmake/ 
+.cmake/ 
 
-CMakeFiles/
+CMakeFiles/ 
 
-engine/CMakeFiles/
-game/CMakeFiles/
-launcher/CMakeFiles/
+engine/CMakeFiles/ 
+game/CMakeFiles/ 
+launcher/CMakeFiles/ 
 
 # Ignore Build Results
-build/launcher
-build/launcher.exe
-build/bin/engine.so
-build/bin/engine.dll
-build/bin/game.so
-build/bin/game.dll
-build/bin/inputsystem.so
-build/bin/inputsystem.dll
-build/bin/particles.so
-build/bin/particles.dll
-build/bin/gameui.so
-build/bin/gameui.dll
-build/bin/md3system.so
-build/bin/md3system.dll
+build/bin/engine.so 
+build/bin/engine.dll 
+build/bin/game.so 
+build/bin/game.dll 
+build/bin/inputsystem.so 
+build/bin/inputsystem.dll 
+build/bin/particles.so 
+build/bin/particles.dll 
+build/bin/gameui.so 
+build/bin/gameui.dll 
+build/bin/materialsystem.so 
+build/bin/materialsystem.dll 
+build/uranium 
+build/uranium.exe 
 
-launcher/launcher
-launcher/launcher.exe
 engine/engine.so
 engine/engine.dll
 game/game.so
@@ -38,11 +36,13 @@ particles/particles.so
 particles/particles.dll
 gameui/gameui.so 
 gameui/gameui.dll 
-md3system/md3system.so
-md3system/md3system.dll
+materialsystem/materialsystem.so 
+materialsystem/materialsystem.dll 
+uranium/uranium 
+uranium/uranium.exe 
 
 # Other Shit
-cmake_install.cmake
-Makefile
-CMakeCache.txt
-.vscode/
+cmake_install.cmake 
+Makefile 
+CMakeCache.txt 
+.vscode/ 

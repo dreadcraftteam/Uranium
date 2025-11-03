@@ -2,6 +2,8 @@
 // By DREADCRAFT
 //
 
+/* Yes, I took the idea from the Source Engine, so what? */
+
 #ifndef MSG_H
 #define MSG_H
 
@@ -14,7 +16,4 @@ void Error(const char* message, ...);
 /* Warning message */
 void Warning(const char* message, ...);
 
-/* Yes, I took the idea from the Source Engine, so what? */
-
 #endif // MSG_H
-

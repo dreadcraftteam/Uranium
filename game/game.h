@@ -12,16 +12,18 @@
 #include "player.h"
 
 /* Write here everything that needs to be initialized once */
-void gameInit();
+void gameInit(void);
 
 /* Rendering the game */
-void gameRender(GLFWwindow* frame);
+void gameRender(void);
 
 /* Updating */
-void gameUpdate();
+void gameUpdate(GLFWwindow* window);
+
+/* Input handle for Game */
+void gameInputHandle(GLFWwindow* frame);
 
 /* Shutdown everything*/
-void gameShutdown();
+void gameShutdown(void);
 
 #endif // GAME_H
-

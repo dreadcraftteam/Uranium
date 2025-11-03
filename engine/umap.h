@@ -1,4 +1,4 @@
-// Map system, thanks to ThePixelMoon for providing the base code
+// Map system for Uranium (engine)
 // By DREADCRAFT
 //
 
@@ -25,12 +25,16 @@ typedef struct
     float size[3];
     float color[3];
     GLuint textureId;
+    int textureFit;
+    bool ignoreLighting;
+    float rotate[3];
 } Brush;
 
 typedef struct 
 {
     float position[3];
     float radius;
+    float color[3];
 } Light;
 
 typedef struct 
@@ -48,6 +52,7 @@ typedef struct Entity
         Light      light;
         SpawnPoint spawn;
     };
+
     struct Entity* next;
 } Entity;
 
@@ -72,4 +77,3 @@ void setupLights(Entity* head);
 extern Entity* mapLoad;
 
 #endif // UMAP_H
-

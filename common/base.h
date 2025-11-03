@@ -11,6 +11,7 @@
 #include "stdlib.h"
 #include "math.h"
 #include "string.h"
+#include "ctype.h"
 
 /* OpenGL Includes */
 #include "GL/glew.h"
@@ -21,7 +22,7 @@
 #include "../inputsystem/inputsystem.h"
 #include "../engine/msg.h"
 #include "../engine/umap.h"
-#include "../engine/textrenderer.h"
+#include "../engine/variables.h"
+#include "../materialsystem/materialsystem.h"
 
 #endif // BASE_H
-

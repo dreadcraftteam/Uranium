@@ -8,16 +8,15 @@
 #include "launcher.h"
 
 /* Main method for launcher project */
-int main()
-{ 
-    /* Call function for engine load */    
+int main(void)
+{
     loadEngineFile();
 
     return 0;
 }
 
 /* Load a file engine.so to launcher */
-void loadEngineFile()
+void loadEngineFile(void)
 {
     /* Open engine file */
 	DynLib* engineLib;
@@ -30,17 +29,17 @@ void loadEngineFile()
 #endif
 
     /* Load main function */
-	LOAD_FN(engineLib, engine_main);
-    if (!engine_main)
+	LOAD_FN(engineLib, engineMain);
+    if (!engineMain)
     {
-        printf("Failed to load engine_main function\n");
+        printf("Failed to load engineMain function\n");
         dynlib_close(engineLib);
+
         return -1;
     }
 
     /* Call main function */
-    engine_main();
+    engineMain();
 	
     return 0;
 }
-

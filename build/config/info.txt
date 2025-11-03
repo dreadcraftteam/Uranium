@@ -1,4 +1,4 @@
 info
 {
-    title           "Uranium"
+    title                  "Uranium Demo"
 }

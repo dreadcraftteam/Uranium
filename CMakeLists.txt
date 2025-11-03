@@ -11,9 +11,11 @@ find_package(GLEW REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(glfw3 REQUIRED)
 
+add_subdirectory(inputsystem)
+add_subdirectory(materialsystem)
+add_subdirectory(gameui)
+add_subdirectory(launcher)
 add_subdirectory(engine)
 add_subdirectory(game)
-add_subdirectory(launcher)
-add_subdirectory(inputsystem)
 
 add_definitions(-w)

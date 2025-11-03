@@ -7,26 +7,38 @@
 
 #include "base.h"
 
-/* General variables for engine */
-static int width = 800;
-static int height = 600;
+#include "build_number.h"
+#include "defines.h"
 
-static char* title;
+/* General variables for engine */ 
+extern int screenWidth; 
+extern int screenHeight; 
 
-extern bool running;
+extern char* title; 
 
-/* Default clear color for OpenGL */
-static float glRed = 0.0f / 255.0f;
-static float glGreen = 0.0f / 255.0f;
-static float glBlue = 0.0f / 255.0f;
-static float glAlpha = 0.0f / 255.0f;
+static char* version = "1.0.0";
 
-/* Render mode Stuff */
-extern int renderMode;
+static char* protocol = "1"; 
 
-static float wireframeRed = 255.0f;
-static float wireframeGreen = 255.0f;
-static float wireframeBlue = 255.0f;
+extern int build_number;
 
-#endif // VARIABLES_H
+extern bool running; 
+extern bool focused;
 
+extern int enableDebugPanel;
+
+/* Player variables that are required to be in the engine */ 
+extern float playerX; 
+extern float playerY; 
+extern float playerZ; 
+
+extern float cameraX; 
+extern float cameraY; 
+extern float cameraZ; 
+
+extern double mouseX; 
+extern double mouseY; 
+
+extern bool enableNoClip; 
+
+#endif // VARIABLES_H 

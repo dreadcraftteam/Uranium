@@ -165,7 +165,7 @@
 void inputSystemInit(GLFWwindow* frame);
 
 /* Updating */
-void inputSystemUpdate();
+void inputSystemUpdate(void);
 
 /* Check if key pressed */
 int KEY_PRESSED(int key);
@@ -182,5 +182,7 @@ int MOUSE_DOWN(int button);
 /* Getting mouse position */
 void inputSystemGetMousePosition(double* xpos, double* ypos);
 
-#endif // INPUTSYSTEM_H
+/* Shutdown */
+void inputSystemShutdown(void);
 
+#endif // INPUTSYSTEM_H

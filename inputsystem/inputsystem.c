@@ -26,8 +26,6 @@ void inputSystemInit(GLFWwindow* frame)
         key_states[i] = GLFW_RELEASE;
         prev_key_states[i] = GLFW_RELEASE;
     }
-
-    Msg("Input system initialized\n");
 }
 
 /* Updating */
@@ -73,3 +71,8 @@ void inputSystemGetMousePosition(double* xpos, double* ypos)
     glfwGetCursorPos(current_window, xpos, ypos);
 }
 
+/* Shutdown */
+void inputSystemShutdown()
+{
+
+}

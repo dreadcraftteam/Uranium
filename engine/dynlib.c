@@ -9,7 +9,7 @@
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 
-#include <Windows.h>
+#include <windows.h>
 
 struct DynLib
 {
@@ -70,4 +70,3 @@ void dynlib_close(DynLib* lib)
     free(lib);
 }
 #endif
-

@@ -1,0 +1,26 @@
+COMMANDS ON ENGINE:
+
+version                     - Display engine and game version 
+exit                        - Exit 
+resolution <VALUExVALUE>    - Change window resolution 
+focused <VALUE>             - Focus on window 
+map <MAPNAME>               - Load map 
+echo <MESSAGE>              - Repeat message in console 
+clear                       - Clear console 
+exec <CONFIGNAME>           - Execute config 
+quit                        - Quit from map 
+debug <VALUE>               - Enable debug panel 
+
+COMMANDS ON GAME:
+
+noclip <VALUE>              - Enable NoClip 
+collision <VALUE>           - Enable/Disable collision in game 
+collision_wireframe <VALUE> - Enable/Disable wireframe for collision 
+hud <VALUE>                 - Enable/Disable game hud 
+kill                        - Kill player 
+heal                        - Heal player 
+damage                      - Damage player 
+
+COMMMANDS ON MATERIALSYSTEM:
+
+mat_quality <VALUE>         - Changes the texture quality 

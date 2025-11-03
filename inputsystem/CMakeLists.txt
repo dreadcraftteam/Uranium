@@ -13,8 +13,8 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
 		${CMAKE_SOURCE_DIR}/include/
-		${CMAKE_SOURCE_DIR}/common/
 		${CMAKE_CURRENT_SOURCE_DIR}/
+        ${CMAKE_SOURCE_DIR}/common/
 )
 
 target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_LIB_DIR})

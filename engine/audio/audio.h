@@ -31,4 +31,3 @@ void audioSystemDestroySound(AudioSystem* sys, Sound* sound);
 extern AudioSystem* audio;
 
 #endif // AUDIO_H
-
