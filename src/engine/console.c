@@ -187,7 +187,32 @@ void consoleDraw(void)
                 textColor = console.warningTextColor;
                 textToDraw += 2;
             }
-            
+            else if (textToDraw[0] == '^' && textToDraw[1] == '3') 
+            {
+                float customColor[4];
+                const char* colorStart = textToDraw + 2;
+                char* separator = strchr(colorStart, '|');
+                
+                if (separator != NULL) 
+                {
+                    char colorStr[64];
+                    int colorLen = separator - colorStart;
+                    if (colorLen < sizeof(colorStr)) 
+                    {
+                        strncpy(colorStr, colorStart, colorLen);
+                        colorStr[colorLen] = '\0';
+                        
+                        if (sscanf(colorStr, "%f,%f,%f,%f", &customColor[0], &customColor[1], &customColor[2], &customColor[3]) == 4) 
+                        {
+                            textToDraw = separator + 1;
+                            drawString(console.x + 5, startY - (i * lineHeight), textToDraw, customColor);
+
+                            continue; 
+                        }
+                    }
+                }
+            }
+
             drawString(console.x + 5, startY - (i * lineHeight), textToDraw, textColor);
         }
     }
@@ -195,6 +220,7 @@ void consoleDraw(void)
     glDisable(GL_SCISSOR_TEST);
 
     glPopMatrix();
+
 
 #ifdef MUTATION
     // Draw version info in top right corner

@@ -10,6 +10,9 @@
 /* Normal message */
 void Msg(const char* message, ...);
 
+/* Normal message with colors */
+void ColorMsg(float color[4], const char* message, ...);
+
 /* Error message */
 void Error(const char* message, ...);
 

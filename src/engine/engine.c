@@ -198,7 +198,7 @@ int engineMain(int argc, char* argv[])
 
     /* Funny dates and messages initialization */
     funnyDates();
-
+ 
     /* Main cycle */
     while (running)
     {

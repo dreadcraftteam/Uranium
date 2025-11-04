@@ -23,6 +23,24 @@ void Msg(const char* message, ...)
     va_end(args);
 }
 
+/* Normal message with colors */
+void ColorMsg(float color[4], const char* message, ...)
+{
+    va_list args;
+    va_start(args, message);
+    
+    char buffer[256];
+    vsnprintf(buffer, sizeof(buffer), message, args);
+    
+    printf("%s", buffer);
+    
+    char colorBuffer[256];
+    snprintf(colorBuffer, sizeof(colorBuffer), "^3%.2f,%.2f,%.2f,%.2f|%s", color[0], color[1], color[2], color[3], buffer);
+    consoleAddOutput(colorBuffer);
+    
+    va_end(args);
+}
+
 /* Error message */
 void Error(const char* message, ...)
 {
