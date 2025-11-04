@@ -77,3 +77,11 @@ position=0,8.8,8
 size=23,1.1,20
 texture=dev/devgray.umf
 textureFit=yes
+
+[entity]
+type=ent_pushable
+position=0,10.8,0
+size=3,4,3
+texture=im_afraid_not
+textureFit=no
+mass=2

@@ -22,6 +22,11 @@ extern float wireframeColorRed;
 extern float wireframeColorGreen;
 extern float wireframeColorBlue;
 
+/* Pushable physics */
+extern float pushForce;
+extern const float pushableGravity;
+extern const float defaultPushableMass;
+
 /* Collision detection functions */
 int checkAABBCollision(float pos1[3], float size1[3], float pos2[3], float size2[3]);
 void handleCollision(Entity* brush);
@@ -30,6 +35,11 @@ void handleCollision(Entity* brush);
 void checkPlayerCollisions(Entity* map);
 void checkGrounded(Entity* map);
 void validateSpawnPosition(Entity* map);
+
+/* Pushable object functions */
+void handlePushableCollision(Entity* pushable);
+void updatePushables(Entity* map);
+bool isPlayerPushing(Entity* pushable);
 
 /* Drawing AABB collision wireframes */
 void drawPlayerWireframeAABB(void);

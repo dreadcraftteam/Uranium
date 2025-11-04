@@ -109,41 +109,41 @@ static void drawBrushFaces(float sizeX, float sizeY, float sizeZ, GLuint texture
 
     glBegin(GL_QUADS);
 
-    glNormal3f(0, 0, 1);
-    glTexCoord2f(0, 0); glVertex3f(-hx, -hy, hz);
-    glTexCoord2f(texScaleX, 0); glVertex3f(hx, -hy, hz);
-    glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, hy, hz);
-    glTexCoord2f(0, texScaleY); glVertex3f(-hx, hy, hz);
+        glNormal3f(0, 0, 1);
+        glTexCoord2f(0, texScaleY); glVertex3f(-hx, -hy, hz);
+        glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, -hy, hz);
+        glTexCoord2f(texScaleX, 0); glVertex3f(hx, hy, hz);
+        glTexCoord2f(0, 0); glVertex3f(-hx, hy, hz);
 
-    glNormal3f(0, 0, -1);
-    glTexCoord2f(0, 0); glVertex3f(hx, -hy, -hz);
-    glTexCoord2f(texScaleX, 0); glVertex3f(-hx, -hy, -hz);
-    glTexCoord2f(texScaleX, texScaleY); glVertex3f(-hx, hy, -hz);
-    glTexCoord2f(0, texScaleY); glVertex3f(hx, hy, -hz);
+        glNormal3f(0, 0, -1);
+        glTexCoord2f(0, texScaleY); glVertex3f(hx, -hy, -hz);
+        glTexCoord2f(texScaleX, texScaleY); glVertex3f(-hx, -hy, -hz);
+        glTexCoord2f(texScaleX, 0); glVertex3f(-hx, hy, -hz);
+        glTexCoord2f(0, 0); glVertex3f(hx, hy, -hz);
 
-    glNormal3f(-1, 0, 0);
-    glTexCoord2f(0, 0); glVertex3f(-hx, -hy, -hz);
-    glTexCoord2f(texScaleX, 0); glVertex3f(-hx, -hy, hz);
-    glTexCoord2f(texScaleX, texScaleY); glVertex3f(-hx, hy, hz);
-    glTexCoord2f(0, texScaleY); glVertex3f(-hx, hy, -hz);
+        glNormal3f(-1, 0, 0);
+        glTexCoord2f(0, texScaleY); glVertex3f(-hx, -hy, -hz);
+        glTexCoord2f(texScaleX, texScaleY); glVertex3f(-hx, -hy, hz);
+        glTexCoord2f(texScaleX, 0); glVertex3f(-hx, hy, hz);
+        glTexCoord2f(0, 0); glVertex3f(-hx, hy, -hz);
 
-    glNormal3f(1, 0, 0);
-    glTexCoord2f(0, 0); glVertex3f(hx, -hy, hz);
-    glTexCoord2f(texScaleX, 0); glVertex3f(hx, -hy, -hz);
-    glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, hy, -hz);
-    glTexCoord2f(0, texScaleY); glVertex3f(hx, hy, hz);
+        glNormal3f(1, 0, 0);
+        glTexCoord2f(0, texScaleY); glVertex3f(hx, -hy, hz);
+        glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, -hy, -hz);
+        glTexCoord2f(texScaleX, 0); glVertex3f(hx, hy, -hz);
+        glTexCoord2f(0, 0); glVertex3f(hx, hy, hz);
 
-    glNormal3f(0, 1, 0);
-    glTexCoord2f(0, 0); glVertex3f(-hx, hy, hz);
-    glTexCoord2f(texScaleX, 0); glVertex3f(hx, hy, hz);
-    glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, hy, -hz);
-    glTexCoord2f(0, texScaleY); glVertex3f(-hx, hy, -hz);
+        glNormal3f(0, 1, 0);
+        glTexCoord2f(0, texScaleY); glVertex3f(-hx, hy, hz);
+        glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, hy, hz);
+        glTexCoord2f(texScaleX, 0); glVertex3f(hx, hy, -hz);
+        glTexCoord2f(0, 0); glVertex3f(-hx, hy, -hz);
 
-    glNormal3f(0, -1, 0);
-    glTexCoord2f(0, 0); glVertex3f(-hx, -hy, -hz);
-    glTexCoord2f(texScaleX, 0); glVertex3f(hx, -hy, -hz);
-    glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, -hy, hz);
-    glTexCoord2f(0, texScaleY); glVertex3f(-hx, -hy, hz);
+        glNormal3f(0, -1, 0);
+        glTexCoord2f(0, texScaleY); glVertex3f(-hx, -hy, -hz);
+        glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, -hy, -hz);
+        glTexCoord2f(texScaleX, 0); glVertex3f(hx, -hy, hz);
+        glTexCoord2f(0, 0); glVertex3f(-hx, -hy, hz);
     
     glEnd();
 
@@ -236,6 +236,8 @@ static EntityType parseEntityType(const char* str)
 {
     if (strcmp(str, "ent_brush") == 0) return ENTITY_BRUSH;
     if (strcmp(str, "ent_light") == 0) return ENTITY_LIGHT;
+    if (strcmp(str, "ent_pushable") == 0) return ENTITY_PUSHABLE;
+
     return ENTITY_UNKNOWN;
 }
 
@@ -278,6 +280,25 @@ void renderMap(Entity* head, float camPos[3])
 #endif
             
             drawBrushFaces(e->brush.size[0], e->brush.size[1], e->brush.size[2], e->brush.textureId, e->brush.color, e->brush.textureFit, e->brush.ignoreLighting);
+           
+            glPopMatrix();
+        }
+        else if (e->type == ENTITY_PUSHABLE)
+        {
+            glPushMatrix();
+            
+            glTranslatef(e->pushable.position[0], e->pushable.position[1], e->pushable.position[2]);
+            
+#ifdef MUTATION
+            if (e->pushable.rotate[0] != 0.0f)
+                glRotatef(e->pushable.rotate[0], 1.0f, 0.0f, 0.0f);
+            if (e->pushable.rotate[1] != 0.0f)
+                glRotatef(e->pushable.rotate[1], 0.0f, 1.0f, 0.0f);
+            if (e->pushable.rotate[2] != 0.0f)
+                glRotatef(e->pushable.rotate[2], 0.0f, 0.0f, 1.0f);
+#endif
+            
+            drawBrushFaces(e->pushable.size[0], e->pushable.size[1], e->pushable.size[2], e->pushable.textureId, e->pushable.color, e->pushable.textureFit, e->pushable.ignoreLighting);
            
             glPopMatrix();
         }
@@ -346,34 +367,72 @@ Entity* loadMap(const char* filename)
                     {
                         parseFloats(val, current->light.position, 3);
                     }
+                    else if (current->type == ENTITY_PUSHABLE)
+                    {
+                        parseFloats(val, current->pushable.position, 3);
+                    }
                 } 
-                else if (strcmp(key, "size") == 0 && current->type == ENTITY_BRUSH)
+                else if (strcmp(key, "size") == 0)
 				{
-                    parseFloats(val, current->brush.size, 3);
+                    if (current->type == ENTITY_BRUSH)
+                    {
+                        parseFloats(val, current->brush.size, 3);
+                    }
+                    else if (current->type == ENTITY_PUSHABLE)
+                    {
+                        parseFloats(val, current->pushable.size, 3);
+                    }
                 } 
                 else if (strcmp(key, "radius") == 0 && current->type == ENTITY_LIGHT)
 				{
                     current->light.radius = atof(val);
                 }
-				else if (strcmp(key, "texture") == 0 && current->type == ENTITY_BRUSH)
+				else if (strcmp(key, "texture") == 0)
 				{
-					current->brush.textureId = loadTexture(val);
-
-                    Material* mat = getMaterial(val);
-                    if (mat)
+                    if (current->type == ENTITY_BRUSH)
                     {
-                        current->brush.ignoreLighting = mat->ignoreLighting;
+                        current->brush.textureId = loadTexture(val);
+
+                        Material* mat = getMaterial(val);
+                        if (mat)
+                        {
+                            current->brush.ignoreLighting = mat->ignoreLighting;
+                        }
+                    }
+                    else if (current->type == ENTITY_PUSHABLE)
+                    {
+                        current->pushable.textureId = loadTexture(val);
+
+                        Material* mat = getMaterial(val);
+                        if (mat)
+                        {
+                            current->pushable.ignoreLighting = mat->ignoreLighting;
+                        }
                     }
 				}
-                else if (strcmp(key, "textureFit") == 0 && current->type == ENTITY_BRUSH)
+                else if (strcmp(key, "textureFit") == 0)
 				{
-					if (strcmp(val, "yes") == 0) 
+                    if (current->type == ENTITY_BRUSH)
                     {
-                        current->brush.textureFit = 1;
+                        if (strcmp(val, "yes") == 0) 
+                        {
+                            current->brush.textureFit = 1;
+                        }
+                        else if (strcmp(val, "no") == 0) 
+                        {
+                            current->brush.textureFit = 0; 
+                        }
                     }
-                    else if (strcmp(val, "no") == 0) 
+                    else if (current->type == ENTITY_PUSHABLE)
                     {
-                        current->brush.textureFit = 0; 
+                        if (strcmp(val, "yes") == 0) 
+                        {
+                            current->pushable.textureFit = 1;
+                        }
+                        else if (strcmp(val, "no") == 0) 
+                        {
+                            current->pushable.textureFit = 0; 
+                        }
                     }
 				}
                 else if (strcmp(key, "color") == 0)
@@ -386,11 +445,26 @@ Entity* loadMap(const char* filename)
                     {
                         parseColor(val, current->brush.color);
                     }
+                    else if (current->type == ENTITY_PUSHABLE)
+                    {
+                        parseColor(val, current->pushable.color);
+                    }
+                }
+                else if (strcmp(key, "mass") == 0 && current->type == ENTITY_PUSHABLE)
+                {
+                    current->pushable.mass = atof(val);
                 }
 #ifdef MUTATION
-                else if (strcmp(key, "rotate") == 0 && current->type == ENTITY_BRUSH)
+                else if (strcmp(key, "rotate") == 0)
                 {
-                    parseFloats(val, current->brush.rotate, 3);
+                    if (current->type == ENTITY_BRUSH)
+                    {
+                        parseFloats(val, current->brush.rotate, 3);
+                    }
+                    else if (current->type == ENTITY_PUSHABLE)
+                    {
+                        parseFloats(val, current->pushable.rotate, 3);
+                    }
                 }
 #endif
             }

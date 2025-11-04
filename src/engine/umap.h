@@ -16,6 +16,7 @@ typedef enum
 {
     ENTITY_BRUSH,
     ENTITY_LIGHT,
+    ENTITY_PUSHABLE,
     ENTITY_UNKNOWN
 } EntityType;
 
@@ -31,6 +32,20 @@ typedef struct
     float rotate[3];
 #endif
 } Brush;
+
+typedef struct 
+{
+    float position[3];
+    float size[3];
+    float color[3];
+    GLuint textureId;
+    int textureFit;
+    bool ignoreLighting;
+#ifdef MUTATION
+    float rotate[3];
+#endif
+    float mass;
+} Pushable;
 
 typedef struct 
 {
@@ -53,6 +68,7 @@ typedef struct Entity
         Brush      brush;
         Light      light;
         SpawnPoint spawn;
+        Pushable   pushable;
     };
 
     struct Entity* next;
