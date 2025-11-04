@@ -196,6 +196,9 @@ int engineMain(int argc, char* argv[])
     /* Load autoexec.cfg on startup */
     consoleExecuteConfigFile(FILE_AUTOEXEC);
 
+    /* Funny dates and messages initialization */
+    funnyDates();
+
     /* Main cycle */
     while (running)
     {
@@ -429,5 +432,26 @@ void setWindowSize(int width, int height)
         setScreenDimensions(screenWidth, screenHeight);
         
         consoleSetDimensions(0, 0, screenWidth, screenHeight);
+    }
+}
+
+/* Funny dates and messages */
+void funnyDates(void)
+{
+    // time.h already included in base.h
+    time_t t = time(NULL);
+    struct tm *currentTime = localtime(&t);
+
+    if (currentTime->tm_mon == 11 && currentTime->tm_mday == 12) 
+    {
+        Msg("Happy birthday DREADCRAFT!\n");
+    }
+    else if (currentTime->tm_mon == 11 && currentTime->tm_mday == 31)
+    {
+        Msg("Happy new year!\n");
+    }
+    else if (currentTime->tm_mon == 6 && currentTime->tm_mday == 24)
+    {
+        Msg("Happy birthday Uranium (engine)!\n");
     }
 }

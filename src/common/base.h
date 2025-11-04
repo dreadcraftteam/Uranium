@@ -12,12 +12,13 @@
 #include "math.h"
 #include "string.h"
 #include "ctype.h"
+#include "time.h"
 
 /* OpenGL Includes */
 #include "GL/glew.h"
 #include "GL/gl.h"
 
-/* Other Includes */
+/* Includes for convenient work with the engine */
 #include "../engine/audio/audio.h"
 #include "../inputsystem/inputsystem.h"
 #include "../engine/msg.h"

@@ -38,4 +38,7 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 /* Set window size */
 void setWindowSize(int width, int height);
 
+/* Funny dates and messages */
+void funnyDates(void);
+
 #endif // ENGINE_H
