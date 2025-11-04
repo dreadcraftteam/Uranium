@@ -1,24 +1,20 @@
-# GitIgnore File!
+# Ignore build folders
+src/cmake/ 
+src/.cmake/ 
 
-# Ignore Build Folders
-cmake/ 
-.cmake/ 
-
-CMakeFiles/ 
+src/CMakeFiles/ 
 
 engine/CMakeFiles/ 
 game/CMakeFiles/ 
 launcher/CMakeFiles/ 
 
-# Ignore Build Results
+# Ignore build results
 build/bin/engine.so 
 build/bin/engine.dll 
 build/bin/game.so 
 build/bin/game.dll 
 build/bin/inputsystem.so 
 build/bin/inputsystem.dll 
-build/bin/particles.so 
-build/bin/particles.dll 
 build/bin/gameui.so 
 build/bin/gameui.dll 
 build/bin/materialsystem.so 
@@ -41,8 +37,8 @@ materialsystem/materialsystem.dll
 uranium/uranium 
 uranium/uranium.exe 
 
-# Other Shit
-cmake_install.cmake 
-Makefile 
-CMakeCache.txt 
-.vscode/ 
+# Other stuff
+src/cmake_install.cmake 
+src/Makefile 
+src/CMakeCache.txt 
+src/.vscode/ 
