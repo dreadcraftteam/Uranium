@@ -92,6 +92,13 @@ int consoleCommands(const char* commandLine)
 
                 if (mapFile)
                 {
+                    // Reset this before loading the map
+                    respawnPlayer();
+                    enableNoClip = false;
+                    enableDebugPanel = false;
+                    focused = true;
+                    enableFPSCounter = false;
+
                     fclose(mapFile);
 
                     char consoleMapPath[256];
@@ -114,13 +121,6 @@ int consoleCommands(const char* commandLine)
                     {
                         consoleSetMapLoaded(0);
                     }
-
-                    // Reset all! NOW!
-                    respawnPlayer();
-                    enableNoClip = false;
-                    enableDebugPanel = false;
-                    focused = true;
-                    enableFPSCounter = false;
                 }
                 else
                 {

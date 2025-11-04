@@ -22,7 +22,7 @@ Console_t console =
     .isOpen = 0,
     .targetHeight = 0,
     .currentHeight = 0,
-    .animationSpeed = 8,
+    .animationSpeed = 7,
     .inputBuffer = {0},
     .cursorPos = 0,
     .blinkTimer = 0.0f,
@@ -375,6 +375,7 @@ void consoleSetMapLoaded(int loaded)
     {
         if (console.isOpen) 
         {
+            console.animationSpeed = 7;
             consoleToggle(); 
         }
     }
@@ -504,6 +505,7 @@ void consoleSetDimensions(int x, int y, int width, int height)
         console.maxHeight = console.fullHeight;
         console.targetHeight = console.fullHeight;
         console.isOpen = 1;
+        console.animationSpeed = 7;
     }
     else 
     {
@@ -512,6 +514,8 @@ void consoleSetDimensions(int x, int y, int width, int height)
         {
             console.targetHeight = console.maxHeight;
         }
+
+        console.animationSpeed = 7;
     }
     
     console.currentHeight = console.targetHeight;

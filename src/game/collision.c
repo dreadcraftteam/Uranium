@@ -25,7 +25,7 @@ float wireframeColorBlue = 255.0f / 255.0f;
 
 /* Pushable physics */
 float pushForce = 0.1f;
-const float pushableGravity = -0.8f;
+const float pushableGravity = -0.4f;
 const float pushableFallThreshold = 0.1f;
 const float defaultPushableMass = 1.0f;
 

@@ -25,9 +25,6 @@ extern int build_number;
 extern bool running; 
 extern bool focused;
 
-extern int enableDebugPanel;
-extern int enableFPSCounter;
-
 /* Player variables that are required to be in the engine */ 
 extern float playerX; 
 extern float playerY; 
@@ -40,6 +37,10 @@ extern float cameraZ;
 extern double mouseX; 
 extern double mouseY; 
 
-extern bool enableNoClip; 
+extern bool enableNoClip;
+
+/* Debug panel stuff */
+extern int enableDebugPanel;
+extern int enableFPSCounter;
 
 #endif // VARIABLES_H 

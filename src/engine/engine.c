@@ -23,9 +23,6 @@ char* title = NULL;
 bool running = true;
 bool focused = true;
 
-int enableDebugPanel = 0;
-int enableFPSCounter = 0;
-
 /* Player variables that are required to be in the engine */
 float playerX = 0.0f;
 float playerY = 0.0f;
@@ -45,6 +42,10 @@ static GLFWwindow* mainFrame = NULL;
 
 int screenWidth = 800;
 int screenHeight = 600;
+
+/* Debug panel stuff */
+int enableDebugPanel = 0;
+int enableFPSCounter = 0;
 
 /* Main method for engine project */
 int engineMain(int argc, char* argv[])
