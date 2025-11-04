@@ -24,6 +24,7 @@ bool running = true;
 bool focused = true;
 
 int enableDebugPanel = 0;
+int enableFPSCounter = 0;
 
 /* Player variables that are required to be in the engine */
 float playerX = 0.0f;

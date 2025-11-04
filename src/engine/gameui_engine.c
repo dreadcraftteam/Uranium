@@ -11,6 +11,7 @@
 #include "label.h"
 #include "button.h"
 
+#include "fps.h"
 #include "debugpanel.h"
 #include "gameui_engine.h"
 
@@ -18,6 +19,7 @@
 void Engine_GameUI_Init(void)
 {
     debugPanelInit();
+    fpsCounterInit();
 }
 
 /* Updating */
@@ -27,6 +29,7 @@ void Engine_GameUI_Update(GLFWwindow* frame)
     glfwGetCursorPos(frame, &mouseX, &mouseY);
     int mousePressed = (glfwGetMouseButton(frame, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
 
+    // Debug panel
     if (enableDebugPanel == 1)
     {
         focused = false;
@@ -35,6 +38,12 @@ void Engine_GameUI_Update(GLFWwindow* frame)
     if (enableDebugPanel == 1)
     {
         debugPanelUpdate((int)mouseX, (int)mouseY, mousePressed);
+    }
+
+    // FPS counter
+    if (enableFPSCounter == 1)
+    {
+        fpsCounterUpdate();
     }
 }
 

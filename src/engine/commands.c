@@ -120,6 +120,7 @@ int consoleCommands(const char* commandLine)
                     enableNoClip = false;
                     enableDebugPanel = false;
                     focused = true;
+                    enableFPSCounter = false;
                 }
                 else
                 {
@@ -221,6 +222,25 @@ int consoleCommands(const char* commandLine)
             else
             {
                 Error("Usage: debug <VALUE>\n");
+            }
+
+            return 1;
+        }
+
+        /* FPS */
+        if (strcmp(command, "fps") == 0)
+        {
+            int value;
+
+            if (sscanf(args, "%d", &value) == 1)
+            {
+                enableFPSCounter = (value != 0);
+
+                Msg("FPS counter %s\n", enableFPSCounter ? "ON" : "OFF");
+            }
+            else
+            {
+                Msg("Usage: fps <VALUE>\n");
             }
 
             return 1;

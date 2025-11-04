@@ -21,7 +21,9 @@ set(SOURCES
 	dynlib.h
 	engine.c
 	engine.h
-	gameui_engine.c
+    fps.c
+    fps.h
+    gameui_engine.c
 	gameui_engine.h
 	msg.c
 	msg.h

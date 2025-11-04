@@ -37,6 +37,7 @@ static Button buttonDamagePlayer;
 static Button buttonHealPlayer;
 static Button buttonHud;
 static Button buttonMatQuality;
+static Button buttonFPSCounter;
 
 /* State variable */
 static bool buttonCollisionState = false;
@@ -49,6 +50,7 @@ static bool buttonDamagePlayerState = false;
 static bool buttonHealPlayerState = false;
 static bool buttonHudState = false;
 static bool buttonMatQualityState = false;
+static bool buttonFPSCounterState = false;
 
 /* Callbacks */
 static void buttonCollisionClickCallback(void)
@@ -245,6 +247,32 @@ static void buttonHudCallback(int isHovered)
     }
 }
 
+static void buttonFPSCounterClickCallback(void)
+{
+    buttonFPSCounterState = !buttonFPSCounterState;
+    
+    if (buttonFPSCounterState) 
+    {
+        buttonFPSCounter.text = "FPS Counter ON";        
+        
+        useCommand("fps 1");
+    }
+    else
+    {   
+        buttonFPSCounter.text = "FPS Counter OFF";  
+
+        useCommand("fps 0");
+    }
+}
+
+static void buttonFPSCounterHoverCallback(int isHovered)
+{
+    if (isHovered)
+    {
+
+    }
+}
+
 /* Debug panel initialization */
 void debugPanelInit(void)
 {
@@ -374,6 +402,17 @@ void debugPanelInit(void)
     buttonHud.hoverCallback = buttonHudCallback;
     buttonHud.isHovered = 0;
     buttonHud.isPressed = 0;
+
+    // FPS counter Button
+    buttonFPSCounter.x = 203;
+    buttonFPSCounter.y = 230;
+    buttonFPSCounter.width = 160;
+    buttonFPSCounter.height = 30;
+    buttonFPSCounter.text = "FPS Counter OFF";
+    buttonFPSCounter.clickCallback = buttonFPSCounterClickCallback;
+    buttonFPSCounter.hoverCallback = buttonFPSCounterHoverCallback;
+    buttonFPSCounter.isHovered = 0;
+    buttonFPSCounter.isPressed = 0;
 }
 
 /* Debug panel updating */
@@ -389,6 +428,7 @@ void debugPanelUpdate(int mouseX, int mouseY, int mousePressed)
     buttonStateUpdate(&buttonDamagePlayer, mouseX, mouseY, mousePressed);
     buttonStateUpdate(&buttonHealPlayer, mouseX, mouseY, mousePressed);
     buttonStateUpdate(&buttonHud, mouseX, mouseY, mousePressed);
+    buttonStateUpdate(&buttonFPSCounter, mouseX, mouseY, mousePressed);
 
     // Panel (for background)
     drawPanel(&panel);
@@ -411,4 +451,5 @@ void debugPanelUpdate(int mouseX, int mouseY, int mousePressed)
     drawButton(&buttonDamagePlayer);
     drawButton(&buttonHealPlayer);
     drawButton(&buttonHud);
+    drawButton(&buttonFPSCounter);
 }

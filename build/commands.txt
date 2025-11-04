@@ -10,6 +10,7 @@ clear                       - Clear console
 exec <CONFIGNAME>           - Execute config 
 quit                        - Quit from map 
 debug <VALUE>               - Enable debug panel 
+fps <VALUE>                 - Enable/Disable FPS counter
 
 COMMANDS ON GAME:
 

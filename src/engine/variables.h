@@ -26,6 +26,7 @@ extern bool running;
 extern bool focused;
 
 extern int enableDebugPanel;
+extern int enableFPSCounter;
 
 /* Player variables that are required to be in the engine */ 
 extern float playerX; 

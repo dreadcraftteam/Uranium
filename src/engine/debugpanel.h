@@ -34,6 +34,8 @@ static void buttonHealPlayerClickCallback(void);
 static void buttonHealPlayerHoverCallback(int isHovered);
 static void buttonHudClickCallback(void);
 static void buttonHudCallback(int isHovered);
+static void buttonFPSCounterClickCallback(void);
+static void buttonFPSCounterHoverCallback(int isHovered);
 
 /* Debug panel initialization */
 void debugPanelInit(void);
