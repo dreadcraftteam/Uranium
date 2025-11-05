@@ -42,20 +42,53 @@ int consoleCommands(const char* commandLine)
         {
             if (strlen(args) > 0)
             {
-                int width, height;
-
-                if (sscanf(args, "%dx%d", &width, &height) == 2)
+                int resolution_index;
+        
+                if (sscanf(args, "%d", &resolution_index) == 1)
                 {
-                    if (width >= 640 && height >= 480 && width <= 1600 && height <= 1200)
+                    int width, height;
+            
+                    switch (resolution_index)
                     {
-                        setWindowSize(width, height);
-                        consoleSetDimensions(0, 0, width, height);
+                        case 0:
+                            width = 640;
+                            height = 480;
+                            break;
+                        case 1:
+                            width = 800;
+                            height = 600;
+                            break;
+                        case 2:
+                            width = 1024;
+                            height = 768;
+                            break;
+                        case 3:
+                            width = 1280;
+                            height = 960;
+                            break;
+                        case 4:
+                            width = 1600;
+                            height = 1200;
+                            break;
+                        default:
+                            Error("Usage: resolution <NUMBER>\n");
+                            Error("Resolutions (4:3): 0 - 640x480, 1 - 800x600, 2 - 1024x768, 3 - 1280x960, 4 - 1600x1200\n");
+                            
+                        return 1;
                     }
+            
+                    setWindowSize(width, height);
+                    consoleSetDimensions(0, 0, width, height);
+                }
+                else
+                {
+                    Error("Usage: resolution <NUMBER>\n");
+                    Error("Resolutions (4:3): 0 - 640x480, 1 - 800x600, 2 - 1024x768, 3 - 1280x960, 4 - 1600x1200\n");
                 }
             }
             else
             {
-                Error("Usage: resolution <VALUExVALUE>\n");
+                Error("Usage: resolution <VALUE>\n");
             }
 
             return 1;
