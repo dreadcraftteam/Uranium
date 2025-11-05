@@ -1,4 +1,4 @@
-// FPS counter for debug
+// FPS counter for debugging
 // By DREADCRAFT
 //
 
@@ -37,10 +37,10 @@ void fpsCounterUpdate(void)
         frameCount = 0;
         previousTime = currentTime;
 
-        // Format FPS text
-        snprintf(fpsText, sizeof(fpsText), "FPS: %.1f", currentFPS);
+        // Format FPS text as integer
+        snprintf(fpsText, sizeof(fpsText), "FPS: %d", (int)currentFPS);
     
-        Msg("FPS: %f\n", currentFPS);
+        Msg("FPS: %d\n", (int)currentFPS);
     }
 
     float color[4] = {1.0f, 1.0f, 1.0f, 1.0f};

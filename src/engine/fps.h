@@ -1,4 +1,4 @@
-// FPS counter for debug
+// FPS counter for debugging
 // By DREADCRAFT
 //
 
