@@ -356,13 +356,10 @@ void beginGameRendering(void)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    // Set viewport to current window size
-    glViewport(0, 0, screenWidth, screenHeight);
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     float ratio = screenWidth / (float) screenHeight;
-    glFrustum(-ratio * 1.0f, ratio * 1.0f, -1.0f, 1.0f, 2.0f, 500.0f);
+    glFrustum(-ratio * 1.0f, -ratio * -1.0f, -1.0f, 1.0f, 2.0f, 500.0f);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
