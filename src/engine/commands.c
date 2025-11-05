@@ -42,13 +42,14 @@ int consoleCommands(const char* commandLine)
         {
             if (strlen(args) > 0)
             {
-                int resolution_index;
+                int resolutionIndex;
         
-                if (sscanf(args, "%d", &resolution_index) == 1)
+                if (sscanf(args, "%d", &resolutionIndex) == 1)
                 {
-                    int width, height;
+                    int width; 
+                    int height;
             
-                    switch (resolution_index)
+                    switch (resolutionIndex)
                     {
                         case 0:
                             width = 640;
