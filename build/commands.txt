@@ -2,7 +2,7 @@ COMMANDS ON ENGINE:
 
 version                     - Display engine and game version 
 exit                        - Exit 
-resolution <VALUExVALUE>    - Change window resolution 
+resolution <VALUE>          - Change window resolution 
 focused <VALUE>             - Focus on window 
 map <MAPNAME>               - Load map 
 echo <MESSAGE>              - Repeat message in console 

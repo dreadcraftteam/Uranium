@@ -37,7 +37,7 @@ int consoleCommands(const char* commandLine)
             return 1;
         }
 
-        /* Resolution <VALUExVALUE> */
+        /* Resolution <VALUE> */
         if (strcmp(command, "resolution") == 0)
         {
             if (strlen(args) > 0)
