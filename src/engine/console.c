@@ -225,7 +225,7 @@ void consoleDraw(void)
 #ifdef MUTATION
     // Draw version info in top right corner
     char versionText[64];
-    snprintf(versionText, sizeof(versionText), "Uranium %s (Build %d)", version, build_number);
+    snprintf(versionText, sizeof(versionText), "Uranium (engine) %s (Build %d)", version, build_number);
     
     int textWidth = getTextWidth(versionText);
     int versionX = console.x + console.width - textWidth - 4; // 10px padding from right edge
