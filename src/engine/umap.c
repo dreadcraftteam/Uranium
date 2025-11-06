@@ -270,15 +270,6 @@ void renderMap(Entity* head, float camPos[3])
             
             glTranslatef(e->brush.position[0], e->brush.position[1], e->brush.position[2]);
             
-#ifdef MUTATION
-            if (e->brush.rotate[0] != 0.0f)
-                glRotatef(e->brush.rotate[0], 1.0f, 0.0f, 0.0f);
-            if (e->brush.rotate[1] != 0.0f)
-                glRotatef(e->brush.rotate[1], 0.0f, 1.0f, 0.0f);
-            if (e->brush.rotate[2] != 0.0f)
-                glRotatef(e->brush.rotate[2], 0.0f, 0.0f, 1.0f);
-#endif
-            
             drawBrushFaces(e->brush.size[0], e->brush.size[1], e->brush.size[2], e->brush.textureId, e->brush.color, e->brush.textureFit, e->brush.ignoreLighting);
            
             glPopMatrix();
@@ -288,16 +279,7 @@ void renderMap(Entity* head, float camPos[3])
             glPushMatrix();
             
             glTranslatef(e->pushable.position[0], e->pushable.position[1], e->pushable.position[2]);
-            
-#ifdef MUTATION
-            if (e->pushable.rotate[0] != 0.0f)
-                glRotatef(e->pushable.rotate[0], 1.0f, 0.0f, 0.0f);
-            if (e->pushable.rotate[1] != 0.0f)
-                glRotatef(e->pushable.rotate[1], 0.0f, 1.0f, 0.0f);
-            if (e->pushable.rotate[2] != 0.0f)
-                glRotatef(e->pushable.rotate[2], 0.0f, 0.0f, 1.0f);
-#endif
-            
+                        
             drawBrushFaces(e->pushable.size[0], e->pushable.size[1], e->pushable.size[2], e->pushable.textureId, e->pushable.color, e->pushable.textureFit, e->pushable.ignoreLighting);
            
             glPopMatrix();
@@ -331,12 +313,6 @@ Entity* loadMap(const char* filename)
             current->type = ENTITY_UNKNOWN;
             current->brush.textureFit = 1;
             current->brush.ignoreLighting = false;
-            
-#ifdef MUTATION
-            current->brush.rotate[0] = 0.0f;
-            current->brush.rotate[1] = 0.0f;
-            current->brush.rotate[2] = 0.0f;
-#endif
             
             current->light.color[0] = 1.0f;
             current->light.color[1] = 1.0f;
@@ -454,19 +430,6 @@ Entity* loadMap(const char* filename)
                 {
                     current->pushable.mass = atof(val);
                 }
-#ifdef MUTATION
-                else if (strcmp(key, "rotate") == 0)
-                {
-                    if (current->type == ENTITY_BRUSH)
-                    {
-                        parseFloats(val, current->brush.rotate, 3);
-                    }
-                    else if (current->type == ENTITY_PUSHABLE)
-                    {
-                        parseFloats(val, current->pushable.rotate, 3);
-                    }
-                }
-#endif
             }
         }
     }

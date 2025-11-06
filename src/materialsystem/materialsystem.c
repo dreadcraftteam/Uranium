@@ -393,12 +393,6 @@ Material* loadMaterial(const char* materialPath)
 
         if(!mat->texture) 
         {
-#ifdef MUTATION
-            // If texture loading failed, use error material instead
-            // This ensures we get both the error texture AND error material properties
-            Warning("Texture '%s' not found for material '%s', using error material\n", texturePath, materialPath);
-#endif
-
             // Free the current material slot before loading error material
             Material* errorMat = loadMaterial("engine/error.umf");
             if (errorMat)

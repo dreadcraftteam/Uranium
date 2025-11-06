@@ -220,19 +220,6 @@ void consoleDraw(void)
     glDisable(GL_SCISSOR_TEST);
 
     glPopMatrix();
-
-
-#ifdef MUTATION
-    // Draw version info in top right corner
-    char versionText[64];
-    snprintf(versionText, sizeof(versionText), "Uranium (engine) %s (Build %d)", version, build_number);
-    
-    int textWidth = getTextWidth(versionText);
-    int versionX = console.x + console.width - textWidth - 4; // 10px padding from right edge
-    int versionY = console.y + 5; // 10px padding from top
-    
-    drawString(versionX, versionY, versionText, console.defaultTextColor);
-#endif
 }
 
 /* Handle keyboard input for console */
