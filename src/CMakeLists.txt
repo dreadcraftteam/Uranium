@@ -11,7 +11,6 @@ find_package(GLEW REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(glfw3 REQUIRED)
 
-add_subdirectory(video)
 add_subdirectory(inputsystem)
 add_subdirectory(materialsystem)
 add_subdirectory(gameui)
