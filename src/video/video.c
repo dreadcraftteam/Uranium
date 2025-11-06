@@ -63,7 +63,6 @@ Video* loadVideo(const char* filename, int auto_play)
     memset(video, 0, sizeof(Video));
     strncpy(video->filename, filename, sizeof(video->filename) - 1);
 
-    // Loading video with pl_mpeg
     video->plm = plm_create_with_filename(filename);
     if (!video->plm) 
     {
@@ -82,7 +81,6 @@ Video* loadVideo(const char* filename, int auto_play)
     plm_set_video_enabled(video->plm, 1);
     plm_set_audio_enabled(video->plm, 0);
 
-    // Creating OpenGL texture for video
     glGenTextures(1, &video->textureId);
     glBindTexture(GL_TEXTURE_2D, video->textureId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -90,7 +88,6 @@ Video* loadVideo(const char* filename, int auto_play)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    // Creating empty texture
     uint8_t *empty_data = (uint8_t *)calloc(video->width * video->height * 3, 1);
     if (empty_data) 
     {
