@@ -21,7 +21,7 @@ void gameRender(void);
 void gameUpdate(GLFWwindow* window);
 
 /* Input handle for Game */
-void gameInputHandle(GLFWwindow* frame);
+void gameInputHandle(void);
 
 /* Shutdown everything*/
 void gameShutdown(void);

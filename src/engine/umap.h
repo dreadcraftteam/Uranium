@@ -6,12 +6,14 @@
 #define UMAP_H
 
 #include "base.h"
-
 #include "GLFW/glfw3.h"
-
 #include "variables.h"
 
-/* Some structs*/
+#include "../game/entities/brush.h"
+#include "../game/entities/pushable.h"
+#include "../game/entities/light.h"
+
+/* Entity types */
 typedef enum 
 {
     ENTITY_BRUSH,
@@ -20,39 +22,13 @@ typedef enum
     ENTITY_UNKNOWN
 } EntityType;
 
-typedef struct 
-{
-    float position[3];
-    float size[3];
-    float color[3];
-    GLuint textureId;
-    int textureFit;
-    bool ignoreLighting;
-} Brush;
-
-typedef struct 
-{
-    float position[3];
-    float size[3];
-    float color[3];
-    GLuint textureId;
-    int textureFit;
-    bool ignoreLighting;
-    float mass;
-} Pushable;
-
-typedef struct 
-{
-    float position[3];
-    float radius;
-    float color[3];
-} Light;
-
+/* Spawn point */
 typedef struct 
 {
     float position[3];
 } SpawnPoint;
 
+/* Entity structure */
 typedef struct Entity 
 {
     EntityType type;
@@ -83,8 +59,14 @@ void freeMap(Entity* head);
 /* Rendering */
 void renderMap(Entity* head, float camPos[3]);
 
-/* Initializing lights */
+/* Setup lights */
 void setupLights(Entity* head);
+
+/* Parse entity data */
+void parseEntityData(Entity* entity, const char* key, const char* val);
+
+/* Parse entity type */
+EntityType parseEntityType(const char* str);
 
 extern Entity* mapLoad;
 

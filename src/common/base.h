@@ -22,7 +22,6 @@
 #include "../engine/audio/audio.h"
 #include "../inputsystem/inputsystem.h"
 #include "../engine/msg.h"
-#include "../engine/umap.h"
 #include "../engine/variables.h"
 #include "../materialsystem/materialsystem.h"
 

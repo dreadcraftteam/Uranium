@@ -42,14 +42,14 @@ void playerInit(void);
 void playerUpdate(void);
 
 /* Input handling */
-void handleMovementInput(GLFWwindow* window);
+void handleMovementInput(void);
 void handleMouseInput(GLFWwindow* window);
 void handleCrouchInput(void);
 void handleJumpInput(void);
 
 /* Death handling */
 void handlePlayerDeath(void);
-void handleDeathInput(GLFWwindow* window);
+void handleDeathInput(void);
 void respawnPlayer(void);
 
 /* Collision detection */

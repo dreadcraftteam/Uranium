@@ -225,7 +225,7 @@ int engineMain(int argc, char* argv[])
         if (!consoleIsOpen())
         {
             /* Input handle for game */
-            gameInputHandle(frame);
+            gameInputHandle();
         }
 
         /* Updating the game */
@@ -294,7 +294,7 @@ int engineMain(int argc, char* argv[])
 }
 
 /* This is very basic and low-level input */
-void baseInputHandle()
+void baseInputHandle(void)
 {
     if (KEY_PRESSED(INPUT_KEY_F1))
     {

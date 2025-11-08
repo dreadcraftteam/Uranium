@@ -150,7 +150,7 @@ void handlePlayerDeath(void)
 }
 
 /* Handle input when player is dead */
-void handleDeathInput(GLFWwindow* window)
+void handleDeathInput(void)
 {
     if (!isPlayerDead) return;
     
@@ -266,7 +266,7 @@ void setPlayerPosition(float x, float y, float z)
 }
 
 /* Movement input */
-void handleMovementInput(GLFWwindow* window)
+void handleMovementInput(void)
 {
     if (isPlayerDead) return;
     

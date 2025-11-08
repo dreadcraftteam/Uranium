@@ -5,23 +5,31 @@
 project(game)
 
 set(SOURCES
-    gameui/hud_armor.c 
-	gameui/hud_armor.h 
-	gameui/hud_crosshair.c 
-	gameui/hud_crosshair.h 
-	gameui/hud_health.c 
-	gameui/hud_health.h 
-	collision.c 
-	collision.h 
-	commands.c 
-	commands.h 
-	defines.h 
-	game.c 
-	game.h 
-	gameui_game.c 
-	gameui_game.h 
-	player.c 
-	player.h 
+    entities/brush.c
+    entities/brush.h
+    entities/light.c
+    entities/light.h
+    entities/pushable.c
+    entities/pushable.h
+    gameui/hud_armor.c
+	gameui/hud_armor.h
+	gameui/hud_crosshair.c
+	gameui/hud_crosshair.h
+	gameui/hud_health.c
+	gameui/hud_health.h
+	collision.c
+	collision.h
+	commands.c
+	commands.h
+	defines.h
+	game.c
+	game.h
+	gameui_game.c
+	gameui_game.h
+	player.c
+	player.h
+    umap_game.c
+    umap_game.h
 )
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})

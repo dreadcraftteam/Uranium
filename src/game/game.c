@@ -42,11 +42,11 @@ void gameUpdate(GLFWwindow* frame)
 }
 
 /* Input handle for Game */
-void gameInputHandle(GLFWwindow* frame)
+void gameInputHandle(void)
 {
-    handleMovementInput(frame);
+    handleMovementInput();
     handleJumpInput();
-    handleDeathInput(frame);
+    handleDeathInput();
 }
 
 /* Shutdown everything*/

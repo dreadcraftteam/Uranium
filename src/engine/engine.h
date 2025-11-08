@@ -21,7 +21,7 @@
 int engineMain(int argc, char* argv[]);
 
 /* This is very basic and low-level input */
-void baseInputHandle();
+void baseInputHandle(void);
 
 /* Load title and version from info.txt file */
 void loadGameInfo(void);

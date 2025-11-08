@@ -11,9 +11,9 @@ exec <CONFIGNAME>           - Execute config
 quit                        - Quit from map 
 debug <VALUE>               - Enable debug panel 
 fps <VALUE>                 - Enable/Disable FPS counter
-bind <KEY> <COMMANDNAME>    - TODO
-unbind <KEY>                - TODO
-unbindall                   - TODO
+bind <KEY> <COMMANDNAME>    - Binding commands to a specific button
+unbind <KEY>                - Unbinding commands to a specific button
+unbindall                   - Unbinding all commands at once
 
 COMMANDS ON GAME:
 
