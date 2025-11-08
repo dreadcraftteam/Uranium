@@ -8,8 +8,8 @@ set(SOURCES
 	audio/audio.c
 	audio/audio.h
 	audio/miniaudio.h
-    build_number.c
-    build_number.h
+    buildnumber.c
+    buildnumber.h
     commands.c
 	commands.h
     console.c
@@ -32,16 +32,16 @@ set(SOURCES
 	variables.h
 )
 
-if(EXISTS "${CMAKE_SOURCE_DIR}/engine/build_number.txt")
-    file(READ "${CMAKE_SOURCE_DIR}/engine/build_number.txt" BUILD_NUMBER)
+if(EXISTS "${CMAKE_SOURCE_DIR}/common/buildnumber.txt")
+    file(READ "${CMAKE_SOURCE_DIR}/common/buildnumber.txt" BUILD_NUMBER)
     math(EXPR BUILD_NUMBER "${BUILD_NUMBER} + 1")
 else()
     set(BUILD_NUMBER "1")
 endif()
 
-file(WRITE "${CMAKE_SOURCE_DIR}/engine/build_number.txt" "${BUILD_NUMBER}")
+file(WRITE "${CMAKE_SOURCE_DIR}/common/buildnumber.txt" "${BUILD_NUMBER}")
 
-configure_file("${CMAKE_SOURCE_DIR}/engine/build_number.h.in" "${CMAKE_SOURCE_DIR}/engine/build_number.h")
+configure_file("${CMAKE_SOURCE_DIR}/common/buildnumber.h.in" "${CMAKE_SOURCE_DIR}/engine/buildnumber.h")
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 

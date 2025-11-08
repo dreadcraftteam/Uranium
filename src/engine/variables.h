@@ -7,7 +7,7 @@
 
 #include "base.h"
 
-#include "build_number.h"
+#include "buildnumber.h"
 #include "defines.h"
 
 /* General variables for engine */ 

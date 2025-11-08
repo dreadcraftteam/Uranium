@@ -1,7 +1,7 @@
-// 
+// Build number
 // By DREADCRAFT
 // 
 
-#include "build_number.h"
+#include "buildnumber.h"
 
 int build_number = BUILD_NUMBER;

@@ -1,10 +1,10 @@
-// 
+// Build number
 // By DREADCRAFT
 // 
 
 #ifndef BUILD_NUMBER_H
 #define BUILD_NUMBER_H
 
-#define BUILD_NUMBER 237
+#define BUILD_NUMBER @BUILD_NUMBER@
 
 #endif // BUILD_NUMBER_H
