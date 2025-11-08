@@ -11,12 +11,12 @@ set(SOURCES
     entities/light.h
     entities/pushable.c
     entities/pushable.h
-    gameui/hud_armor.c
-	gameui/hud_armor.h
-	gameui/hud_crosshair.c
-	gameui/hud_crosshair.h
-	gameui/hud_health.c
-	gameui/hud_health.h
+    hud/hud_armor.c
+	hud/hud_armor.h
+	hud/hud_crosshair.c
+	hud/hud_crosshair.h
+	hud/hud_health.c
+	hud/hud_health.h
 	collision.c
 	collision.h
 	commands.c

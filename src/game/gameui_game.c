@@ -11,9 +11,9 @@
 #include "label.h"
 
 // Hud
-#include "gameui/hud_crosshair.h"
-#include "gameui/hud_health.h"
-#include "gameui/hud_armor.h"
+#include "hud/hud_crosshair.h"
+#include "hud/hud_health.h"
+#include "hud/hud_armor.h"
 
 int hud = 1;
 
