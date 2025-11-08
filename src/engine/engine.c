@@ -204,6 +204,8 @@ int engineMain(int argc, char* argv[])
     /* Main cycle */
     while (running)
     {
+        /* Executing key binds */
+
         /* Begin game rendering */
         beginGameRendering();
 
@@ -212,11 +214,13 @@ int engineMain(int argc, char* argv[])
         /* Updating input system */
         inputSystemUpdate();
 
+        executeKeyBinds();
+
         /* Game rendering */
         gameRender(); 
 
         /* Basic input commands */
-        baseInputHandle(frame);
+        baseInputHandle();
 
         if (!consoleIsOpen())
         {
@@ -290,7 +294,7 @@ int engineMain(int argc, char* argv[])
 }
 
 /* This is very basic and low-level input */
-void baseInputHandle(GLFWwindow* frame)
+void baseInputHandle()
 {
     if (KEY_PRESSED(INPUT_KEY_F1))
     {
@@ -451,6 +455,18 @@ void funnyDates(void)
     }
     else if (currentTime->tm_mon == 5 && currentTime->tm_mday == 24)
     {
-        Msg("Happy birthday Uranium (engine)!\n");
+        Msg("Happy birthday Uranium!\n");
+    }
+}
+
+/* Executing key binds */
+void executeKeyBinds(void)
+{
+    for (int i = 0; i < bindCount; i++)
+    {
+        if (KEY_PRESSED(keyBinds[i].key))
+        {
+            useCommand(keyBinds[i].command);
+        }
     }
 }

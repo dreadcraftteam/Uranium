@@ -11,6 +11,9 @@
 #define FILE_INFO       "./config/info.txt"
 #define FILE_AUTOEXEC   "autoexec.cfg"
 
+/* Game stuff */
+#define MAX_BINDS 256
+
 /* Math */
 #define PI 3.14159265358979323846
 

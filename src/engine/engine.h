@@ -21,7 +21,7 @@
 int engineMain(int argc, char* argv[]);
 
 /* This is very basic and low-level input */
-void baseInputHandle(GLFWwindow* frame);
+void baseInputHandle();
 
 /* Load title and version from info.txt file */
 void loadGameInfo(void);
@@ -40,5 +40,8 @@ void setWindowSize(int width, int height);
 
 /* Funny dates and messages */
 void funnyDates(void);
+
+/* Executing key binds */
+void executeKeyBinds(void);
 
 #endif // ENGINE_H
