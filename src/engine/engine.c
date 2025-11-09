@@ -214,7 +214,10 @@ int engineMain(int argc, char* argv[])
         /* Updating input system */
         inputSystemUpdate();
 
-        executeKeyBinds();
+        if (!consoleIsOpen())
+        {
+            executeKeyBinds();
+        }
 
         /* Game rendering */
         gameRender(); 
