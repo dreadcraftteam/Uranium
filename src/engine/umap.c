@@ -18,6 +18,19 @@
 
 Entity* mapLoad = NULL;
 
+/* Load error material if material not found */ 
+static GLuint loadErrorTexture()
+{
+    Material* errorMat = loadMaterial("engine/error.umf");
+    
+    if(errorMat && errorMat->texture)
+    {
+        return errorMat->texture->textureId;
+    }
+    
+    return 0;
+}
+
 /* Load the texture */
 static GLuint loadTexture(const char* filename)
 {
@@ -28,7 +41,13 @@ static GLuint loadTexture(const char* filename)
         return mat->texture->textureId;
     }
 
-    return 0;
+    static GLuint errorTexture = 0;
+    if(errorTexture == 0)
+    {
+        errorTexture = loadErrorTexture();
+    }
+    
+    return errorTexture;
 }
 
 /* Counting */

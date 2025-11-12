@@ -10,6 +10,9 @@
 #include "GLFW/glfw3.h"
 
 #include "defines.h"
+#include "entities/brush.h"
+#include "entities/pushable.h"
+
 #include "../engine/umap.h"
 
 /* Physics */

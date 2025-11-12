@@ -10,6 +10,8 @@
 #include "player.h"
 #include "collision.h"
 
+#include "../engine/umap.h"
+
 /* Physics */
 float verticalVelocity = 0.0f;
 const float gravity = -0.005f;

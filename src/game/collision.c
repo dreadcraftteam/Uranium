@@ -7,6 +7,9 @@
 #include "defines.h"
 #include "player.h"
 #include "collision.h"
+#include "entities/brush.h"
+#include "entities/pushable.h"
+
 #include "../engine/umap.h"
 
 /* Collision constants */

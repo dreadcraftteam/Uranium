@@ -8,6 +8,9 @@
 #include "base.h"
 
 #include "defines.h"
+#include "entities/brush.h"
+#include "entities/pushable.h"
+
 #include "../engine/umap.h"
 
 /* Collision constants  */

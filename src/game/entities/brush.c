@@ -80,50 +80,58 @@ void brushDrawing(Brush* brush)
         glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, mat_shininess);
     }
 
-    float texScaleX = 1.0f, texScaleY = 1.0f;
+    float texScaleFrontX = 1.0f, texScaleFrontY = 1.0f;
+    float texScaleSideX = 1.0f, texScaleSideY = 1.0f;
+    float texScaleTopX = 1.0f, texScaleTopY = 1.0f;
 
     if (!brush->textureFit) 
     {
-        texScaleX = brush->size[0] / 2.0f; 
-        texScaleY = brush->size[1] / 2.0f;
+        texScaleFrontX = brush->size[0] / 2; 
+        texScaleFrontY = brush->size[1] / 2;
+        
+        texScaleSideX = brush->size[2] / 2;
+        texScaleSideY = brush->size[1] / 2;
+        
+        texScaleTopX = brush->size[0] / 2;
+        texScaleTopY = brush->size[2] / 2;
     }
 
     glBegin(GL_QUADS);
 
         glNormal3f(0, 0, 1);
-        glTexCoord2f(0, texScaleY); glVertex3f(-hx, -hy, hz);
-        glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, -hy, hz);
-        glTexCoord2f(texScaleX, 0); glVertex3f(hx, hy, hz);
+        glTexCoord2f(0, texScaleFrontY); glVertex3f(-hx, -hy, hz);
+        glTexCoord2f(texScaleFrontX, texScaleFrontY); glVertex3f(hx, -hy, hz);
+        glTexCoord2f(texScaleFrontX, 0); glVertex3f(hx, hy, hz);
         glTexCoord2f(0, 0); glVertex3f(-hx, hy, hz);
 
         glNormal3f(0, 0, -1);
-        glTexCoord2f(0, texScaleY); glVertex3f(hx, -hy, -hz);
-        glTexCoord2f(texScaleX, texScaleY); glVertex3f(-hx, -hy, -hz);
-        glTexCoord2f(texScaleX, 0); glVertex3f(-hx, hy, -hz);
+        glTexCoord2f(0, texScaleFrontY); glVertex3f(hx, -hy, -hz);
+        glTexCoord2f(texScaleFrontX, texScaleFrontY); glVertex3f(-hx, -hy, -hz);
+        glTexCoord2f(texScaleFrontX, 0); glVertex3f(-hx, hy, -hz);
         glTexCoord2f(0, 0); glVertex3f(hx, hy, -hz);
 
         glNormal3f(-1, 0, 0);
-        glTexCoord2f(0, texScaleY); glVertex3f(-hx, -hy, -hz);
-        glTexCoord2f(texScaleX, texScaleY); glVertex3f(-hx, -hy, hz);
-        glTexCoord2f(texScaleX, 0); glVertex3f(-hx, hy, hz);
+        glTexCoord2f(0, texScaleSideY); glVertex3f(-hx, -hy, -hz);
+        glTexCoord2f(texScaleSideX, texScaleSideY); glVertex3f(-hx, -hy, hz);
+        glTexCoord2f(texScaleSideX, 0); glVertex3f(-hx, hy, hz);
         glTexCoord2f(0, 0); glVertex3f(-hx, hy, -hz);
 
         glNormal3f(1, 0, 0);
-        glTexCoord2f(0, texScaleY); glVertex3f(hx, -hy, hz);
-        glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, -hy, -hz);
-        glTexCoord2f(texScaleX, 0); glVertex3f(hx, hy, -hz);
+        glTexCoord2f(0, texScaleSideY); glVertex3f(hx, -hy, hz);
+        glTexCoord2f(texScaleSideX, texScaleSideY); glVertex3f(hx, -hy, -hz);
+        glTexCoord2f(texScaleSideX, 0); glVertex3f(hx, hy, -hz);
         glTexCoord2f(0, 0); glVertex3f(hx, hy, hz);
 
         glNormal3f(0, 1, 0);
-        glTexCoord2f(0, texScaleY); glVertex3f(-hx, hy, hz);
-        glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, hy, hz);
-        glTexCoord2f(texScaleX, 0); glVertex3f(hx, hy, -hz);
+        glTexCoord2f(0, texScaleTopY); glVertex3f(-hx, hy, hz);
+        glTexCoord2f(texScaleTopX, texScaleTopY); glVertex3f(hx, hy, hz);
+        glTexCoord2f(texScaleTopX, 0); glVertex3f(hx, hy, -hz);
         glTexCoord2f(0, 0); glVertex3f(-hx, hy, -hz);
 
         glNormal3f(0, -1, 0);
-        glTexCoord2f(0, texScaleY); glVertex3f(-hx, -hy, -hz);
-        glTexCoord2f(texScaleX, texScaleY); glVertex3f(hx, -hy, -hz);
-        glTexCoord2f(texScaleX, 0); glVertex3f(hx, -hy, hz);
+        glTexCoord2f(0, texScaleTopY); glVertex3f(-hx, -hy, -hz);
+        glTexCoord2f(texScaleTopX, texScaleTopY); glVertex3f(hx, -hy, -hz);
+        glTexCoord2f(texScaleTopX, 0); glVertex3f(hx, -hy, hz);
         glTexCoord2f(0, 0); glVertex3f(-hx, -hy, hz);
     
     glEnd();

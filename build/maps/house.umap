@@ -2,7 +2,7 @@
 type=ent_brush
 position=0,-0.5,0
 size=80,2,80
-texture=dev/devgray.umf
+texture=/dev/devgray.umf
 textureFit=no
 
 [entity]
