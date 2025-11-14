@@ -5,7 +5,7 @@
 #include "base.h"
 
 #include "commands.h"
-#include "gameui_game.h"
+#include "game_gameui.h"
 #include "collision.h"
 #include "player.h"
 #include "../engine/console.h"

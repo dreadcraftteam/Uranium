@@ -40,7 +40,9 @@ Console_t console =
     .forceOpen = 1,
     .defaultTextColor = {255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f, 255.0f / 255.0f},
     .errorTextColor = {255.0f / 255.0f, 0.0f / 255.0f, 0.0f / 255.0f, 255.0f / 255.0f},
-    .warningTextColor = {254.0f / 255.0f, 255.0f / 255.0f, 0.0f / 255.0f, 255.0f / 255.0f}
+    .warningTextColor = {254.0f / 255.0f, 255.0f / 255.0f, 0.0f / 255.0f, 255.0f / 255.0f},
+    .scrollPosition = 0,
+    .maxScrollLines = 0
 };
 
 /* Initialize console system */
@@ -114,6 +116,26 @@ void consoleUpdate(void)
     }
 }
 
+void consoleMouseScroll(double xoffset, double yoffset)
+{
+    if (!console.isOpen) return;
+
+    if (yoffset < 0)
+    {
+        if (console.scrollPosition > 0)
+        {
+            console.scrollPosition--;
+        }
+    }
+    else if (yoffset > 0)
+    {
+        if (console.scrollPosition < console.maxScrollLines)
+        {
+            console.scrollPosition++;
+        }
+    }
+}
+
 /* Draw the console */
 void consoleDraw(void)
 {
@@ -145,6 +167,7 @@ void consoleDraw(void)
     int inputHeight = 20;
     int inputY = console.y + console.currentHeight - inputHeight;
     
+    // Всегда отрисовываем "]" в начале
     drawString(console.x + 5, inputY + 5, "]", console.defaultTextColor);
     
     if (strlen(console.inputBuffer) > 0) 
@@ -154,23 +177,36 @@ void consoleDraw(void)
     
     if (console.cursorVisible && console.isOpen) 
     {
-        int textWidth = getTextWidth(console.inputBuffer);
+        char textBeforeCursor[256];
+        if (console.cursorPos > 0)
+        {
+            strncpy(textBeforeCursor, console.inputBuffer, console.cursorPos);
+            textBeforeCursor[console.cursorPos] = '\0';
+        }
+        else
+        {
+            textBeforeCursor[0] = '\0';
+        }
+        
+        int textWidth = getTextWidth(textBeforeCursor);
         int cursorX = console.x + 20 + textWidth;
 
-        drawString(cursorX, inputY + 5, "_", console.defaultTextColor);
+        drawString(cursorX, inputY + 5, "|", console.defaultTextColor);
     }
     
     int lineHeight = 15;
     int availableHeight = console.currentHeight - inputHeight - 5;
     int maxLines = availableHeight / lineHeight;
     
+    console.maxScrollLines = (console.outputCount > maxLines) ? (console.outputCount - maxLines) : 0;
+
     if (maxLines > 0) 
     {
         int startY = inputY - lineHeight;
         
-        for (int i = 0; i < console.outputCount && i < maxLines; i++) 
+        for (int i = 0; i < maxLines; i++) 
         {
-            int lineIndex = (console.outputCount - 1 - i) % 128;
+            int lineIndex = (console.outputCount - 1 - i - console.scrollPosition) % 128;
             
             if (lineIndex < 0 || lineIndex >= 128) continue;
             
@@ -248,8 +284,11 @@ void consoleKeyInput(int key, int action)
             {
                 if (console.cursorPos > 0) 
                 {
+                    memmove(&console.inputBuffer[console.cursorPos - 1],
+                            &console.inputBuffer[console.cursorPos],
+                            strlen(console.inputBuffer) - console.cursorPos + 1);
+                    
                     console.cursorPos--;
-                    console.inputBuffer[console.cursorPos] = '\0';
                 }
             }
             break;
@@ -290,6 +329,61 @@ void consoleKeyInput(int key, int action)
                 }
             }
             break;
+
+        case INPUT_KEY_DELETE:
+            if (action == GLFW_PRESS || action == GLFW_REPEAT)
+            {
+                size_t len = strlen(console.inputBuffer);
+                if (console.cursorPos < len)
+                {
+                    // Move text after cursor left by one position
+                    memmove(&console.inputBuffer[console.cursorPos],
+                            &console.inputBuffer[console.cursorPos + 1],
+                            len - console.cursorPos);
+                }
+            }
+            break;
+
+        case INPUT_KEY_LEFT:
+            if (action == GLFW_PRESS || action == GLFW_REPEAT)
+            {
+                if (console.cursorPos > 0)
+                {
+                    console.cursorPos--;
+                }
+            }
+            break;
+
+        case INPUT_KEY_RIGHT:
+            if (action == GLFW_PRESS || action == GLFW_REPEAT)
+            {
+                if (console.cursorPos < strlen(console.inputBuffer))
+                {
+                    console.cursorPos++;
+                }
+            }
+            break;
+
+        case INPUT_KEY_HOME:
+            if (action == GLFW_PRESS)
+            {
+                console.cursorPos = 0;
+            }
+            break;
+
+        case INPUT_KEY_END:
+            if (action == GLFW_PRESS)
+            {
+                console.cursorPos = strlen(console.inputBuffer);
+            }
+            break;
+        case INPUT_KEY_V:
+            if (action == GLFW_PRESS && (glfwGetKey(glfwGetCurrentContext(), INPUT_KEY_LEFT_CONTROL) == GLFW_PRESS || 
+                                         glfwGetKey(glfwGetCurrentContext(), INPUT_KEY_RIGHT_CONTROL) == GLFW_PRESS))
+            {
+                consolePasteFromClipboard();
+            }
+            break;    
     }
 }
 
@@ -300,12 +394,20 @@ void consoleCharInput(unsigned int codepoint)
     
     if (codepoint == 32 || (codepoint >= 33 && codepoint <= 126)) 
     {
-        if (console.cursorPos < sizeof(console.inputBuffer) - 1) 
+        size_t len = strlen(console.inputBuffer);
+        if (len < sizeof(console.inputBuffer) - 1) 
         {
+            if (console.cursorPos < len)
+            {
+                memmove(&console.inputBuffer[console.cursorPos + 1],
+                        &console.inputBuffer[console.cursorPos],
+                        len - console.cursorPos + 1);
+            }
+            
             console.inputBuffer[console.cursorPos] = (char)codepoint;
             console.cursorPos++;
-
-            console.inputBuffer[console.cursorPos] = '\0';
+            
+            console.inputBuffer[len + 1] = '\0';
         }
     }
 }
@@ -325,6 +427,15 @@ void consoleCharCallback(GLFWwindow* window, unsigned int codepoint)
     if (consoleIsOpen()) 
     {
         consoleCharInput(codepoint);
+    }
+}
+
+/* Console mouse scroll callbacks */
+void consoleScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    if (consoleIsOpen()) 
+    {
+        consoleMouseScroll(xoffset, yoffset);
     }
 }
 
@@ -471,6 +582,7 @@ void consoleExecuteCommand(void)
     console.historyPos = -1;
     memset(console.inputBuffer, 0, sizeof(console.inputBuffer));
     console.cursorPos = 0;
+    console.scrollPosition = 0;
 }
 
 /* Check if console is open */
@@ -535,4 +647,54 @@ void useCommand(const char* command)
     {
         Msg("Unknown command: %s\n", command);
     }
+}
+
+/* Paste text from clipboard */
+void consolePasteFromClipboard(void)
+{
+    if (!console.isOpen) return;
+
+    const char* clipboardText = glfwGetClipboardString(glfwGetCurrentContext());
+    if (!clipboardText) return;
+
+    size_t clipboardLen = strlen(clipboardText);
+    size_t remainingSpace = sizeof(console.inputBuffer) - strlen(console.inputBuffer) - 1;
+
+    if (clipboardLen == 0) return;
+
+    // Calculate how much text we can actually paste
+    size_t pasteLength = clipboardLen;
+    if (pasteLength > remainingSpace)
+    {
+        pasteLength = remainingSpace;
+    }
+
+    if (pasteLength > 0)
+    {
+        // Move existing text after cursor to make space for pasted text
+        size_t textAfterCursor = strlen(console.inputBuffer + console.cursorPos);
+        memmove(console.inputBuffer + console.cursorPos + pasteLength,
+                console.inputBuffer + console.cursorPos,
+                textAfterCursor + 1);
+
+        // Copy pasted text
+        memcpy(console.inputBuffer + console.cursorPos, clipboardText, pasteLength);
+
+        // Update cursor position
+        console.cursorPos += pasteLength;
+
+        // Ensure null termination
+        console.inputBuffer[strlen(console.inputBuffer)] = '\0';
+    }
+}
+
+/* Get text width up to specified position */
+int consoleGetTextWidth(const char* text, int maxPos)
+{
+    int width = 0;
+    for (int i = 0; i < maxPos && text[i] != '\0'; i++)
+    {
+        width += 8;     
+    }
+    return width;
 }

@@ -2,8 +2,8 @@
 // By DREADCRAFT
 //
 
-#ifndef UMAP_GAME_H
-#define UMAP_GAME_H
+#ifndef GAME_UMAP_H
+#define GAME_UMAP_H
 
 #include "base.h"
 
@@ -27,4 +27,4 @@ void gameSetupLights(Entity* head);
 /* Map load */
 void gameMapLoad(const char* filename);
 
-#endif // UMAP_GAME_H
+#endif // GAME_UMAP_H

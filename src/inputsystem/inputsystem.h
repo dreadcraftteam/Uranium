@@ -72,11 +72,11 @@
 #define INPUT_KEY_WORLD_2        GLFW_KEY_WORLD_2      
 
 /* Function keys */
-#define INPUT_KEY_ESCAPE         GLFW_KEY_ESCAPE
-#define INPUT_KEY_ENTER          GLFW_KEY_ENTER
+#define INPUT_KEY_ESCAPE        GLFW_KEY_ESCAPE
+#define INPUT_KEY_ENTER         GLFW_KEY_ENTER
 #define INPUT_KEY_TAB           GLFW_KEY_TAB
-#define INPUT_KEY_BACKSPACE      GLFW_KEY_BACKSPACE
-#define INPUT_KEY_INSERT         GLFW_KEY_INSERT
+#define INPUT_KEY_BACKSPACE     GLFW_KEY_BACKSPACE
+#define INPUT_KEY_INSERT        GLFW_KEY_INSERT
 #define INPUT_KEY_DELETE        GLFW_KEY_DELETE
 #define INPUT_KEY_RIGHT         GLFW_KEY_RIGHT
 #define INPUT_KEY_LEFT          GLFW_KEY_LEFT
@@ -154,12 +154,12 @@
 #define INPUT_MOUSE_8           GLFW_MOUSE_BUTTON_8
 
 /* Modifier key flags (for combination checking) */
-#define MOD_SHIFT         GLFW_MOD_SHIFT
-#define MOD_CONTROL       GLFW_MOD_CONTROL
-#define MOD_ALT           GLFW_MOD_ALT
-#define MOD_SUPER         GLFW_MOD_SUPER
-#define MOD_CAPS_LOCK     GLFW_MOD_CAPS_LOCK
-#define MOD_NUM_LOCK      GLFW_MOD_NUM_LOCK
+#define MOD_SHIFT               GLFW_MOD_SHIFT
+#define MOD_CONTROL             GLFW_MOD_CONTROL
+#define MOD_ALT                 GLFW_MOD_ALT
+#define MOD_SUPER               GLFW_MOD_SUPER
+#define MOD_CAPS_LOCK           GLFW_MOD_CAPS_LOCK
+#define MOD_NUM_LOCK            GLFW_MOD_NUM_LOCK
 
 /* Input system initialization */
 void inputSystemInit(GLFWwindow* frame);

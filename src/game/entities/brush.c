@@ -18,10 +18,6 @@ void brushInit(Brush* brush)
     brush->size[1] = 1.0f;
     brush->size[2] = 1.0f;
     
-    brush->color[0] = 1.0f;
-    brush->color[1] = 1.0f;
-    brush->color[2] = 1.0f;
-    
     brush->textureId = 0;
     brush->textureFit = 1;
     brush->ignoreLighting = false;
@@ -163,14 +159,6 @@ void brushParseData(Brush* brush, const char* key, const char* val)
         brush->size[0] = temp[0];
         brush->size[1] = temp[2];
         brush->size[2] = temp[1];
-    }
-    else if (strcmp(key, "color") == 0)
-    {
-        float temp[3];
-        sscanf(val, "%f,%f,%f", &temp[0], &temp[1], &temp[2]);
-        brush->color[0] = temp[0];
-        brush->color[1] = temp[1];
-        brush->color[2] = temp[2];
     }
     else if (strcmp(key, "texture") == 0)
     {

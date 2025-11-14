@@ -18,10 +18,6 @@ void pushableInit(Pushable* pushable)
     pushable->size[1] = 1.0f;
     pushable->size[2] = 1.0f;
     
-    pushable->color[0] = 1.0f;
-    pushable->color[1] = 1.0f;
-    pushable->color[2] = 1.0f;
-    
     pushable->textureId = 0;
     pushable->textureFit = 1;
     pushable->ignoreLighting = false;
@@ -71,14 +67,6 @@ void pushableParseData(Pushable* pushable, const char* key, const char* val)
         pushable->size[0] = temp[0];
         pushable->size[1] = temp[2];
         pushable->size[2] = temp[1];
-    }
-    else if (strcmp(key, "color") == 0)
-    {
-        float temp[3];
-        sscanf(val, "%f,%f,%f", &temp[0], &temp[1], &temp[2]);
-        pushable->color[0] = temp[0];
-        pushable->color[1] = temp[1];
-        pushable->color[2] = temp[2];
     }
     else if (strcmp(key, "texture") == 0)
     {

@@ -2,8 +2,8 @@
 // By DREADCRAFT
 // 
 
-#ifndef GAMEUI_GAME_H
-#define GAMEUI_GAME_H
+#ifndef GAME_GAMEUI_H
+#define GAME_GAMEUI_H
 
 #include "base.h"
 
@@ -24,4 +24,4 @@ void Game_GameUI_Update(GLFWwindow* frame);
 /* Shutdown */
 void Game_GameUI_Shutdown(void);
 
-#endif // GAMEUI_GAME_H
+#endif // GAME_GAMEUI_H

@@ -2,40 +2,9 @@
 src/cmake/ 
 src/.cmake/ 
 
-src/CMakeFiles/ 
-
-engine/CMakeFiles/ 
-game/CMakeFiles/ 
-launcher/CMakeFiles/ 
-
 # Ignore build results
-build/bin/engine.so 
-build/bin/engine.dll 
-build/bin/game.so 
-build/bin/game.dll 
-build/bin/inputsystem.so 
-build/bin/inputsystem.dll 
-build/bin/gameui.so 
-build/bin/gameui.dll 
-build/bin/materialsystem.so 
-build/bin/materialsystem.dll 
-build/uranium 
-build/uranium.exe 
-
-engine/engine.so
-engine/engine.dll
-game/game.so
-game/game.dll
-inputsystem/inputsystem.so
-inputsystem/inputsystem.dll
-particles/particles.so
-particles/particles.dll
-gameui/gameui.so 
-gameui/gameui.dll 
-materialsystem/materialsystem.so 
-materialsystem/materialsystem.dll 
-uranium/uranium 
-uranium/uranium.exe 
+build/bin/*
+build/uranium
 
 # Other stuff
 src/cmake_install.cmake 

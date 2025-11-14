@@ -24,12 +24,12 @@ set(SOURCES
 	defines.h
 	game.c
 	game.h
-	gameui_game.c
-	gameui_game.h
+	game_gameui.c
+	game_gameui.h
+    game_umap.c
+    game_umap.h
 	player.c
 	player.h
-    umap_game.c
-    umap_game.h
 )
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})

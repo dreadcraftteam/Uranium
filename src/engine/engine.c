@@ -90,6 +90,7 @@ int engineMain(int argc, char* argv[])
     /* Set input callbacks for console system */
     glfwSetKeyCallback(frame, consoleKeyCallback);
     glfwSetCharCallback(frame, consoleCharCallback);
+    glfwSetScrollCallback(frame, consoleScrollCallback);
 
     /* Loading libs! */
 

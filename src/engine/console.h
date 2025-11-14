@@ -35,6 +35,8 @@ typedef struct Console_s
     float defaultTextColor[4];
     float errorTextColor[4];
     float warningTextColor[4];
+    int scrollPosition;
+    int maxScrollLines;
 } Console_t;
 
 /* External console variable */
@@ -84,5 +86,17 @@ void consoleSetDimensions(int x, int y, int width, int height);
 
 /* Execute console commands from code */
 void useCommand(const char* command);
+
+/* Mouse scroll */
+void consoleMouseScroll(double xoffset, double yoffset);
+
+/* Mouse scroll callbacks */
+void consoleScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+
+/* Paste from clipboard */
+void consolePasteFromClipboard(void);
+
+/* Get text width up to specified position */
+int consoleGetTextWidth(const char* text, int maxPos);
 
 #endif // CONSOLE_H

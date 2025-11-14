@@ -8,7 +8,7 @@
 #include "entities/light.h"
 #include "entities/pushable.h"
 #include "../engine/umap.h"
-#include "umap_game.h"
+#include "game_umap.h"
 
 /* Entity type parsing */
 EntityType gameParseEntityType(const char* str)

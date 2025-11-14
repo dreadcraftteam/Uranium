@@ -4,6 +4,8 @@
 
 #include "base.h"
 
+#include "game_gameui.h"
+
 // GameUI includes
 #include "panel.h"
 #include "imagepanel.h"

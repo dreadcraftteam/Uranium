@@ -14,7 +14,7 @@
 #include "../game/entities/brush.h"
 #include "../game/entities/pushable.h"
 #include "../game/entities/light.h"
-#include "../game/umap_game.h"
+#include "../game/game_umap.h"
 
 Entity* mapLoad = NULL;
 
