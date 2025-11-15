@@ -35,7 +35,7 @@ void loadEngineFile(void)
         printf("Failed to load engineMain function\n");
         dynlib_close(engineLib);
 
-        return -1;
+        return;
     }
 
     /* Call main function */
