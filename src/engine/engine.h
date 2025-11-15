@@ -17,7 +17,7 @@
 #include "umap.h"
 #include "variables.h"
 
-/* Main method for engine project */
+/* Main function for engine project */
 int engineMain(int argc, char* argv[]);
 
 /* This is very basic and low-level input */

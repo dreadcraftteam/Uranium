@@ -22,24 +22,13 @@ int gameConsoleCommands(const char* commandLine)
         /* NoClip <VALUE> */
         if (strcmp(command, "noclip") == 0)
         {
-            int value;
-            
-            if (sscanf(args, "%d", &value) == 1)
-            {
-                enableNoClip = (value != 0);
+            enableNoClip = !enableNoClip;
 
-                Msg("NoClip %s\n", enableNoClip ? "ON" : "OFF");
-
-                return 1;
-            }
-            else 
-            {
-                Error("Usage: noclip <VALUE>\n");
-            }
+            Msg("NoClip %s\n", enableNoClip ? "ON" : "OFF");
 
             return 1;
         }
-
+        
         /* Collision <VALUE> */
         if (strcmp(command, "collision") == 0)
         {

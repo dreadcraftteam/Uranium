@@ -1,5 +1,5 @@
 ## Uranium
-This is an engine written in C using GLFW, STB, Assimp and OpenGL. If you find an error or bug, please report it to the [issues](https://github.com/dreadcraftteam/Uranium/issues) section. Currently, compilation is supported only on Linux.
+This is an engine written in C using GLFW, STB and OpenGL. If you find an error or bug, please report it to the [issues](https://github.com/dreadcraftteam/Uranium/issues) section. Currently, compilation is supported only on Linux.
 
 
 Pull requests are welcome!

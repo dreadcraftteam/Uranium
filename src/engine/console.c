@@ -148,16 +148,7 @@ void consoleDraw(void)
     
     int imageOffset = console.fullHeight - console.currentHeight;
     
-    ImagePanel panel = {
-        .x = console.x,
-        .y = console.y - imageOffset,
-        .width = console.width,
-        .height = console.fullHeight,
-        .imagePath = "ui/background.umf",
-        .outline = 0,
-        .isVisible = 1,
-        .textureId = 0
-    };
+    ImagePanel panel = {.x = console.x, .y = console.y - imageOffset, .width = console.width, .height = console.fullHeight, .imagePath = "ui/background_console.umf", .outline = 0, .isVisible = 1, .textureId = 0};
     
     drawImagePanel(&panel);
     
@@ -167,7 +158,6 @@ void consoleDraw(void)
     int inputHeight = 20;
     int inputY = console.y + console.currentHeight - inputHeight;
     
-    // Всегда отрисовываем "]" в начале
     drawString(console.x + 5, inputY + 5, "]", console.defaultTextColor);
     
     if (strlen(console.inputBuffer) > 0) 
