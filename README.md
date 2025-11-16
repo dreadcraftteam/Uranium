@@ -6,4 +6,5 @@ Pull requests are welcome!
 
 ## Wiki
 If you need help with Uranium, you can find quite a lot of useful information on the wiki.
+
 [Uranium Wiki](https://github.com/dreadcraftteam/Uranium/wiki)
