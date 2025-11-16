@@ -4,19 +4,6 @@ This is an engine written in C using GLFW, STB and OpenGL. If you find an error 
 
 Pull requests are welcome!
 
-## How to Build
-1. Install [Git](https://git-scm.com/).
-2. Clone repository:
-```
-git clone https://github.com/dreadcraftteam/Uranium.git
-```
-3. Install this dependencies:
-```
-libglfw3-dev libglew-dev freeglut3-dev libassimp-dev
-```
-4. Inside the cloned directory, run the compilation by running this file:
-```
-build.sh
-```
-5. Navigate to `build`, there will be a compiled build of the engine.
-6. Thats All!
+## Wiki
+If you need help with Uranium, you can find quite a lot of useful information on the wiki.
+[Uranium Wiki](https://github.com/dreadcraftteam/Uranium/wiki)
